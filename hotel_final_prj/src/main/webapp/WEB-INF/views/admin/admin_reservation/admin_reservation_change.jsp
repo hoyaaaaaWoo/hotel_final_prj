@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Hotel Ritz - 예약변경</title>
 <link rel="stylesheet" type="text/css"
-	href="http://localhost/hotel_prj/common/css/main_v20211012.css">
+	href="http://localhost/hotel_final_prj/common/css/main_v20211012.css">
 
 <!-- jQuery CDN -->
 <script
@@ -24,7 +24,7 @@
 
 <!-- 관리자 메인 CSS -->
 <link rel="stylesheet" type="text/css"
-	href="http://localhost/hotel_prj/admin/css/admin_main.css">
+	href="http://localhost/hotel_final_prj/admin_css/admin_main.css">
 
 <style type="text/css">
 #container {
@@ -170,48 +170,38 @@ $(function(){
 <body>
 	<!-- 예약관리 메인 페이지에서 넘어오지 않았을 경우 redirect 해주기 (예약번호 선택 필요) -->
 	<c:if test="${empty param.resNum}">
-  	  <c:redirect url="http://localhost/hotel_prj/admin/admin_reservation/admin_reservation_main.jsp"/>
+  	  <c:redirect url="http://localhost/hotel_final_prj/search_res_list.do"/>
 	</c:if>
 		 
 	<div id="wrap">
 		
 		<!-- header/navibar import -->
-		<c:import url="../common/admin_header_nav.jsp" /> 
 		
 		<div id="container" style="padding:50px">
-		<span id="mainMenu" onclick="location.href='http://localhost/hotel_prj/admin/admin_reservation/admin_reservation_change.jsp">예약변경</span><br/><br/>
-		<form name="chgFrm" id="chgFrm" action="http://localhost/hotel_prj/admin/admin_reservation/admin_reservation_update_process.jsp" method="post" class="form-inline">
+		<span id="mainMenu" onclick="javascript:location.href='chagne_res_form.do?resNum=${ruVO.resNo}'">예약변경</span><br/><br/>
+		<form name="chgFrm" id="chgFrm" action="change_res_process.do" method="post" class="form-inline">
 		 
-		 <%
-		 		 	String resNum = request.getParameter("resNum");
-		 		 		 ReserveSelect rs = new ReserveSelect();
-		 		 		 ReservationUpdateVO rVO = rs.selectRes(resNum);
-		 		 		 pageContext.setAttribute("rVO", rVO); // 예약정보
-		 		 		 
-		 		 		 RoomSelect room = new RoomSelect();
-		 		 		 pageContext.setAttribute("rNameList", room.selectAllRName()); //등록된 모든 룸 리스트
-		 		 %>
 		 <table>
 		 <tr>
 		   <!-- 예약 메인 페이지에서 선택된 예약번호를 받아서 설정 -->
 		   <td>	<label id="title">* 예약번호</label> </td>
-	       <td> <input type="text" name="resNo" id="resNo" class="form-control" value="${rVO.resNo}" readonly="readonly"/> </td>
+	       <td> <input type="text" name="resNo" id="resNo" class="form-control" value="${ruVO.resNo}" readonly="readonly"/> </td>
 		 </tr>
 		 <tr>
 		   <td> <label id="title">* 예약자명</label> </td>
-		   <td> <input type="text" name="kName" id="kName" class="form-control"  value="${rVO.kName}" readonly="readonly"/> </td>
+		   <td> <input type="text" name="kName" id="kName" class="form-control"  value="${ruVO.kName}" readonly="readonly"/> </td>
 		 </tr>
 		 <tr>
 		   <td> <label id="title">* 투숙날짜</label> </td>
 		   <td>	<label id="subTitle">체크인</label><br/>
-					<input type="text" id="date" name="inYear" class="form-control" value="${rVO.inYear}" maxlength="4"/>년 &nbsp;
-		  			<input type="text" id="date" name="inMonth" class="form-control" value="${rVO.inMonth}"  maxlength="2"/>월 &nbsp;
-		  			<input type="text" id="date" name="inDay" class="form-control" value="${rVO.inDay}"  maxlength="2"/>일 &nbsp;
+					<input type="text" id="date" name="inYear" class="form-control" value="${ruVO.inYear}" maxlength="4"/>년 &nbsp;
+		  			<input type="text" id="date" name="inMonth" class="form-control" value="${ruVO.inMonth}"  maxlength="2"/>월 &nbsp;
+		  			<input type="text" id="date" name="inDay" class="form-control" value="${ruVO.inDay}"  maxlength="2"/>일 &nbsp;
 				<br/>
 				<label id="subTitle" style="margin-top:15px" >체크아웃</label><br/>
-					<input type="text" id="date" name="outYear" class="form-control" value="${rVO.outYear}" maxlength="4"/>년 &nbsp;
-		  			<input type="text" id="date" name="outMonth" class="form-control" value="${rVO.outMonth}" maxlength="2"/>월 &nbsp;
-		  			<input type="text" id="date" name="outDay" class="form-control" value="${rVO.outDay}" maxlength="2"/>일 &nbsp;
+					<input type="text" id="date" name="outYear" class="form-control" value="${ruVO.outYear}" maxlength="4"/>년 &nbsp;
+		  			<input type="text" id="date" name="outMonth" class="form-control" value="${ruVO.outMonth}" maxlength="2"/>월 &nbsp;
+		  			<input type="text" id="date" name="outDay" class="form-control" value="${ruVO.outDay}" maxlength="2"/>일 &nbsp;
 		  	</td>
 		  </tr>
 		  <tr>
@@ -221,7 +211,7 @@ $(function(){
 				<option value="none">--인원수 선택--</option>
 				<c:forEach var="i" begin="1" end="4" step="1">
 				<c:set var="selected" value=""/>
-				<c:if test="${i eq rVO.adult}">
+				<c:if test="${i eq ruVO.adult}">
 					<c:set var="selected" value="selected='selected'"/>
 				</c:if>
 				<option value="${i}" ${selected}><c:out value="${i}"/>명</option>
@@ -233,7 +223,7 @@ $(function(){
 				<option value="none">--인원수 선택--</option> 
 				<c:forEach var="i" begin="0" end="3" step="1">
 				<c:set var="selected" value=""/>
-				<c:if test="${i eq rVO.child}">
+				<c:if test="${i eq ruVO.child}">
 					<c:set var="selected" value="selected='selected'"/>
 				</c:if>
 				<option value="${i}" ${selected}><c:out value="${i}"/>명</option>
@@ -245,9 +235,9 @@ $(function(){
 		  <td> <label id="title">* 객실</label> </td>
 		  <td> <select name="rName" id="rName" class="form-control">
 				<option value="none">--객실 선택--</option>
-				<c:forEach var="rName" items="${ rNameList }">
+				<c:forEach var="rName" items="${ roomList }">
 					<c:set var="selected" value=""/>
-					<c:if test="${rName eq rVO.rName}">
+					<c:if test="${rName eq ruVO.rName}">
 					<c:set var="selected" value="selected='selected'"/>
 					</c:if>
 					<option value="${rName}" ${selected}><c:out value="${rName}"/></option>
@@ -257,12 +247,9 @@ $(function(){
 		  <tr> 
 		  <td> <label id="title">* 추가 요청</label><br/>
 		  	   <span style="font-size:14px;font-weight: bold">&nbsp;&nbsp; (선택사항)</span> </td>
-		  <td> <textarea name="addReq" rows="3" cols="80"><c:out value="${rVO.addReq}"/></textarea> </td>
+		  <td> <textarea name="addReq" rows="3" cols="80"><c:out value="${ruVO.addReq}"/></textarea> </td>
 		  </tr>
 		</table>
-		
-		<input type="hidden" id="chkInDate" name="chkInDate"/>
-		<input type="hidden" id="chkOutDate" name="chkOutDate"/>
 		
 		<div id="btnGroup">
 		<input type="button" id="chgBtn" name="chgBtn" class="btn btn-primary btn-lg" value="예약변경"/>
@@ -273,7 +260,6 @@ $(function(){
 		</div>
 		 
 		<!-- footer import -->
-		<c:import url="../common/admin_footer.jsp" />
 		
 	</div>
 </body>

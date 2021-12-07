@@ -1,7 +1,3 @@
-<%@page import="kr.co.sist.admin.reservation.ReserveDateVO"%>
-<%@page import="java.util.Calendar"%>
-<%@page import="kr.co.sist.admin.reservation.ReserveSelect"%>
-<%@page import="kr.co.sist.admin.member.MemberSelect"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -11,9 +7,9 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Hotel Ritz - 메인</title>
+<title>Hotel Ritz - 관리자 메인</title>
 <link rel="stylesheet" type="text/css"
-	href="http://localhost/hotel_prj/common/css/main_v20211012.css">
+	href="http://localhost/hotel_final_prj/common/css/main_v20211012.css">
 
 <!-- jQuery CDN -->
 <script
@@ -28,7 +24,7 @@
 	
 <!-- 관리자 메인 CSS -->
 <link rel="stylesheet" type="text/css"
-	href="http://localhost/hotel_prj/admin/css/admin_main.css">
+	href="http://localhost/hotel_final_prj/admin_css/admin_main.css">
 <style type="text/css">
 
 #todayRes{
@@ -87,6 +83,7 @@ $("#toDayList tr").click(function(){
 		$("#moveFrm").submit();
 	}//end if
 })//table click
+
 })//ready
 </script>
 </head>
@@ -94,26 +91,11 @@ $("#toDayList tr").click(function(){
 
 	<div id="wrap">
 		<!-- header/navibar import -->
-		<c:import url="../common/admin_header_nav.jsp" /> 
 		
 		<div id="container">
-			<span id="mainMenu" onclick="http://localhost/hotel_prj/admin/common/admin_main.jsp">오늘의 예약</span><br/>
-			<div id="todayRes">
-			
-		<%
-						Calendar cal = Calendar.getInstance();
-							 int nowYear = cal.get(Calendar.YEAR);
-							 int nowMonth = cal.get(Calendar.MONTH)+1;
-							 int nowDay = cal.get(Calendar.DAY_OF_MONTH);
-							 // 오늘을 체크인 일자로 투입하여 VO 생성
-							 ChkInDateVO date = new ChkInDateVO();
-							 date.setYear(String.valueOf(nowYear));
-							 date.setMonth(String.valueOf(nowMonth));
-							 date.setDay(String.format("%02d",nowDay));
-							 
-							 ReserveSelect rs = new ReserveSelect();
-							 pageContext.setAttribute("toDayData", rs.selectRes(date));
-					%>
+			<span id="mainMenu" onclick="javascrip:location.href='search_today_res_list.do'">오늘의 예약</span><br/>
+		
+		<div id="todayRes">
 		<table  class="table table-bordered" id="toDayList">
 			<tr>
 			<th>예약번호</th>
@@ -124,14 +106,14 @@ $("#toDayList tr").click(function(){
 			<th>예약일자</th>
 		<tr>
 				
-		<c:if test="${ empty toDayData }">
+		<c:if test="${ empty todayList }">
 		<tr>
 			<td onclick="event.cancelBubble=true" colspan="6" style="font-weight: bold">
 			예약 정보가 존재하지 않습니다.</td>
 		</tr>
 		</c:if>
 		
-		<c:forEach var="data" items="${ toDayData }">
+		<c:forEach var="data" items="${ todayList }">
 		  <tr>
 			<td><c:out value="${ data.resNo }"/></td>
 			<td><c:out value="${ data.kName }"/></td>
@@ -146,19 +128,19 @@ $("#toDayList tr").click(function(){
 		</div>
 		
 		<!-- 테이블의 예약건(행) 클릭시 hidden값 설정 및 페이지 이동 -->
-		 <form name="moveFrm" id="moveFrm" action="http://localhost/hotel_prj/admin/admin_reservation/admin_reservation_main.jsp" method="get">
-		 <c:if test="${ not empty toDayData }">
-		 	<input type="hidden" name="year" id="year" value="<%=nowYear%>"/>
-		 	<input type="hidden" name="month" id="month" value="<%=nowMonth%>"/>
-		 	<input type="hidden" name="day" id="day" value="<%=String.format("%02d",nowDay)%>"/>
+		 <form name="moveFrm" id="moveFrm" action="search_res_list.do" method="get">
+		 <c:if test="${ not empty today }">
+		 	<input type="hidden" name="year" id="year" value="${today.year}"/>
+		 	<input type="hidden" name="month" id="month" value="${today.month}"/>
+		 	<input type="hidden" name="day" id="day" value="${today.day}"/>
 		 </c:if>
 		 </form>
 
-		</div>
-	</div>
-
-	<!-- footer import -->
-	<c:import url="../common/admin_footer.jsp" />
+		</div><!-- container div -->
+		
+		<!-- footer import -->
+		
+	</div> <!-- wrap div -->
 
 </body>
 </html>

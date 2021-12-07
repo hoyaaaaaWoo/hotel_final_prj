@@ -10,7 +10,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Hotel Ritz - 예약관리</title>
 <link rel="stylesheet" type="text/css"
-	href="http://localhost/hotel_prj/common/css/main_v20211012.css">
+	href="http://localhost/hotel_final_prj/common/css/main_v20211012.css">
 
 <!-- jQuery CDN -->
 <script
@@ -25,7 +25,7 @@
 
 <!-- 관리자 메인 CSS -->
 <link rel="stylesheet" type="text/css"
-	href="http://localhost/hotel_prj/admin/css/admin_main.css">
+	href="http://localhost/hotel_final_prj/admin_css/admin_main.css">
 
 <style type="text/css">
 #date{
@@ -82,10 +82,18 @@ tr:hover td {
 	background-color: #F1F3F4;
 	cursor:pointer;
 }
-
 </style>
 
 <script type="text/javascript">
+<c:choose>
+	<c:when test="${delResult eq 'true'}">
+		alert("예약이 정상적으로 삭제되었습니다.");
+	</c:when>
+	<c:when test="${delResult eq 'false'}">
+		alert("예약이 삭제되지 않았습니다. 잠시 후 다시 시도해주세요.");
+	</c:when>
+</c:choose>
+
 $(function(){
 	/* 날짜 검색 */
 	$("#searchBtn").click(function(){
@@ -162,11 +170,10 @@ $(function(){
 <body>
 	<div id="wrap">
 		<!-- header/navibar import -->
-		<c:import url="../common/admin_header_nav.jsp" /> 
 
 		<div id="container" style="padding:50px">
-		<form name="dateFrm" id="dateFrm" action="http://localhost/hotel_prj/admin/admin_reservation/admin_reservation_main.jsp" method="get" class="form-inline">
-		 <span id="mainMenu" onclick="location.href='http://localhost/hotel_prj/admin/admin_reservation/admin_reservation_main.jsp'">체크인 날짜 검색</span><br/><br/>
+		<form name="dateFrm" id="dateFrm" action="search_res_list.do" method="get" class="form-inline">
+		 <span id="mainMenu" onclick="javascript:location.href='search_res_list.do'">체크인 날짜 검색</span><br/><br/>
 	
 		 <div id="date">
 		 <!-- 날짜 입력/선택여부에 따라 value 설정-->
@@ -186,15 +193,6 @@ $(function(){
 		 </div>
 		 </form>
 		 
-		 <!-- 날짜 선택 or 오늘의 예약으로 넘어왔을 때 웹파라미터 처리 -->
-		 <jsp:useBean id="date" class="kr.co.sist.admin.reservation.ReserveDateVO" scope="page"/>
-		 <jsp:setProperty property="*" name="date"/>
-		 
-		 <%
-		 ReserveSelect rs = new ReserveSelect();
-		 pageContext.setAttribute("resData", rs.selectRes(date));
-		 %>
-		 
 		 <div id="resList">
 		 <table class="table table-bordered" id="resList">
 		 <tr>
@@ -207,14 +205,14 @@ $(function(){
 		 	<th>예약관리</th>
 		 </tr>
 		 
-		<c:if test="${ empty resData }">
+		<c:if test="${ empty resList }">
 		<tr>
 			<td onclick="event.cancelBubble=true" colspan="7" style="font-weight: bold">
 			예약 정보가 존재하지 않습니다.</td>
 		</tr>
 		</c:if>
 	
-		<c:forEach var="res" items="${ resData }">
+		<c:forEach var="res" items="${ resList }">
 		  <tr>
 			<td><c:out value="${ res.resNo }"/></td>
 			<td><c:out value="${ res.kName }"/></td>
@@ -230,19 +228,23 @@ $(function(){
 		</div>
 		 
 		  <!-- 테이블의 예약건(행) 클릭시 hidden값 설정 및 페이지 이동 -->
-		 <form name="chgFrm" id="chgFrm" action="http://localhost/hotel_prj/admin/admin_reservation/admin_reservation_change.jsp" method="post">
+		 <form name="chgFrm" id="chgFrm" action="chagne_res_form.do" method="post">
 		 	<input type="hidden" name="resNum" id="resNum"/>
 		 </form>
 		 
 		 <!-- 삭제버튼 클릭시 hidden값 설정 및 페이지 이동 -->
-		 <form name="delFrm" id="delFrm" action="http://localhost/hotel_prj/admin/admin_reservation/admin_reservation_del_process.jsp" method="post">
+		 <form name="delFrm" id="delFrm" action="delete_res.do" method="post">
 		 	<input type="hidden" name="delResNum" id="delResNum"/>
+		 	<c:if test="${not empty param.year}">
+		 		<input type="hidden" name="year" value="${param.year}"/>
+		 		<input type="hidden" name="month" value="${param.month}"/>
+		 		<input type="hidden" name="day" value="${param.day}"/>
+		  	 </c:if>
 		 </form>
 		 
 		</div> <!-- 컨테이너 div -->
 		 
 	    <!-- footer import -->
-		<c:import url="../common/admin_footer.jsp" />
 	
 	</div>
 </body>
