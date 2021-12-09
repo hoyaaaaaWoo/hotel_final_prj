@@ -6,11 +6,14 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 import java.util.Calendar;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import jdk.nashorn.internal.ir.RuntimeNode.Request;
 import kr.co.mvc.admin.service.ReservationService;
 import kr.co.mvc.admin.vo.ChkInDateVO;
 import kr.co.mvc.admin.vo.ReservationUpdateVO;
@@ -88,7 +91,7 @@ public class ReservationController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value = "chagne_res_form.do", method = {GET, POST})
+	@RequestMapping(value = "change_res_form.do", method = POST)
 	public String chagneResForm(String resNum, Model model) {
 		
 		model.addAttribute("resNum", resNum);
@@ -104,36 +107,39 @@ public class ReservationController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value = "change_res_process.do", method = {GET,POST})
-	public String chagneResProcess(ReservationUpdateVO ruVO, Model model) {
-		int result =0;
-
-		boolean upateResult = false; 
-		model.addAttribute("upateResult", upateResult);
+	@RequestMapping(value = "change_res_process.do", method = POST)
+	public String chagneResProcess(ReservationUpdateVO ruVO, HttpServletRequest request,Model model) {
+		boolean chkResult = true; 
 		
-		//객실 최대 수용 인원 체크
+		//검증 실패 시 예약 변경 화면으로 이동
+		String returnPage ="forward:change_res_form.do?resNum="+ruVO.getResNo(); 
+		
+		//객실 최대 수용 인원과 숙박기간 중복여부 체크
 		int maxGuest = resSev.searchMaxGuest(ruVO);
 		int totalGuest = ruVO.getAdult() + ruVO.getChild();
 		List<String> resList = resSev.searchStayDateList(ruVO);
 		
 		if(totalGuest > maxGuest) {
-			model.addAttribute("msg", ruVO.getrName() +"의 최대 수용인원은 " + maxGuest+"입니다.");
+			chkResult = false;
+			model.addAttribute("msg", ruVO.getrName() +"의 최대 수용인원은 " + maxGuest+"명 입니다.");
 		} else if (!(resList.isEmpty())) {
+			chkResult = false;
 			model.addAttribute("msg", "해당기간 중 다른 예약이 존재합니다.");
 		}//end if 
 		
-		if(!upateResult) {// if 통과 시 update 진행
+		//검증 통과 시 예약변경 수행 및 예약조회 화면으로 이동
+		int result =0;
+		if(chkResult) {
 			result = resSev.changeRes(ruVO);
+			returnPage ="forward:search_res_list.do";
 			if(result == 1) {
-				upateResult = true;
-				model.addAttribute("upateResult", upateResult);
-				model.addAttribute("msg", "예약이 정상적으로 변경되었습니다.");
+				model.addAttribute("updateResult", true);
 			} else {
-				model.addAttribute("msg", "죄송합니다. 잠시 후 다시 시도해주세요.");
+				model.addAttribute("updateResult", false);
 			}//end else
 		}//end if
 
-		return "redirect:search_res_list.do";
+		return returnPage;
 	}//chagneResProcess
 	
 	

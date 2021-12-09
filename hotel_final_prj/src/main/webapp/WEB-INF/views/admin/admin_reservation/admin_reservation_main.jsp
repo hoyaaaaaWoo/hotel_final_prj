@@ -85,12 +85,22 @@ tr:hover td {
 </style>
 
 <script type="text/javascript">
+
 <c:choose>
 	<c:when test="${delResult eq 'true'}">
 		alert("예약이 정상적으로 삭제되었습니다.");
 	</c:when>
 	<c:when test="${delResult eq 'false'}">
-		alert("예약이 삭제되지 않았습니다. 잠시 후 다시 시도해주세요.");
+		alert("죄송합니다. 잠시 후 다시 시도해주세요.");
+	</c:when>
+</c:choose>
+
+<c:choose>
+	<c:when test="${updateResult eq 'true'}">
+		alert("예약이 정상적으로 변경되었습니다.");
+	</c:when>
+	<c:when test="${updateResult eq 'false'}">
+		alert("죄송합니다. 잠시 후 다시 시도해주세요.");
 	</c:when>
 </c:choose>
 
@@ -228,7 +238,7 @@ $(function(){
 		</div>
 		 
 		  <!-- 테이블의 예약건(행) 클릭시 hidden값 설정 및 페이지 이동 -->
-		 <form name="chgFrm" id="chgFrm" action="chagne_res_form.do" method="post">
+		 <form name="chgFrm" id="chgFrm" action="change_res_form.do" method="post">
 		 	<input type="hidden" name="resNum" id="resNum"/>
 		 </form>
 		 

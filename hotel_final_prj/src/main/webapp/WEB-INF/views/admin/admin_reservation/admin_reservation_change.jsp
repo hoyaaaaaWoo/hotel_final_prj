@@ -83,6 +83,11 @@ textarea{
 </style>
 
 <script type="text/javascript">
+<c:if test="${not empty msg}">
+	let msg = "<c:out value='${msg}'/>";
+	alert(msg);
+</c:if>
+
 $(function(){
 	/* 예약변경 버튼 클릭  */
 	$("#chgBtn").click(function(){
