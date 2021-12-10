@@ -24,7 +24,7 @@
 
 <!-- 관리자 메인 CSS -->
 <link rel="stylesheet" type="text/css"
-	href="http://localhost/hotel_final_prj/admin_css/admin_main.css">
+	href="http://localhost/hotel_final_prj/admin/css/admin_main.css">
 
 <style type="text/css">
 #container {
@@ -181,6 +181,7 @@ $(function(){
 	<div id="wrap">
 		
 		<!-- header/navibar import -->
+		<jsp:include page="/WEB-INF/views/admin/common/admin_header_nav.jsp"/>
 		
 		<div id="container" style="padding:50px">
 		<span id="mainMenu" onclick="javascript:location.href='chagne_res_form.do?resNum=${ruVO.resNo}'">예약변경</span><br/><br/>
@@ -265,6 +266,7 @@ $(function(){
 		</div>
 		 
 		<!-- footer import -->
+		<jsp:include page="/admin/common/admin_footer.jsp"/>
 		
 	</div>
 </body>

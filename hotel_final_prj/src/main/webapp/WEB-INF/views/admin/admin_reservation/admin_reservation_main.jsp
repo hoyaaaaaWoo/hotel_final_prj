@@ -25,7 +25,7 @@
 
 <!-- 관리자 메인 CSS -->
 <link rel="stylesheet" type="text/css"
-	href="http://localhost/hotel_final_prj/admin_css/admin_main.css">
+	href="http://localhost/hotel_final_prj/admin/css/admin_main.css">
 
 <style type="text/css">
 #date{
@@ -180,6 +180,7 @@ $(function(){
 <body>
 	<div id="wrap">
 		<!-- header/navibar import -->
+		<jsp:include page="/WEB-INF/views/admin/common/admin_header_nav.jsp"/>
 
 		<div id="container" style="padding:50px">
 		<form name="dateFrm" id="dateFrm" action="search_res_list.do" method="get" class="form-inline">
@@ -255,7 +256,8 @@ $(function(){
 		</div> <!-- 컨테이너 div -->
 		 
 	    <!-- footer import -->
-	
+		<jsp:include page="/admin/common/admin_footer.jsp"/>
+		
 	</div>
 </body>
 </html>

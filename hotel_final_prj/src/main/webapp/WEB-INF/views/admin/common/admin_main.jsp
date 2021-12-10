@@ -91,6 +91,7 @@ $("#toDayList tr").click(function(){
 
 	<div id="wrap">
 		<!-- header/navibar import -->
+		<jsp:include page="/WEB-INF/views/admin/common/admin_header_nav.jsp"/>
 		
 		<div id="container">
 			<span id="mainMenu" onclick="javascrip:location.href='search_today_res_list.do'">오늘의 예약</span><br/>
@@ -139,6 +140,7 @@ $("#toDayList tr").click(function(){
 		</div><!-- container div -->
 		
 		<!-- footer import -->
+		<jsp:include page="/admin/common/admin_footer.jsp"/>
 		
 	</div> <!-- wrap div -->
 
