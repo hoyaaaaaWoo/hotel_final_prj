@@ -232,17 +232,17 @@ RoomVO rv = rs.selectRoomInfo(room_no);
 				<c:set var = "i" value = "${ i + 1 }" />
 				<div class="col-lg-4">
 					<div class="roomImg">
-						<a href="http://team3.aws.sist.co.kr/user/reser_room/room_intro.jsp#target${i }">
-							<img src="http://team3.aws.sist.co.kr/roomImages/${ mainRoom.main_img }"
+						<a href="http://localhost/hotel_final_prj/WEB-INF/views/user/user_room/room_intro.do#target${i }">
+							<img src="http://localhost/hotel_final_prj/roomImages/${ mainRoom.main_img }"
 							width="350" height="200">
 						</a>
 					</div>
-					<a href="http://team3.aws.sist.co.kr/user/reser_room/room_intro.jsp#target${i }" class="roomName">
+					<a href="http://localhost/hotel_final_prj/WEB-INF/views/user/user_room/room_intro.do#target${i }" class="roomName">
 					<h3 class="roomName" > ${ mainRoom.r_name }</h3></a>
 					
 					<p>
 						<a class="btn btn-default"
-							href="http://team3.aws.sist.co.kr/user/reser_room/room_intro.jsp#target${i }"
+							href="http://localhost/hotel_final_prj/WEB-INF/views/user/reser_room/room_intro.do#target${i }"
 							role="button" style = "margin-top: 10px ">View details &raquo;</a>
 					</p>
 				</div><!-- col-lg-4 -->
@@ -267,11 +267,11 @@ RoomVO rv = rs.selectRoomInfo(room_no);
 								<td>
 									<div class="promImg">
 										<a
-											href="http://team3.aws.sist.co.kr/main/specialOffer.jsp"><img
-											src="http://team3.aws.sist.co.kr/main//main_images/SO01.jpg"
+											href="http://localhost/hotel_final_prj/user/user_main/specialOffer.do"><img
+											src="http://localhost/hotel_final_prj/user/main_images/SO01.jpg"
 											width="450" height="300"></a>
 									</div> <a
-									href="http://team3.aws.sist.co.kr/main/specialOffer.jsp"
+									href="http://team3.aws.sist.co.kr/main/specialOffer.do"
 									class="promTitle"><h2 class="promTitle">Long and
 											Lasting Love</h2></a>
 									<p>
@@ -282,11 +282,11 @@ RoomVO rv = rs.selectRoomInfo(room_no);
 								<td>
 									<div class="promImg">
 										<a
-											href="http://team3.aws.sist.co.kr/main/specialOffer.jsp"><img
-											src="http://team3.aws.sist.co.kr/main/main_images/SO02.jpg"
+											href="http://localhost/hotel_final_prj/user/user_main/specialOffer.do"><img
+											src="http://localhost/hotel_final_prj/user/main_images/SO02.jpg"
 											width="450" height="300"></a>
 									</div> <a
-									href="http://team3.aws.sist.co.kr/main/specialOffer.jsp"
+									href="http://localhost/hotel_final_prj/user/user_main/specialOffer.do"
 									class="promTitle"><h2 class="promTitle">Deep
 											Relaxation</h2></a>
 									<p>
@@ -299,11 +299,11 @@ RoomVO rv = rs.selectRoomInfo(room_no);
 								<td>
 									<div class="promImg">
 										<a
-											href="http://team3.aws.sist.co.kr/main/specialOffer.jsp"><img
-											src="http://team3.aws.sist.co.kr/main/main_images/SO03.jpg"
+											href="http://localhost/hotel_final_prj/user/user_main//specialOffer.do"><img
+											src="http://localhost/hotel_final_prj/user/main_images/SO03.jpg"
 											width="450" height="300"></a>
 									</div> <a
-									href="http://team3.aws.sist.co.kr/main/specialOffer.jsp"
+									href="http://localhost/hotel_final_prj/user/user_main/specialOffer.do"
 									class="promTitle"><h2 class="promTitle">Arrive in
 											Style</h2></a>
 									<p>
@@ -314,11 +314,11 @@ RoomVO rv = rs.selectRoomInfo(room_no);
 								<td>
 									<div class="promImg">
 										<a
-											href="http://team3.aws.sist.co.kr/main/specialOffer.jsp"><img
-											src="http://team3.aws.sist.co.kr/main/main_images/SO04.jpg"
+											href="http://localhost/hotel_final_prj/user/user_main/specialOffer.do"><img
+											src="http://localhost/hotel_final_prj/user/main_images/SO04.jpg"
 											width="450" height="300"></a>
 									</div> <a
-									href="http://team3.aws.sist.co.kr/main/specialOffer.jsp"
+									href="http://localhost/hotel_final_prj/user/user_main/specialOffer.do"
 									class="promTitle"><h2 class="promTitle">Kids at Home</h2></a>
 									<p>
 										리츠 서울에서 사랑하는 아이에게 행복한 하루를 선물하세요.<br /> <strong>객실 +
@@ -340,7 +340,7 @@ RoomVO rv = rs.selectRoomInfo(room_no);
 		<!-- ================================================== -->
 
 		<script
-			src="http://team3.aws.sist.co.kr/common/bootstrap/ie10-viewport-bug-workaround.js"></script>
+			src="http://localhost/hotel_final_prj/common/bootstrap/ie10-viewport-bug-workaround.js"></script>
 	</div>
 </body>
 </html>

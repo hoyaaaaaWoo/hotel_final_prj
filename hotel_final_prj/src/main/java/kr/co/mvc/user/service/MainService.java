@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 import kr.co.mvc.user.dao.MainDAO;
 import kr.co.mvc.user.vo.MainRoomVO;
-import kr.co.mvc.user.vo.RoomVO;
+
 
 @Component
 public class MainService {
