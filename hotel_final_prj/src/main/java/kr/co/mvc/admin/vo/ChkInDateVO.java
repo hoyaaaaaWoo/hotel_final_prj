@@ -36,4 +36,9 @@ public class ChkInDateVO {
 		this.day = day;
 	}
 
+	@Override
+	public String toString() {
+		return "ChkInDateVO [year=" + year + ", month=" + month + ", day=" + day + "]";
+	}
+
 }//class

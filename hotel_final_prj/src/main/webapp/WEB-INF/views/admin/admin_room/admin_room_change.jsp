@@ -1,9 +1,3 @@
-<%@page import="kr.co.sist.admin.room.UploadImgList"%>
-<%@page import="java.util.ArrayList"%>
-<%@page import="kr.co.sist.admin.room.RoomVO"%>
-<%@page import="java.util.List"%>
-<%@page import="kr.co.sist.admin.room.RoomSelect"%>
-<%@page import="kr.co.sist.admin.room.RoomSelect.selectRoomInfo"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" info="객실 - 객실 / 객실 수정"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -479,7 +473,7 @@ $(window).bind("beforeunload", function(){
 	<div id="wrap">
 	
 		<!-- header/navibar import -->
-		<c:import url="../common/admin_header_nav.jsp" /> 
+		<jsp:include page="/WEB-INF/views/admin/common/admin_header_nav.jsp"/>
 		
 		<!-- 컨테이너 시작  -->
 		<div id="container" style="padding:50px"> 
@@ -723,7 +717,7 @@ $(window).bind("beforeunload", function(){
 		</div><!-- 컨테이너 div -->
 
 		<!-- footer import -->
-	 	<c:import url="../common/admin_footer.jsp" />
+		<jsp:include page="/admin/common/admin_footer.jsp"/>
 		
 	</div><!-- wrap div -->
 </body>

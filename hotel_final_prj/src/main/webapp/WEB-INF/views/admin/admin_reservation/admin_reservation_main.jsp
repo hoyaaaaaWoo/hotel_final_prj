@@ -73,8 +73,8 @@ td{
 	font-weight: bold;
 }
 #page{
-	margin-top : 20px;
-	padding-left:420px;
+	margin-top : 60px;
+	padding-left:480px;
 }
 .pagination>li>a {color:#343A40}
 
@@ -137,6 +137,35 @@ $(function(){
 	})//날짜검색 click
 	
 	
+	/* 페이지네이션 클릭시 현재페이지 & 날짜 전송 */
+	$(".pagination li").click(function () {
+		let page = $(this).text();
+		let currentPage = ${currentPage};
+		let totalPage = ${totalPage};
+
+		//이전 버튼 클릭
+		if(page == '<<') {
+			if(currentPage == 1) { //현재 1 페이지면 1 반환
+				page = 1; 
+			} else {
+				page = currentPage-1;
+			}//end else
+		}//end if  
+		
+		//다음 버튼 클릭
+		if(page == ">>") {
+			if(currentPage == totalPage) {//현재 끝 페이지면 끝 반환
+				page = totalPage; 
+			} else {
+				page = currentPage+1;
+			}//end else
+		}//end if  
+	 	
+		$("#page").val(page);
+		$("#dateFrm").submit();
+	});//페이지네이션 click
+	
+	
 	/* 예약 변경 */
 	$("#resList tr").click(function(){
 		//현재 선택된 tr과 td
@@ -144,7 +173,7 @@ $(function(){
 		let td = tr.children();
 
 		//선택된 행에서 예약번호 얻어오기
-		let resNum = td.eq(0).text();
+		let resNum = td.eq(1).text();
 		
 		if(resNum != "예약번호" && resNum != null){
 		//해당 예약번호를 예약변경 페이지로 전송!
@@ -170,8 +199,8 @@ $(function(){
 		}else{
 			alert("예약 삭제 진행을 취소합니다.");
 		}//end else
-			
 	})//table click
+	
 	
 })//ready
 
@@ -184,7 +213,9 @@ $(function(){
 
 		<div id="container" style="padding:50px">
 		<form name="dateFrm" id="dateFrm" action="search_res_list.do" method="get" class="form-inline">
-		 <span id="mainMenu" onclick="javascript:location.href='search_res_list.do'">체크인 날짜 검색</span><br/><br/>
+		 <span id="mainMenu" onclick="javascript:location.href='search_res_list.do'">체크인 날짜별 검색</span><br/><br/>
+		<!--  &nbsp;&nbsp;&nbsp;&nbsp;
+		 <span id="mainMenu" onclick="javascript:location.href='search_res_list.do'">객실별 검색</span><br/><br/> -->
 	
 		 <div id="date">
 		 <!-- 날짜 입력/선택여부에 따라 value 설정-->
@@ -202,17 +233,19 @@ $(function(){
 		  	</c:choose>
 		  	<input type="button" id="searchBtn" name="searchBtn" class="btn btn-default" value="검색"/>
 		 </div>
+		 
+		 <input type="hidden" id="page" name="page"/> <!-- 페이지네이션의 현재 페이지 전송용 -->
 		 </form>
 		 
 		 <div id="resList">
 		 <table class="table table-bordered" id="resList">
 		 <tr>
+		 	<th>예약일자</th>
 		 	<th>예약번호</th>
 		 	<th>예약자명</th>
 		 	<th>객실</th>
 		 	<th>투숙기간</th>
 		 	<th>인원수</th>
-		 	<th>예약일자</th>
 		 	<th>예약관리</th>
 		 </tr>
 		 
@@ -225,12 +258,12 @@ $(function(){
 	
 		<c:forEach var="res" items="${ resList }">
 		  <tr>
+			<td><c:out value="${ res.resDate }"/></td>
 			<td><c:out value="${ res.resNo }"/></td>
 			<td><c:out value="${ res.kName }"/></td>
 			<td><c:out value="${ res.rName }"/></td>
 			<td><c:out value="${ res.stayDate }"/></td>
 			<td><c:out value="${ res.guest }"/></td>
-			<td><c:out value="${ res.resDate }"/></td>
 	 		<td onclick="event.cancelBubble=true">
 	 	 	<input type="button" id="delBtn" name="delBtn" class="delBtn btn btn-danger" value="예약삭제"></td>
 		  </tr>
@@ -252,6 +285,20 @@ $(function(){
 		 		<input type="hidden" name="day" value="${param.day}"/>
 		  	 </c:if>
 		 </form>
+
+		<c:if test="${totalPage ne 0}">
+		<ul class="pagination" id="page">
+		    <li><a href="#">&lt;&lt;</a></li>
+		    <c:forEach var="num" begin="1" end="${totalPage}" step="1">
+		    	<c:if test="${num eq currentPage}">
+		    		<c:set var="active" value="style='background:#F5dF4D'"/>
+			    </c:if>
+			    <li><a href="#" ${active}><c:out value="${num}"/></a></li>
+		    	<c:set var="active" value=""/>
+		    </c:forEach>
+		    <li><a href="#">&gt;&gt;</a></li>
+		 </ul>
+		 </c:if>
 		 
 		</div> <!-- 컨테이너 div -->
 		 

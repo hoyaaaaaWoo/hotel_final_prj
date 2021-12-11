@@ -23,17 +23,34 @@ public class ReservationService {
 	 * @param date 체크인일자 또는 현재일자
 	 * @return 예약리스트
 	 */
-	public List<ReservationSelectVO> searchRes(ChkInDateVO date){
+	public List<ReservationSelectVO> searchRes(ChkInDateVO date, int startNum, int endNum){
 		List<ReservationSelectVO> resList = null;
 		
 		try {
-			resList = resDAO.selectRes(date); 
+			resList = resDAO.selectRes(date, startNum, endNum);
 		}catch(DataAccessException dae) {
 			dae.printStackTrace();
 		}//end catch
 		
 		return resList;
 	}//searchRes
+
+	/**
+	 * 페이지네이션을 위한 전체 레코드 수 조회
+	 * @param date
+	 * @return
+	 */
+	public int selectAllResCnt(ChkInDateVO date){
+		int allResCnt = 0;
+		
+		try {
+			allResCnt = resDAO.selectAllResCnt(date); 
+		}catch(DataAccessException dae) {
+			dae.printStackTrace();
+		}//end catch
+		
+		return allResCnt;
+	}//selectAllResCnt
 	
 	/**
 	 * 예약 삭제

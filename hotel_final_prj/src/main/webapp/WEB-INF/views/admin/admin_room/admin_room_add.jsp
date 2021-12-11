@@ -1,4 +1,3 @@
-<%@page import="kr.co.sist.admin.room.UploadImgList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" info="객실 - 객실 / 객실 추가"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -441,8 +440,8 @@ $(window).bind("beforeunload", function(){
 	<div id="wrap">
 	   
 		<!-- header/navibar import -->
-		<c:import url="../common/admin_header_nav.jsp" /> 
-		
+		<jsp:include page="/WEB-INF/views/admin/common/admin_header_nav.jsp"/>		
+	
 		<!-- 컨테이너 시작  -->
 		<div id="container">
 		<span id="mainMenu" onclick="location.href='http://localhost/hotel_prj/admin/admin_room/admin_room_add.jsp'">객실 추가</span>
@@ -599,7 +598,7 @@ $(window).bind("beforeunload", function(){
 		</div><!-- 컨테이너 div -->
 		
 		<!-- footer import -->
-		<c:import url="../common/admin_footer.jsp" /> 
+		<jsp:include page="/admin/common/admin_footer.jsp"/>
 		
 	</div>
 </body>

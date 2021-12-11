@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 public class ReservationSelectVO {
 
 	private String resNo, kName, stayDate, rName, resStauts, resDate;
-	private int Guest;
+	private int guest;
 
 
 	public String getResNo() {
@@ -54,14 +54,6 @@ public class ReservationSelectVO {
 		this.resStauts = resStauts;
 	}
 
-	public int getGuest() {
-		return Guest;
-	}
-
-	public void setGuest(int guest) {
-		Guest = guest;
-	}
-
 	public String getResDate() {
 		return resDate;
 	}
@@ -70,4 +62,12 @@ public class ReservationSelectVO {
 		this.resDate = resDate;
 	}
 
+	public int getGuest() {
+		return guest;
+	}
+
+	public void setGuest(int guest) {
+		this.guest = guest;
+	}
+	
 }// class

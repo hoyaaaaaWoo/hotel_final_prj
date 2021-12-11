@@ -132,8 +132,13 @@ $(function(){
 		//현재일자 구하기
 	 	var toDay = new Date();
 
-		if(toDay > ckInDate || toDay > ckOutDate){
-			alert("체크인/체크아웃은 현재일 이후의 날짜로 입력해주세요.")
+		if(toDay > ckInDate) {
+			alert("체크인은 오늘 또는 이후의 날짜로 입력해주세요.")
+			return;
+		}//end if 
+
+		if(toDay > ckOutDate){
+			alert("체크아웃은 오늘 이후의 날짜로 입력해주세요.")
 			return;
 		}//end if 
 		
@@ -263,6 +268,7 @@ $(function(){
 		</div>
 		
 		</form>
+		
 		</div>
 		 
 		<!-- footer import -->

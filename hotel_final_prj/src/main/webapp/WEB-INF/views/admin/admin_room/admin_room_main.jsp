@@ -1,8 +1,3 @@
-<%@page import="kr.co.sist.admin.room.UploadImgList"%>
-<%@page import="kr.co.sist.admin.room.RoomVO"%>
-<%@page import="kr.co.sist.admin.room.OtherImgVO"%>
-<%@page import="java.util.List"%>
-<%@page import="kr.co.sist.admin.room.RoomSelect"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" info="객실관리 메인"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -100,27 +95,16 @@ function showRoomDetail(roomName){
 </head>
 <body>
 	<div id="wrap">
-		 <% 
-	    UploadImgList uil = new UploadImgList();
-	    if(uil.searchImgList() != null){
-	    	if (uil.searchImgList().size() != 0) {
-	    		uil.removeAllImg();
-	   		}//end if
-	    }//end if
-	    %>
-		<!-- header/navibar import -->
-		<c:import url="../common/admin_header_nav.jsp" /> 
 	
+		<!-- header/navibar import -->
+		<jsp:include page="/WEB-INF/views/admin/common/admin_header_nav.jsp"/>	
+		
 		<!-- 컨테이너 시작 -->
 		<div id="container" style="padding:50px"> 
-		<span id="mainMenu" onclick="location.href='http://localhost/hotel_prj/admin/admin_room/admin_room_main.jsp'">객실</span><br/>
+		<span id="mainMenu" onclick="javascript:location.href='search_room.do'">객실</span><br/>
 		<input type="button" id="addBtn" class="btn btn-primary" value="객실 추가"/>
 		
 		<div id="roomList"> 
-		<% 
-		RoomSelect room = new RoomSelect();
-		pageContext.setAttribute("roomList", room.selectRoomInfo(null,null));
-		%>
 				
 		<table id="roomTab">
 		<tr>
@@ -141,16 +125,13 @@ function showRoomDetail(roomName){
 		</table>
 		</div> <!-- roomList div -->
 
-		<form name="frm" id="frm" action="http://localhost/hotel_prj/admin/admin_room/admin_room_main.jsp" method="get">
+		<form name="frm" id="frm" action="search_room.do" method="get">
 			<input type="hidden" name="rName" id="rName"/>
 		</form>
 		
 		<!-- 선택된 객실이 있으면 상세정보 보여줌 -->
 		<c:if test="${ not empty param.rName }">
-		<%
-		String rName = request.getParameter("rName");
-		pageContext.setAttribute("rmVO", room.selectRoomInfo(rName,null));
-		%>
+		
 		<div id="viewRoom">
 		<form name ="chgFrm" id ="chgFrm"  action="http://localhost/hotel_prj/admin/admin_room/admin_room_change.jsp" method="post">
 		<input type="button" id="chgBtn" name="chgBtn" class="btn btn-primary" value="객실 정보 수정"/>
@@ -256,10 +237,7 @@ function showRoomDetail(roomName){
 		<img src="http://localhost/hotel_prj/roomImages/${rmVO.img}" title="${rmVO.img}" name="img" class="viewImg"/>
 		<input type="hidden" name="mainImg" value="${rmVO.img}"/>
 		</c:forEach>
-		<%
-		List<OtherImgVO> imgList = room.selectOtherImg(rName);
-		pageContext.setAttribute("imgList", imgList);
-		%>
+
  		<c:if test="${not empty imgList}">
 		 <c:forEach var="img" items="${imgList}">
 		   <img src="http://localhost/hotel_prj/roomImages/${img.imgSrc}" title="${img.imgSrc}" name="img" class="viewImg"/>
@@ -274,7 +252,7 @@ function showRoomDetail(roomName){
 		</div> <!-- 컨테이너 div -->
 		
 		<!-- footer import -->
-		<c:import url="../common/admin_footer.jsp" />
+		<jsp:include page="/admin/common/admin_footer.jsp"/>
 		
 	</div> <!-- wrap div -->
 </body>

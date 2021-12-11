@@ -13,7 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import jdk.nashorn.internal.ir.RuntimeNode.Request;
+import kr.co.mvc.admin.service.PagenationService;
 import kr.co.mvc.admin.service.ReservationService;
 import kr.co.mvc.admin.vo.ChkInDateVO;
 import kr.co.mvc.admin.vo.ReservationUpdateVO;
@@ -24,13 +24,16 @@ public class ReservationController {
 	@Autowired
 	private ReservationService resSev;
 
+	@Autowired
+	private PagenationService pageSev;
+	
 	/**
 	 * 오늘의 예약
 	 * @param model
 	 * @return
 	 */
 	@RequestMapping(value = "search_today_res_list.do", method = GET)
-	public String searchTodayRes(Model model) {
+	public String searchTodayRes(String page, Model model) {
 
 		// 현재일자 설정
 		Calendar cal = Calendar.getInstance();
@@ -42,8 +45,22 @@ public class ReservationController {
 		date.setYear(String.valueOf(nowYear));
 		date.setMonth(String.valueOf(nowMonth));
 		date.setDay(String.format("%02d", nowDay));
+		
+		//요청 시 page가 없으면 1page로 setting
+		if(page == null || "".equals(page)) {
+			page = "1";
+		}//end if
 
-		model.addAttribute("todayList", resSev.searchRes(date));
+		//페이지네이션 작업
+		pageSev.setPageScale(10);
+		model.addAttribute("totalPage", pageSev.getTotalPage(resSev.selectAllResCnt(date)));
+		model.addAttribute("currentPage", page);
+		
+		//요청 페이지 넘버에 따른 조회 범위 구하기
+		int startNum = pageSev.getStartNum(page);
+		int endNum = pageSev.getEndNum(startNum);
+		
+		model.addAttribute("todayList", resSev.searchRes(date, startNum, endNum));
 		model.addAttribute("today", date);
 
 		return "admin/common/admin_main";
@@ -56,8 +73,23 @@ public class ReservationController {
 	 * @return
 	 */
 	@RequestMapping(value = "search_res_list.do", method = {GET,POST})
-	public String searchRes(ChkInDateVO date, Model model) {
-		model.addAttribute("resList", resSev.searchRes(date));
+	public String searchRes(ChkInDateVO date, String page, Model model) {
+		//요청 시 page가 없으면 1page로 setting
+		if(page == null || "".equals(page)) {
+			page = "1";
+		}//end if
+
+		//페이지네이션 작업
+		pageSev.setPageScale(10);
+		model.addAttribute("totalPage", pageSev.getTotalPage(resSev.selectAllResCnt(date)));
+		model.addAttribute("currentPage", page);
+		
+		//요청 페이지 넘버에 따른 조회 범위 구하기
+		int startNum = pageSev.getStartNum(page);
+		int endNum = pageSev.getEndNum(startNum);
+		
+		//예약 조회 작업
+		model.addAttribute("resList", resSev.searchRes(date, startNum, endNum));
 		
 		return "admin/admin_reservation/admin_reservation_main";
 	}// searchRes
@@ -79,9 +111,9 @@ public class ReservationController {
 		} else {
 			model.addAttribute("delResult", false);
 		}//end else
-		model.addAttribute("resList", resSev.searchRes(date));
 		
-		return "admin/admin_reservation/admin_reservation_main";
+		//예약관리 메인으로 이동
+		return "forward:search_res_list.do";
 	}// removeRes
 
 	
@@ -93,7 +125,6 @@ public class ReservationController {
 	 */
 	@RequestMapping(value = "change_res_form.do", method = POST)
 	public String chagneResForm(String resNum, Model model) {
-		
 		model.addAttribute("resNum", resNum);
 		model.addAttribute("ruVO", resSev.searchOneRes(resNum));
 		model.addAttribute("roomList", resSev.searchAvailableRoomList());

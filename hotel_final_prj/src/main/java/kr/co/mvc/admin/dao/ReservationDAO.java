@@ -27,25 +27,30 @@ public class ReservationDAO {
 	 * @return
 	 * @throws DataAccessException
 	 */
-	public List<ReservationSelectVO> selectRes(ChkInDateVO date) throws DataAccessException {
+	public List<ReservationSelectVO> selectRes(ChkInDateVO date, int startNum, int endNum) throws DataAccessException {
 		List<ReservationSelectVO> rsList = null;
 		
 		StringBuilder select = new StringBuilder();
-		select.append(
-				"select	rs.res_status, to_char(rs.res_date, 'yyyy.mm.dd HH24:MI') res_date, rs.res_no, m.kname,")
+		select.append("		select	*	from	(	")
+		//inline view 시작
+				.append("		select row_number()over(order by rs.res_date desc) rnum,")
+				.append("rs.res_status, to_char(rs.res_date, 'yyyy.mm.dd HH24:MI') res_date, rs.res_no, m.kname,")
 				.append("		(rs.chkin_date || '-'|| rs.chkout_date) staydate,")
 				.append("		(nvl(rs.adult,0) + nvl(rs.child,0)) guest, r.r_name		")
 				.append("from   reservation rs, member m, room r		")
 				.append("where  (rs.id = m.id and rs.room_no = r.room_no) and rs.res_status='Y' 	");
 
-		if (date != null && date.getYear() != null) { // 일자가 입력되었다면 체크인 날짜로 where 절에 문구 추가
+		if (date != null && date.getYear() != null && !("".equals(date.getYear()))) { // 일자가 입력되었다면 체크인 날짜로 where 절에 문구 추가
 			select.append("and chkin_date = '") // year.month.day
 					.append(date.getYear()).append(".").append(date.getMonth()).append(".").append(date.getDay())
 					.append("'");
 		} // end if
 
-		select.append("		order by  res_date desc");
-		rsList = jt.query(select.toString(), new RowMapper<ReservationSelectVO>(){
+		select.append("	)")
+		//inline view 끝
+			.append("		where 	rnum between	?  and   ?		");
+		
+		rsList = jt.query(select.toString(), new Object[] {startNum, endNum},new RowMapper<ReservationSelectVO>(){
 
 			@Override
 			public ReservationSelectVO mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -63,7 +68,35 @@ public class ReservationDAO {
 		});
 		return rsList;
 	}// selectRes
+	
+	/**
+	 * 페이지네이션을 위한 전체 레코드 수 조회
+	 * @param date
+	 * @return
+	 * @throws DataAccessException
+	 */
+	public int selectAllResCnt(ChkInDateVO date) throws DataAccessException {
+		int allResCnt = 0;
+		
+		StringBuilder select = new StringBuilder();
+		select.append("select	count(rs.res_no)	")  // 기본키인 res_no으로 전체 행수 조회
+		.append("from   reservation rs, member m, room r		")
+		.append("where  (rs.id = m.id and rs.room_no = r.room_no) and rs.res_status='Y' 	");
+		
+		if (date != null && date.getYear() != null && !("".equals(date.getYear()))) { // 일자가 입력되었다면 체크인 날짜로 where 절에 문구 추가
+			select.append("and chkin_date = '") // year.month.day
+			.append(date.getYear()).append(".").append(date.getMonth()).append(".").append(date.getDay())
+			.append("'");
+		} // end if
+		
+		select.append("		order by  res_date desc");
+		
+		allResCnt = jt.queryForObject(select.toString(),Integer.class);
+		
+		return allResCnt;
+	}// selectAllResCnt
 
+	
 	/**
 	 * 특정예약건 삭제 method / update로 status N로 변경
 	 * @param delResNum
