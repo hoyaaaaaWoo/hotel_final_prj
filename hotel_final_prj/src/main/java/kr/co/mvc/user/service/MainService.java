@@ -3,6 +3,7 @@ package kr.co.mvc.user.service;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import kr.co.mvc.user.dao.MainDAO;
@@ -12,6 +13,7 @@ import kr.co.mvc.user.vo.RoomVO;
 @Component
 public class MainService {
 
+	@Autowired
 	private MainDAO mainDAO;
 	
 	public List<MainRoomVO> searchMainRooms(){
