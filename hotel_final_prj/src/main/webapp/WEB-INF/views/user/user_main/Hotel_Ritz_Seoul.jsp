@@ -1,6 +1,4 @@
 <%@page import="java.util.List"%>
-<%@page import="kr.co.sist.uesr.room.RoomVO"%>
-<%@page import="kr.co.sist.uesr.room.RoomSelect"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" info="Hotel Ritz Seoul"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -134,7 +132,7 @@ p { border: 1px solid #FF00FF}
 
 
 		<!-- header/navibar import -->
-		<jsp:include page="main_header_nav.jsp"/>
+		<jsp:include page="/user/common/main_header_nav.jsp"/>
 
 		
 		<!-- Carousel
@@ -152,7 +150,7 @@ p { border: 1px solid #FF00FF}
 			<div class="carousel-inner" role="listbox" style = "margin: 0px auto; height: 800px">
 				<div class="item active" style = "margin: 0px auto; height: 800px">
 					<img class="first-slide"
-						src="http://team3.aws.sist.co.kr/main/main_images/main1.jpg"
+						src="http://localhost/hotel_final_prj/user/main_images/main1.jpg"
 						style= "min-width: 2150px; height: 800px; margin: 0px auto;"
 						alt="First slide">
 						<!-- style="min-width: 1600px; height: 800px; margin: 0px auto;" -->
@@ -169,7 +167,7 @@ p { border: 1px solid #FF00FF}
 				<div class="item" style="margin: 0px auto; height: 800px">
 					<img class="second-slide"
 						style="min-width: 2150px; margin: 0px auto; height: 800px"
-						src="http://team3.aws.sist.co.kr/main/main_images/main2.jpg"
+						src="http://localhost/hotel_final_prj/user/main_images/main2.jpg"
 						alt="Second slide">
 					<div class="container">
 						<div class="carousel-caption"></div>
@@ -178,7 +176,7 @@ p { border: 1px solid #FF00FF}
 				<div class="item" style="margin: 0px auto; height: 800px">
 					<img class="third-slide"
 						style="min-width: 2150px; margin: 0px auto; height: 800px"
-						src="http://team3.aws.sist.co.kr/main/main_images/main3.jpg"
+						src="http://localhost/hotel_final_prj/user/main_images/main3.jpg"
 						/>
 					<div class="container">
 						<div class="carousel-caption"></div>
@@ -187,7 +185,7 @@ p { border: 1px solid #FF00FF}
 				<div class="item" style="margin: 0px auto; height: 800px">
 					<img class="fourth-slide"
 						style="min-width: 2150px; margin: 0px auto; height: 800px"
-						src="http://team3.aws.sist.co.kr/main/main_images/main4.jpg"
+						src="http://localhost/hotel_final_prj/user/main_images/main4.jpg"
 						/>
 					<div class="container">
 						<div class="carousel-caption"></div>
@@ -215,28 +213,21 @@ p { border: 1px solid #FF00FF}
 			
 
 			
-<%
+<%-- <%
 
-/* RoomSelect rs = new RoomSelect();
+RoomSelect rs = new RoomSelect();
 pageContext.setAttribute("RoomNo", rs.selectAllRoomNo(null) );
 
 
 RoomVO rv = rs.selectRoomInfo(room_no);
- */
-%>
+
+%> --%>
 			
 			<div class="row">
 <!-- ---------------------------------------------------------------------------------- -->
 			<%-- <c:forEach var = "room_no" items = "${ RoomNo }" > --%>
 				
-				<%
-				RoomSelect rs = new RoomSelect();
-				
-				List<RoomVO> templist = rs.selectMainRoom();
-				pageContext.setAttribute("mainRooms", templist);
-				
 
-				%>
 				<c:forEach var = "mainRoom" items = "${ mainRooms }" begin = "0" end = "2" >
 				<c:set var = "i" value = "${ i + 1 }" />
 				<div class="col-lg-4">
@@ -344,7 +335,7 @@ RoomVO rv = rs.selectRoomInfo(room_no);
 				</div>
 			</div>
 		</div>
-					<c:import url="http://team3.aws.sist.co.kr/main/main_footer.jsp" />
+					<jsp:include page="/user/common/main_footer.jsp" />
 
 		<!-- ================================================== -->
 
