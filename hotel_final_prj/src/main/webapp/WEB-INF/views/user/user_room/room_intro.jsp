@@ -204,7 +204,7 @@ $(function(){
 		<jsp:include page="/user/common/main_header_nav.jsp"/>
 				
 		<br/><br/><br/><br/><br/><br/>
-		
+		<div class="container marketing" style="width: 1130px;">
 		<div style="width: 1130px; text-align: center; margin: 0px auto">
  		 <input type="button" id = "roomIntroBtn" value="객실소개"  style="width: 100px;">	
   			&nbsp;	&nbsp; 	&nbsp;
@@ -387,7 +387,7 @@ $(function(){
 		</table>
 
 		</div><!-- wrap -->
-		
+		</div>
 		
     <!-- ================================================== -->
 

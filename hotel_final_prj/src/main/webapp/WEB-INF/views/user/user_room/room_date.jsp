@@ -232,10 +232,13 @@ $(function(){
 pageContext.setAttribute("userId", userId);
 %> --%>
 
+	<div class="wrapper" >
 		<jsp:include page="/user/common/main_header_nav.jsp"/>
-	<div class="wrapper" style = "text-align: center">
+		
 		<!-- header/navibar import -->
+		
 		<br/><br/><br/><br/><br/><br/>
+		<div class="container marketing" style="width: 1130px;">
 		
 		<div style="width: 1130px; text-align: center; margin: 0px auto">
  		 <input type="button" id = "roomIntroBtn" value="객실소개"  style="width: 100px;">	
@@ -313,8 +316,10 @@ pageContext.setAttribute("userId", userId);
 
 			</tr>
 			</table>
-			<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+			<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+			<div style = "width: 1130px; text-align: center">
 			<input type="button"  value="조회" id="btn" />
+			</div>
 			</form>
 <!--  -->
 
@@ -326,6 +331,7 @@ pageContext.setAttribute("userId", userId);
 	
 
 	</div><!-- wrapper -->
+	</div>
 	<br />
 	<br />
 

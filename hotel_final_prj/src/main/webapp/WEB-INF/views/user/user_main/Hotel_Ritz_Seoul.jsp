@@ -208,8 +208,7 @@ p { border: 1px solid #FF00FF}
 <div>
 		<!--================================================== -->
 
-		<div class="container marketing"
-			style="width: 1130px; margin: 0px auto">
+		<div class="container marketing" style="width: 1130px; margin: 0px auto">
 			
 
 			
@@ -232,17 +231,17 @@ RoomVO rv = rs.selectRoomInfo(room_no);
 				<c:set var = "i" value = "${ i + 1 }" />
 				<div class="col-lg-4">
 					<div class="roomImg">
-						<a href="http://localhost/hotel_final_prj/WEB-INF/views/user/user_room/room_intro.do#target${i }">
+						<a href="http://localhost/hotel_final_prj/user/user_room/room_intro.do#target${i }">
 							<img src="http://localhost/hotel_final_prj/roomImages/${ mainRoom.main_img }"
 							width="350" height="200">
 						</a>
 					</div>
-					<a href="http://localhost/hotel_final_prj/WEB-INF/views/user/user_room/room_intro.do#target${i }" class="roomName">
+					<a href="http://localhost/hotel_final_prj/user/user_room/room_intro.do#target${i }" class="roomName">
 					<h3 class="roomName" > ${ mainRoom.r_name }</h3></a>
 					
 					<p>
 						<a class="btn btn-default"
-							href="http://localhost/hotel_final_prj/WEB-INF/views/user/reser_room/room_intro.do#target${i }"
+							href="http://localhost/hotel_final_prj/user/user_room/room_intro.do#target${i }"
 							role="button" style = "margin-top: 10px ">View details &raquo;</a>
 					</p>
 				</div><!-- col-lg-4 -->
