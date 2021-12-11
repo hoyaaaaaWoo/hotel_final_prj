@@ -82,6 +82,12 @@ tr:hover td {
 	background-color: #F1F3F4;
 	cursor:pointer;
 }
+
+#navReserv{
+	background-color: #454D55;
+	text-decoration: none;
+}
+
 </style>
 
 <script type="text/javascript">
@@ -213,20 +219,21 @@ $(function(){
 
 		<div id="container" style="padding:50px">
 		<form name="dateFrm" id="dateFrm" action="search_res_list.do" method="get" class="form-inline">
-		 <span id="mainMenu" onclick="javascript:location.href='search_res_list.do'">체크인 날짜별 검색</span><br/><br/>
+		 <span id="mainMenu" onclick="javascript:location.href='search_res_list.do'">예약 조회</span><br/><br/>
 		<!--  &nbsp;&nbsp;&nbsp;&nbsp;
 		 <span id="mainMenu" onclick="javascript:location.href='search_res_list.do'">객실별 검색</span><br/><br/> -->
-	
+		
 		 <div id="date">
+		 <span style="font-size: 15px;color: #5f5f5f;font-weight: bold">&nbsp;※ 체크인 일자 검색</span><br/>
 		 <!-- 날짜 입력/선택여부에 따라 value 설정-->
 		 	<c:choose>
 		  	 <c:when test="${not empty param.year}">
-		  	  <input type="text" id="year" name="year" class="form-control" value="${param.year}" maxlength="4"/>년 &nbsp;
+		  	  <input type="text" id="year" name="year" class="form-control" value="${param.year}" maxlength="4" style="margin-top: 13px"/>년 &nbsp;
 		  	  <input type="text" id="month" name="month" class="form-control" value="${param.month}" maxlength="2"/>월 &nbsp;
 		  	  <input type="text" id="day" name="day" class="form-control" value="${param.day}" maxlength="2"/>일 &nbsp;
 		  	 </c:when>
 		  	 <c:otherwise>
-		  	  <input type="text" id="year" name="year" class="form-control" placeholder="YYYY" maxlength="4"/>년 &nbsp;
+		  	  <input type="text" id="year" name="year" class="form-control" placeholder="YYYY" maxlength="4" style="margin-top: 13px"/>년 &nbsp;
 		  	  <input type="text" id="month" name="month" class="form-control" placeholder="MM" maxlength="2"/>월 &nbsp;
 		  	  <input type="text" id="day" name="day" class="form-control" placeholder="DD" maxlength="2"/>일 &nbsp;
 		  	 </c:otherwise>

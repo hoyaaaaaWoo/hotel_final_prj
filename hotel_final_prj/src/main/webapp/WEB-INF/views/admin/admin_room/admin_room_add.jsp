@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Hotel Ritz - 객실 추가</title>
 <link rel="stylesheet" type="text/css"
-	href="http://localhost/hotel_prj/common/css/main_v20211012.css">
+	href="http://localhost/hotel_final_prj/common/css/main_v20211012.css">
 
 <!-- jQuery CDN -->
 <script
@@ -24,7 +24,7 @@
 
 <!-- 관리자 메인 CSS -->
 <link rel="stylesheet" type="text/css"
-	href="http://localhost/hotel_prj/admin/css/admin_main.css">
+	href="http://localhost/hotel_final_prj/admin/css/admin_main.css">
 	
 <style type="text/css">
 #tabDiv{
@@ -120,6 +120,12 @@ img {
 .imgTr:hover td{
 background-color: #F1F3F4;
 }
+
+#navRoom{
+	background-color: #454D55;
+	text-decoration: none;
+}
+
 </style>
 
 <script type="text/javascript">
@@ -275,7 +281,7 @@ $(function(){
 	
 	$("#cancelBtn").click(function(){
 		alert("객실 추가를 취소합니다.");
-		location.href="http://localhost/hotel_prj/admin/admin_room/admin_room_main.jsp";
+		location.href="http://localhost/hotel_final_prj/admin/admin_room/admin_room_main.jsp";
 	});//click
 	
 	//ajax 이벤트 등록
@@ -329,7 +335,7 @@ function addImg(){
 		var formData = new FormData(form);
 		
 		$.ajax({
-			url:"http://localhost/hotel_prj/admin/admin_room/admin_room_img_upload_process.jsp",
+			url:"http://localhost/hotel_final_prj/admin/admin_room/admin_room_img_upload_process.jsp",
 			type:"post",
 			data:formData,
 			dataType:"json",
@@ -377,7 +383,7 @@ function delImg(ele){
 	var queryString = "imgName="+imgName;
 	
 	$.ajax({
-		url:"http://localhost/hotel_prj/admin/admin_room/admin_room_img_delete_process.jsp",
+		url:"http://localhost/hotel_final_prj/admin/admin_room/admin_room_img_delete_process.jsp",
 		type:"post",
 		data:queryString,
 		dataType:"json",
@@ -423,16 +429,6 @@ function resetFileTag(){
 	$("#fileName").val(""); // temp 업로드용 메인파일 히든값 초기화
 }//resetFileTag
 
-//윈도우 종료 or 새로고침 시 temp 폴더의 파일 삭제
-$(window).bind("beforeunload", function(){
-	 <% 
-	    UploadImgList uil = new UploadImgList();
-	    if(uil.searchImgList() != null){
-	    	if (uil.searchImgList().size() != 0) {
-	    		uil.removeAllImg();
-	   		}//end if
-	    }//end if
-	    %>
 });
 </script>
 </head>
@@ -444,9 +440,9 @@ $(window).bind("beforeunload", function(){
 	
 		<!-- 컨테이너 시작  -->
 		<div id="container">
-		<span id="mainMenu" onclick="location.href='http://localhost/hotel_prj/admin/admin_room/admin_room_add.jsp'">객실 추가</span>
+		<span id="mainMenu" onclick="javascript:add_room_form.do'">객실 추가</span>
 		
-		<form name="roomAddFrm" id="roomAddFrm" action="http://localhost/hotel_prj/admin/admin_room/admin_room_add_process.jsp" method="get">
+		<form name="roomAddFrm" id="roomAddFrm" action="add_room_process.do" method="get">
 		<div id="tabDiv">
 		<table id="mainTab">
 		<tr>
@@ -562,7 +558,7 @@ $(window).bind("beforeunload", function(){
 
 		<br/>
 
-		<form action="http://localhost/hotel_prj/admin/admin_room/admin_room_img_upload_process.jsp" id="uploadfrm" method="post" enctype="multipart/form-data">
+		<form action="http://localhost/hotel_final_prj/admin/admin_room/admin_room_img_upload_process.jsp" id="uploadfrm" method="post" enctype="multipart/form-data">
 		<label>* 객실 이미지</label>
 		<span style="font-size:14px;">&nbsp;(※최대 5장까지 등록 가능합니다.)</span>
 		<label for="mainFile" class="btn btn-info btn-sm" id="mainUpLoad">메인 이미지 추가</label>

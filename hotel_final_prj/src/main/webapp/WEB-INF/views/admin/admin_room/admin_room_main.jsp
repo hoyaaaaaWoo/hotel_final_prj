@@ -10,7 +10,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Hotel Ritz - 객실관리</title>
 <link rel="stylesheet" type="text/css"
-	href="http://localhost/hotel_prj/common/css/main_v20211012.css">
+	href="http://localhost/hotel_final_prj/common/css/main_v20211012.css">
 
 <!-- jQuery CDN -->
 <script
@@ -25,11 +25,11 @@
 
 <!-- 관리자 메인 CSS -->
 <link rel="stylesheet" type="text/css"
-	href="http://localhost/hotel_prj/admin/css/admin_main.css">
+	href="http://localhost/hotel_final_prj/admin/css/admin_main.css">
 	
 <!-- viewroom CSS -->
 <link rel="stylesheet" type="text/css"
-	href="http://localhost/hotel_prj/admin/css/admin_room_roomview.css">
+	href="http://localhost/hotel_final_prj/admin/css/admin_room_roomview.css">
 	
 <style type="text/css">
 #addBtn{
@@ -67,13 +67,18 @@
 	cursor:pointer;
 }
 
+#navRoom{
+	background-color: #454D55;
+	text-decoration: none;
+}
+
 </style>
 <script type="text/javascript">
 $(function(){
 	
 	//객실추가 시 
 	 $("#addBtn").click(function(){
-		 location.href="http://localhost/hotel_prj/admin/admin_room/admin_room_add.jsp";
+		 location.href="add_room_form.do";
 	 });//click
 	 
 	 //객실정보수정 시
@@ -101,7 +106,7 @@ function showRoomDetail(roomName){
 		
 		<!-- 컨테이너 시작 -->
 		<div id="container" style="padding:50px"> 
-		<span id="mainMenu" onclick="javascript:location.href='search_room.do'">객실</span><br/>
+		<span id="mainMenu" onclick="javascript:location.href='search_room.do'">객실 조회</span><br/><br/>
 		<input type="button" id="addBtn" class="btn btn-primary" value="객실 추가"/>
 		
 		<div id="roomList"> 
@@ -116,7 +121,7 @@ function showRoomDetail(roomName){
 		         <c:set var="rStatus" value="roomStatusN"/>
 		         <c:set var="height" value="style='height:110px'"/>
 		 	 </c:if>
-  			<img src="http://localhost/hotel_prj/admin/room_status_img/${rStatus}.png" ${height} class="rStatus img-rounded"
+  			<img src="http://localhost/hotel_final_prj/admin/room_status_img/${rStatus}.png" ${height} class="rStatus img-rounded"
   			onclick="showRoomDetail( '${roomList.getRoomName()}' )"/>
 			<br/>
 			<c:out value="${roomList.getRoomName()}"/></td>
@@ -133,33 +138,33 @@ function showRoomDetail(roomName){
 		<c:if test="${ not empty param.rName }">
 		
 		<div id="viewRoom">
-		<form name ="chgFrm" id ="chgFrm"  action="http://localhost/hotel_prj/admin/admin_room/admin_room_change.jsp" method="post">
+		<form name ="chgFrm" id ="chgFrm"  action="http://localhost/hotel_final_prj/admin/admin_room/admin_room_change.jsp" method="post">
 		<input type="button" id="chgBtn" name="chgBtn" class="btn btn-primary" value="객실 정보 수정"/>
 			<input type="hidden" name="selectedRName" id="selectedRName"/>
 		<br/>
 		<c:forEach var="rmVO" items="${ rmVO }">
-		<label style="margin-left: 11px">* 상태</label><br/>
+		<label style="margin-left: 11px"> 활성화 여부</label><br/>
 	    <input type="text" name="roomStatus" id="roomStatus" value ="${rmVO.rStatus=='Y'?'활성화':'비활성화'}" style="margin-left: 11px" class="form-control" maxlength="10" readonly="readonly"/>
 		<table id="viewTab">	
 		<tr>
 			<td>
-			  <label>* 룸 이름</label><br/>
+			  <label>객실명</label><br/>
 			  <input type="text" name="roomName" id="roomName" value="${rmVO.roomName}" class="form-control" maxlength="10" readonly="readonly"/>
 			</td>
 			<td>
-			  <label>* 1박 가격(원)</label><br/>
+			  <label>1박 가격(원)</label><br/>
 			  <input type="text" name="price" id="price" value="${rmVO.price}" class="form-control" maxlength="8" readonly="readonly"/>
 			</td>
 		</tr>
 		<tr>
 			<td colspan="2">
-			  <label>* 메인 설명</label><br/>
+			  <label>메인 설명</label><br/>
 			  <textarea id="mainDesc" name="mainDesc" rows="5" cols="100" readonly="readonly"><c:out value="${rmVO.mainDesc}"/></textarea>
 			</td>
 		</tr>
 		<tr>
 			<td colspan="2">
-			  <label>* 객실 개요</label><br/>
+			  <label>객실 개요</label><br/>
 			  <table id="subTab">
 			  <tr>
 			  	<th>침대타입</th>
@@ -196,13 +201,13 @@ function showRoomDetail(roomName){
 			</td>
 		<tr>
 			<td colspan="2">
-			  <label>* 특별 서비스</label><br/>
+			  <label>특별 서비스</label><br/>
 			  <textarea id="specialServ" name="specialServ" rows="6" cols="100" readonly="readonly"><c:out value="${rmVO.specialServ}"/></textarea>
 			</td>
 		</tr>
 		<tr>
 			<td colspan="2">
-			  <label>* 어메니티</label><br/>
+			  <label>어메니티</label><br/>
 			  <table>
 			  <tr>
 			  	<th>일반</th>
@@ -225,22 +230,22 @@ function showRoomDetail(roomName){
 			  </table>
 		<tr>
 			<td colspan="2">
-			  <label>* 추가 정보</label><br/>
+			  <label>추가 정보</label><br/>
 			  <textarea id="moreInfo" name="moreInfo" rows="7" cols="100" readonly="readonly"><c:out value="${rmVO.moreInfo}"/></textarea>
 			</td>
 		</tr>
 		</table>
 		<br/>
 		
-		<label>* 객실 이미지 </label>
+		<label style="margin-left:13px">객실 이미지 </label>
 		<br/>
-		<img src="http://localhost/hotel_prj/roomImages/${rmVO.img}" title="${rmVO.img}" name="img" class="viewImg"/>
+		<img src="http://localhost/hotel_final_prj/roomImages/${rmVO.img}" title="${rmVO.img}" name="img" class="viewImg"/>
 		<input type="hidden" name="mainImg" value="${rmVO.img}"/>
 		</c:forEach>
 
  		<c:if test="${not empty imgList}">
 		 <c:forEach var="img" items="${imgList}">
-		   <img src="http://localhost/hotel_prj/roomImages/${img.imgSrc}" title="${img.imgSrc}" name="img" class="viewImg"/>
+		   <img src="http://localhost/hotel_final_prj/roomImages/${img.imgSrc}" title="${img.imgSrc}" name="img" class="viewImg"/>
 			<input type="hidden" name="otherImg" value="${img.imgSrc}" />
 		 </c:forEach>
 		</c:if> <!-- not empty imgList -->

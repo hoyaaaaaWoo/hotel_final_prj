@@ -24,7 +24,7 @@
 	
 <!-- 관리자 메인 CSS -->
 <link rel="stylesheet" type="text/css"
-	href="http://localhost/hotel_final_prj/admin_css/admin_main.css">
+	href="http://localhost/hotel_final_prj/admin/css/admin_main.css">
 <style type="text/css">
 
 #todayRes{
@@ -94,17 +94,17 @@ $("#toDayList tr").click(function(){
 		<jsp:include page="/WEB-INF/views/admin/common/admin_header_nav.jsp"/>
 		
 		<div id="container">
-			<span id="mainMenu" onclick="javascrip:location.href='search_today_res_list.do'">오늘의 예약</span><br/>
+			<span id="mainMenu" onclick="javascrip:location.href='admin_main.do'">오늘의 예약</span><br/>
 		
 		<div id="todayRes">
 		<table  class="table table-bordered" id="toDayList">
 			<tr>
+			<th>예약일자</th>
 			<th>예약번호</th>
 			<th>예약자명</th>
 			<th>객실</th>
 			<th>투숙기간</th>
 			<th>인원수</th>
-			<th>예약일자</th>
 		<tr>
 				
 		<c:if test="${ empty todayList }">
@@ -116,12 +116,12 @@ $("#toDayList tr").click(function(){
 		
 		<c:forEach var="data" items="${ todayList }">
 		  <tr>
+			<td><c:out value="${ data.resDate }"/></td>
 			<td><c:out value="${ data.resNo }"/></td>
 			<td><c:out value="${ data.kName }"/></td>
 			<td><c:out value="${ data.rName }"/></td>
 			<td><c:out value="${ data.stayDate }"/></td>
 			<td><c:out value="${ data.guest }"/></td>
-			<td><c:out value="${ data.resDate }"/></td>
 		  </tr>
 		</c:forEach>
 		

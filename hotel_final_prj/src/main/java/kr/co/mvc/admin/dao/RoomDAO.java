@@ -29,14 +29,13 @@ public class RoomDAO {
 		List<RoomVO> roomList = null;
 
 		StringBuilder select = new StringBuilder("select * from room");
-		System.out.println(rName);
 		//파라미터가 들어왔을 때 조건문 추가 
-		if (rName != null || !("".equals(rName)) || !("null".equals(rName))) { 
+		if (rName != null) { 
 			select.append("		where room_no = (select room_no from room where r_name='")
-			.append(rName)
-			.append("'");
+					.append(rName)
+					.append("')");
 		} // end if
-
+ 
 		roomList = jt.query(select.toString(), new RowMapper<RoomVO>() {
 			@Override
 			public RoomVO mapRow(ResultSet rs, int rowNum) throws SQLException {

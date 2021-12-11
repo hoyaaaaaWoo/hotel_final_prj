@@ -80,6 +80,10 @@ textarea{
 	margin:20px;
 }
 
+#navReserv{
+	background-color: #454D55;
+	text-decoration: none;
+}
 </style>
 
 <script type="text/javascript">

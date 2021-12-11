@@ -91,7 +91,7 @@ ul {
 li a {
 	text-decoration: none;
 	display: block;
-	color: #C0C5CE;
+	color: #FFFFFF;
 	padding-top: 25px;
 	padding-bottom: 25px;
 	font-weight: bold;
@@ -100,12 +100,12 @@ li a {
 
 a:link { /* 클릭 전 */
 	text-decoration: none;
-	color: #C0C5CE;
+	color: #FFFFFF;
 }
 
 a:visited { /* 한번이라도 클릭한 */
 	text-decoration: none;
-	color: #C0C5CE;
+	color: #FFFFFF;
 }
 
 a:hover { /* 마우스 올라갔을 때 */
@@ -133,4 +133,12 @@ a:active { /* 마우스로 누르고 있을 때 */
 
 .cursor{
 	cursor: pointer;
+}
+
+#homeBtn:hover{
+	color: #F5dF4D;
+}
+
+#logOut:hover{
+	color: #F5dF4D;
 }

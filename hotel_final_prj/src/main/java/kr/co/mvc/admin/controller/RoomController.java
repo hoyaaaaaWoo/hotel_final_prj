@@ -22,12 +22,13 @@ public class RoomController {
 
 	/**
 	 * 객실관리 메인
+	 * @param rName
+	 * @param model
+	 * @return
 	 */
 	@RequestMapping(value = "search_room.do", method = GET)
-	public String removeRes(String rName, Model model) {
-		System.out.println(rName);
-		
-		//객실 페이지 요청 시 temp 파일 정리하고 시작
+	public String searchRoomInfo(String rName, Model model) {
+		// 페이지 요청 시 temp 파일 정리하고 시작
 	    if(imgSev.searchImgList() != null && imgSev.searchImgList().size() != 0) {
 	    	imgSev.removeTempImg(null);
 	   	}//end if
@@ -35,15 +36,26 @@ public class RoomController {
 	    model.addAttribute("rName", rName);
 	    
 	    //객실메인 상단부에 나타날 전체 객실 조회
-	    model.addAttribute("roomList", roomSev.searchRoomInfo(rName));
+	    model.addAttribute("roomList", roomSev.searchRoomInfo(null));
+	    
 	    //특정객실 조회
 	    if(rName != null || !("".equals(rName))) {
 	    	model.addAttribute("rmVO", roomSev.searchRoomInfo(rName));
 	    	model.addAttribute("imgList", roomSev.searchOtherImg(rName));
 	    }//end if
-	    
-		return "admin_room_main";
-	}// removeRes
+
+	    return "admin/admin_room/admin_room_main";
+	}// searchRoomInfo
+	
+	@RequestMapping(value = "add_room_form.do", method = GET)
+	public String addRoomForm() {
+		// 페이지 요청 시 temp 파일 정리하고 return
+		if(imgSev.searchImgList() != null && imgSev.searchImgList().size() != 0) {
+			imgSev.removeTempImg(null);
+		}//end if
+		
+		return "admin/admin_room/admin_room_add";
+	}
 	
 	
 }//class

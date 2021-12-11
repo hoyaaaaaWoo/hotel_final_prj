@@ -6,7 +6,7 @@
 
 		<div id="header">
 		Hotel Ritz Seoul  &nbsp; &nbsp;
-		<span class="glyphicon glyphicon-home cursor" aria-hidden="true" onclick="javascript:location.href='search_today_res_list.do'"></span>
+		<span id="homeBtn" class="glyphicon glyphicon-home cursor" aria-hidden="true" onclick="javascript:location.href='admin_main.do'"></span>
 		<span class="glyphicon glyphicon-user" aria-hidden="true" id="adminImg" ></span>
 		<span style="position: absolute; right: 3px; top: 7px;"><strong>   </strong></span>
 		<span id="logOut" class="cursor" onclick="javascript:location.href=''">로그아웃</span>
@@ -14,11 +14,11 @@
 
 		<nav id="naviBar">
 			<ul>
-				<li class="navLi"><a class="navA" href=""><span
+				<li class="navLi"><a id="navMember" href=""><span
 						class="glyphicon glyphicon-triangle-right"></span> 회원관리</a></li>
-				<li class="navLi"><a class="navA" href="search_res_list.do"><span
+				<li class="navLi"><a id="navReserv" href="search_res_list.do"><span
 						class="glyphicon glyphicon-triangle-right"></span> 예약관리</a></li>
-				<li class="navLi"><a class="navA" href=""><span
+				<li class="navLi"><a id="navRoom" href="search_room.do"><span
 						class="glyphicon glyphicon-triangle-right"></span> 객실관리</a></li>
 			</ul>
 		</nav>

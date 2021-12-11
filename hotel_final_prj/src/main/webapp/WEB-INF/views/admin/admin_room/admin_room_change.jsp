@@ -126,6 +126,11 @@ width:600px;
 background-color: #F1F3F4;
 }
 
+#navRoom{
+	background-color: #454D55;
+	text-decoration: none;
+}
+
 </style>
 
 <script type="text/javascript">
