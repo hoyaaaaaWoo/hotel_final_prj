@@ -5,11 +5,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import kr.co.mvc.admin.dao.RoomDAO;
 import kr.co.mvc.admin.service.ImgUploadService;
 import kr.co.mvc.admin.service.RoomService;
+import kr.co.mvc.admin.vo.ImgFormVO;
+import kr.co.mvc.admin.vo.OtherImgVO;
+import kr.co.mvc.admin.vo.RoomVO;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
+
+import java.io.IOException;
+import java.util.List;
 
 @Controller
 public class RoomController {
@@ -26,9 +33,9 @@ public class RoomController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value = "search_room.do", method = GET)
+	@RequestMapping(value = "search_room.do", method = {GET,POST})
 	public String searchRoomInfo(String rName, Model model) {
-		// 페이지 요청 시 temp 파일 정리하고 시작
+		// 페이지 요청 시 temp 폴더 정리
 	    if(imgSev.searchImgList() != null && imgSev.searchImgList().size() != 0) {
 	    	imgSev.removeTempImg(null);
 	   	}//end if
@@ -47,15 +54,77 @@ public class RoomController {
 	    return "admin/admin_room/admin_room_main";
 	}// searchRoomInfo
 	
-	@RequestMapping(value = "add_room_form.do", method = GET)
+	/**
+	 * 객실추가 메인
+	 * @return
+	 */
+	@RequestMapping(value = "add_room_form.do", method = {GET,POST})
 	public String addRoomForm() {
-		// 페이지 요청 시 temp 파일 정리하고 return
+		//페이지 요청 시 temp 폴더 정리
 		if(imgSev.searchImgList() != null && imgSev.searchImgList().size() != 0) {
 			imgSev.removeTempImg(null);
 		}//end if
 		
 		return "admin/admin_room/admin_room_add";
-	}
+	}//addRoomForm
 	
+	
+	/**
+	 * 객실추가 process
+	 * @param rmVO
+	 * @param imgFrmVO
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "add_room_process.do", method = POST)
+	public String addRoomProcess(RoomVO rmVO, ImgFormVO imgFrmVO, Model model) {
+		//default return page : 객실추가페이지
+		String returnPage="forward:add_room_form.do";
+		List<RoomVO> dupList = roomSev.searchRoomInfo(rmVO.getRoomName());
+
+		if(dupList != null) {
+			if(!dupList.isEmpty()) {
+				model.addAttribute("dupRName", true);
+				model.addAttribute("rmVO", rmVO);
+			}//end if
+		}//end if
+		
+		//중복 객실명이 없어야 insert 진행
+		if(dupList == null || dupList.isEmpty()) {
+			int lastRoomNo = roomSev.searchLastRoomNo();
+			returnPage="forward:search_room.do";
+			if((roomSev.addRoom(rmVO, lastRoomNo, imgFrmVO))&&(roomSev.addOtherImg(rmVO, imgFrmVO))) {
+					imgSev.moveImgtoRoomImg();
+					imgSev.removeTempImg(null);
+					model.addAttribute("insertResult", true);
+			} else {
+				model.addAttribute("insertResult", false);
+			}//end else
+		}//end else
+		return returnPage;
+	}//addRoomProcess
+	
+	/**
+	 * 객실추가 메인
+	 * @return
+	 */
+	@RequestMapping(value = "change_room_form.do", method = {GET,POST})
+	public String changeRoomForm(String selectedRName, ImgFormVO imgFrmVO, Model model) {
+		// 페이지 요청 시 temp 폴더 정리
+		if(imgSev.searchImgList() != null && imgSev.searchImgList().size() != 0) {
+			imgSev.removeTempImg(null);
+		}//end if
+
+		model.addAttribute("selectedRName",selectedRName);
+		//조회된 객실정보
+		model.addAttribute("rList", roomSev.searchRoomInfo(selectedRName));
+		//조회된 기타 이미지 리스트
+		model.addAttribute("otherImgList", imgFrmVO);
+		
+		//imgSev.moveImgtoTemp(imgFrmVO);
+		
+		return "admin/admin_room/admin_room_change";
+	}//addRoomForm
 	
 }//class
+

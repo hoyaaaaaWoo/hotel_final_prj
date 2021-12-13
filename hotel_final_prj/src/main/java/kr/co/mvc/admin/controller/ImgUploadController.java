@@ -1,9 +1,7 @@
 package kr.co.mvc.admin.controller;
 
-import static org.springframework.web.bind.annotation.RequestMethod.POST;
-
 import javax.servlet.http.HttpServletRequest;
-
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,20 +15,20 @@ public class ImgUploadController {
 	@Autowired
 	private ImgUploadService imgSev;
 	
-	@RequestMapping(value = "add_img_file.do", method = POST)
+	@RequestMapping(value = "add_img_file.do", method=POST, produces = "applicaton/json;charset=UTF-8")
 	@ResponseBody
-	public String addImgFileProcess(HttpServletRequest request, String fileName) {
-		
-		return "";
+	public String addImgFileProcess(HttpServletRequest request) {
+		String imgJson = imgSev.addImgFileProcess(request);
+		return imgJson;
 	}//addImgFileProcess
 	
 	
-	@RequestMapping(value = "remove_img_file.do", method = POST)
+	@RequestMapping(value = "remove_img_file.do",method=POST, produces = "applicaton/json;charset=UTF-8")
 	@ResponseBody
 	public String removeImgFileProcess(String imgName) {
+		String imgJson = imgSev.removeImgFileProcess(imgName);
 		
-		return "";
+		return imgJson;
 	}//removeImgFileProcess
 
-	
 }//class

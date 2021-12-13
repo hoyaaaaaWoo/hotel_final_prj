@@ -74,9 +74,10 @@ td{
 }
 #page{
 	margin-top : 60px;
-	padding-left:480px;
+	padding-left:500px;
 }
-.pagination>li>a {color:#343A40}
+
+.pagination>li>a {color:#454D55}
 
 tr:hover td {
 	background-color: #F1F3F4;
@@ -219,12 +220,10 @@ $(function(){
 
 		<div id="container" style="padding:50px">
 		<form name="dateFrm" id="dateFrm" action="search_res_list.do" method="get" class="form-inline">
-		 <span id="mainMenu" onclick="javascript:location.href='search_res_list.do'">예약 조회</span><br/><br/>
-		<!--  &nbsp;&nbsp;&nbsp;&nbsp;
-		 <span id="mainMenu" onclick="javascript:location.href='search_res_list.do'">객실별 검색</span><br/><br/> -->
+		 <span id="mainMenu" onclick="location.href='search_res_list.do'">예약 조회</span><br/><br/>
 		
 		 <div id="date">
-		 <span style="font-size: 15px;color: #5f5f5f;font-weight: bold">&nbsp;※ 체크인 일자 검색</span><br/>
+		 <span style="font-size: 15px;color: #343A40;font-weight: bold">&nbsp;※ 체크인 일자 검색</span><br/>
 		 <!-- 날짜 입력/선택여부에 따라 value 설정-->
 		 	<c:choose>
 		  	 <c:when test="${not empty param.year}">
@@ -298,7 +297,7 @@ $(function(){
 		    <li><a href="#">&lt;&lt;</a></li>
 		    <c:forEach var="num" begin="1" end="${totalPage}" step="1">
 		    	<c:if test="${num eq currentPage}">
-		    		<c:set var="active" value="style='background:#F5dF4D'"/>
+		    		<c:set var="active" value="style='background:#dfdfdf'"/>
 			    </c:if>
 			    <li><a href="#" ${active}><c:out value="${num}"/></a></li>
 		    	<c:set var="active" value=""/>

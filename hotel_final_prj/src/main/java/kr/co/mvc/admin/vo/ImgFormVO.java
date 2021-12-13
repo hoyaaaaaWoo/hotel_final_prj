@@ -1,12 +1,14 @@
 package kr.co.mvc.admin.vo;
 
+import java.util.Arrays;
+
 import org.springframework.stereotype.Component;
 
 @Component
 public class ImgFormVO {
 	
 	private String mainImg;
-	private String[] otherFile;
+	private String[] otherImgs;
 	
 	public String getMainImg() {
 		return mainImg;
@@ -14,11 +16,17 @@ public class ImgFormVO {
 	public void setMainImg(String mainImg) {
 		this.mainImg = mainImg;
 	}
-	public String[] getOtherFile() {
-		return otherFile;
+	public String[] getOtherImgs() {
+		return otherImgs;
 	}
-	public void setOtherFile(String[] otherFile) {
-		this.otherFile = otherFile;
+	public void setOtherImgs(String[] otherImgs) {
+		this.otherImgs = otherImgs;
 	}
 	
+	@Override
+	public String toString() {
+		return "ImgFormVO [mainImg=" + mainImg + ", otherImgs=" + Arrays.toString(otherImgs) + ", getMainImg()="
+				+ getMainImg() + ", getOtherImgs()=" + Arrays.toString(getOtherImgs()) + ", getClass()=" + getClass()
+				+ ", hashCode()=" + hashCode() + ", toString()=" + super.toString() + "]";
+	}
 }

@@ -27,9 +27,6 @@
 	href="http://localhost/hotel_final_prj/admin/css/admin_main.css">
 <style type="text/css">
 
-#todayRes{
-height:300px;
-}
 .table{
 	margin-top: 80px;
 	margin-left: 50px;
@@ -61,11 +58,12 @@ tr:hover td {
 	cursor:pointer;
 }
 
-#page{
-	margin-top : 20px;
-	padding-left:420px;
-}
 .pagination>li>a {color:#343A40}
+
+#page{
+	margin-top : 60px;
+	padding-left: 500px;
+}
 </style>
 
 <script type="text/javascript">
@@ -94,7 +92,7 @@ $("#toDayList tr").click(function(){
 		<jsp:include page="/WEB-INF/views/admin/common/admin_header_nav.jsp"/>
 		
 		<div id="container">
-			<span id="mainMenu" onclick="javascrip:location.href='admin_main.do'">오늘의 예약</span><br/>
+			<span id="mainMenu" onclick="location.href='admin_main.do'">오늘의 예약</span><br/>
 		
 		<div id="todayRes">
 		<table  class="table table-bordered" id="toDayList">
@@ -136,6 +134,20 @@ $("#toDayList tr").click(function(){
 		 	<input type="hidden" name="day" id="day" value="${today.day}"/>
 		 </c:if>
 		 </form>
+		 
+		<c:if test="${totalPage ne 0}">
+		<ul class="pagination" id="page">
+		    <li><a href="#">&lt;&lt;</a></li>
+		    <c:forEach var="num" begin="1" end="${totalPage}" step="1">
+		    	<c:if test="${num eq currentPage}">
+		    		<c:set var="active" value="style='background:#dfdfdf'"/>
+			    </c:if>
+			    <li><a href="#" ${active}><c:out value="${num}"/></a></li>
+		    	<c:set var="active" value=""/>
+		    </c:forEach>
+		    <li><a href="#">&gt;&gt;</a></li>
+		 </ul>
+		 </c:if>
 
 		</div><!-- container div -->
 		

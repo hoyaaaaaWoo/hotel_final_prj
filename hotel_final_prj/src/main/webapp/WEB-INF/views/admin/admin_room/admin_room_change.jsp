@@ -10,8 +10,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Hotel Ritz - 객실 수정</title>
 <link rel="stylesheet" type="text/css"
-	href="http://localhost/hotel_prj/common/css/main_v20211012.css">
-
+	href="http://localhost/hotel_final_prj/common/css/main_v20211012.css">
 <!-- jQuery CDN -->
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
@@ -25,7 +24,7 @@
 
 <!-- 관리자 메인 CSS -->
 <link rel="stylesheet" type="text/css"
-	href="http://localhost/hotel_prj/admin/css/admin_main.css">
+	href="http://localhost/hotel_final_prj/admin/css/admin_main.css">
 	
 <style type="text/css">
 #tabDiv{
@@ -64,7 +63,7 @@ td{
 }
 
 th{
-	font-size:16px;
+	font-size:15px;
 	padding:10px;
 	background-color: #dfdfdf;
 	text-align: center;
@@ -104,7 +103,9 @@ img {
 }
 
 .btn{
-	margin:20px;
+	margin-top:0px;
+	margin-left:10px;
+	margin-bottom:15px;
 }
 
 #imgTabe{
@@ -318,7 +319,7 @@ $(function(){
 	//fileUpload 개수제한 이벤트 등록
 	document.getElementById("mainUpLoad").addEventListener("click", cntImg);
 	document.getElementById("otherUpLoad").addEventListener("click", cntImg);
-})//ready
+});//ready
 
 //이미지 개수 검증
 function cntImg(){
@@ -363,7 +364,7 @@ function addImg(){
 		var formData = new FormData(form);
 		
 		$.ajax({
-			url:"http://localhost/hotel_prj/admin/admin_room/admin_room_img_upload_process.jsp",
+			url:"http://localhost/hote_finall_prj/admin/admin_room/admin_room_img_upload_process.jsp",
 			type:"post",
 			data:formData,
 			dataType:"json",
@@ -410,7 +411,7 @@ function delImg(ele){
 	var queryString = "imgName="+imgName;
 	
 	$.ajax({
-		url:"http://localhost/hotel_prj/admin/admin_room/admin_room_img_delete_process.jsp",
+		url:"http://localhost/hote_finall_prj/admin/admin_room/admin_room_img_delete_process.jsp",
 		type:"post",
 		data:queryString,
 		dataType:"json",
@@ -456,23 +457,12 @@ function resetFileTag(){
 	$("#fileName").val(""); // temp 업로드용 메인파일 히든값 초기화
 }//resetFileTag
 
-//윈도우 종료 or 새로고침 시 temp 폴더의 파일 삭제
-$(window).bind("beforeunload", function(){
-	 <% 
-	    UploadImgList uil = new UploadImgList();
-	    if(uil.searchImgList() != null){
-	    	if (uil.searchImgList().size() != 0) {
-	    		uil.removeAllImg();
-	   		}//end if
-	    }//end if
-	    %>
-});
 </script>
 </head>
 <body>
 <!-- 객실 메인 페이지에서 넘어오지 않았을 경우 redirect 해주기 (객실 선택 필요) -->
 	<c:if test="${empty param.selectedRName}">
-  	  <c:redirect url="http://localhost/hotel_prj/admin/admin_room/admin_room_main.jsp"/>
+  	  <c:redirect url="http://localhost/hotel_final_prj/change_room_form.do"/>
 	</c:if> 
 	
 	<div id="wrap">
@@ -482,17 +472,9 @@ $(window).bind("beforeunload", function(){
 		
 		<!-- 컨테이너 시작  -->
 		<div id="container" style="padding:50px"> 
-		<span id="mainMenu" onclick="location.href='http://localhost/hotel_prj/admin/admin_room/admin_room_change.jsp'">객실 정보 수정</span>
+		<span id="mainMenu" onclick="location.href='change_room_form.do'">객실 정보 수정</span>
 		
-		<!-- 파라미터 받기 -->
-		<%
-		String rName = request.getParameter("selectedRName");
-		RoomSelect rs = new RoomSelect();
-		List<RoomVO> rList = rs.selectRoomInfo(rName, null);
-		pageContext.setAttribute("rList", rList);
-		%>
-		
-		<form name="roomChgFrm" id="roomChgFrm" action="http://localhost/hotel_prj/admin/admin_room/admin_room_change_process.jsp" method="get">
+		<form name="roomChgFrm" id="roomChgFrm" action="change_room_process.do" method="get">
 		<div id="tabDiv">
 		<c:forEach var="rVO" items="${rList}">
 					
@@ -550,7 +532,7 @@ $(window).bind("beforeunload", function(){
 			 	<td class="subTd">
 			 	 <select name="guestNum" id="guestNum" class="form-control sel">
 			  		<option value="none">--인원수 선택--</option>
-			  		<c:forEach var="num" begin="1" end="10" step="1"> 
+			  		<c:forEach var="num" begin="1" end="4" step="1"> 
 			  			<c:set var="selected" value=" "/>
 			  			<c:if test="${rVO.guestNum eq num}"><c:set var="selected" value="selected='selected'"/></c:if>
 			  				<option value="${num}" ${selected}><c:out value="${num}명"/></option>
@@ -630,39 +612,12 @@ $(window).bind("beforeunload", function(){
 		</c:forEach>
 		</div><!-- 테이블 div -->
 		
-		<input type="hidden" name="img" id="img"/>
-		
-		<!-- 파라미터 받기 -->
-		<%
-		//메인 이미지
-		String mainImg = request.getParameter("mainImg");
-		List<String> imgList = new ArrayList<String>();
-		imgList.add(mainImg);
-		//기타 이미지들
-		if(request.getParameterValues("otherImg") !=null){
-		String[] otherImg = request.getParameterValues("otherImg");
-		pageContext.setAttribute("otherImg", otherImg);
-		//기존 파일 temp폴더에 복사하여 이미지 변경/삭제 진행하기
-		for(String img : otherImg){
-			imgList.add(img);
-		}//end for
-		}//end if
-		
-		//temp로 이미지 옮기기
-		uil.moveImgtoTemp(imgList); 
-		pageContext.setAttribute("imgList", imgList);
-		%>
-		
-		<c:forEach var="img" items="${imgList}">
-			<input type="hidden" name="imgList" value="${img}"/>
-		</c:forEach>
-		
 		</form> <!-- roomChgFrm  -->
 
 		<br/>
 
-		<form action="http://localhost/hotel_prj/admin/admin_room/admin_room_img_upload_process.jsp" id="uploadfrm" method="post" enctype="multipart/form-data">
-		<label>* 객실 이미지</label>
+		<form action="http://localhost/hote_finall_prj/admin/admin_room/admin_room_img_upload_process.jsp" id="uploadfrm" method="post" enctype="multipart/form-data">
+		<label style="padding-left: 50px;padding-bottom:15px">* 객실 이미지</label>
 		<span style="font-size:14px;">&nbsp;(※최대 5장까지 등록 가능합니다.)</span>
 		<label for="mainFile" class="btn btn-info btn-sm" id="mainUpLoad">메인 이미지 추가</label>
 			<input type="file" name ="mainFile" id="mainFile" style="display: none;"/>
@@ -686,27 +641,25 @@ $(window).bind("beforeunload", function(){
 			<tr class="imgTr">
 				<c:set var="i" value="${ i+1 }"/>
 				<td class="imgTd"> 1 </td>
-				<td class="imgTd" style="font-weight:bold"><%=mainImg %></td>
+				<td class="imgTd" style="font-weight:bold"><c:out value="${otherImgList.mainImg}"/></td>
 				<td class="imgTd">
 				<input type="button" name="delBtn" class="delBtn btn btn-default btn-sm" 
 				style="margin:0px;font-size:13px" value="삭제" onclick="delImg(this)"/></td>
 			</tr>
-			<c:if test="${not empty param.otherImg}">
-			<c:forEach var="img" items="${otherImg}">	
+			<c:forEach var="otherImg" items="${otherImgList.otherImgs}">	
 				<tr>
 				<c:set var="i" value="${ i+1 }"/>
 				<td class="imgTd"><c:out value= "${i}"/></td>
-				<td class="imgTd" style="font-weight:bold"><c:out value="${img}"/></td>
+				<td class="imgTd" style="font-weight:bold"><c:out value="${otherImg}"/></td>
 				<td class="imgTd">
 				<input type="button" name="delBtn" class="delBtn btn btn-default btn-sm" 
 				style="margin:0px;font-size:13px" value="삭제" onclick="delImg(this)"/></td>
 				</tr>
 			</c:forEach>
-			</c:if>
 		</table>
 		</div> <!-- imgDiv -->
 		</form> <!-- imgFrm  -->
-		
+		<br/>
 		<div id="btnGroup">
 			<input type="button" id="chgBtn" name="chgBtn" class="btn btn-primary btn-lg" value="수정"/>
 			<input type="button" id="hideBtn" name="hideBtn" class="btn btn-danger btn-lg" value="비활성화"/>
@@ -714,7 +667,7 @@ $(window).bind("beforeunload", function(){
 			<input type="reset" id="cancelBtn" name="cancelBtn" class="btn btn-default btn-lg" value="취소"/>
 		</div>
 		
-		<form name="statusFrm" id="statusFrm" action="http://localhost/hotel_prj/admin/admin_room/admin_room_status_update_process.jsp" method="get">
+		<form name="statusFrm" id="statusFrm" action="change_roomStatus_process.do" method="get">
 			<input type="hidden" name="rStatus" id="rStatus"/>
 			<input type="hidden" name="statusRNo" id="statusRNo"/>
 		</form>

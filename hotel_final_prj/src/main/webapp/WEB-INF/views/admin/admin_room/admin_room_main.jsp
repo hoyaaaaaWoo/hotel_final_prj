@@ -74,6 +74,15 @@
 
 </style>
 <script type="text/javascript">
+<c:choose>
+<c:when test="${insertResult eq 'true'}">
+	alert("객실이 정상적으로 추가되었습니다.");
+</c:when>
+<c:when test="${insertResult eq 'false'}">
+	alert("죄송합니다. 잠시 후 다시 시도해주세요.");
+</c:when>
+</c:choose>
+
 $(function(){
 	
 	//객실추가 시 
@@ -85,7 +94,33 @@ $(function(){
 	 $("#chgBtn").click(function(){
 		 var room =$("#roomName").val();
 		 $("#selectedRName").val(room);
-		 $("#chgFrm").submit();
+		 
+		//조회된 이미지명을 담은 input type을 생성하여 form에 추가 후 submit 
+			var imgList = document.getElementById("imgTable");
+		    var chgFrm = $("#chgFrm")[0]; // 객실추가 form
+		    var otherImgArr = new Array(); //기타이미지 담을 배열
+		    var imgName; //for에서 이미지명 담을 변수
+		    
+			for (var i = 0; i < imgList.rows[0].cells.length; i++) {
+				var imgName = imgList.rows[0].cells[i].innerText;
+				if((imgName.indexOf("main")) != -1){
+					var mainInput = document.createElement("input");
+					mainInput.type = "hidden";
+					mainInput.name = "mainImg";
+					mainInput.value = imgName;
+					chgFrm.appendChild(mainInput);
+				}else{
+					otherImgArr.push(imgName)
+				}//end else
+			}//end for
+			
+				var otherInput = document.createElement("input");
+				otherInput.type = "hidden";
+				otherInput.name = "otherImgs";
+				otherInput.value = otherImgArr;
+				chgFrm.appendChild(otherInput);
+		 
+		$("#chgFrm").submit();
 	 });//click
 	 
 });//ready 
@@ -106,7 +141,7 @@ function showRoomDetail(roomName){
 		
 		<!-- 컨테이너 시작 -->
 		<div id="container" style="padding:50px"> 
-		<span id="mainMenu" onclick="javascript:location.href='search_room.do'">객실 조회</span><br/><br/>
+		<span id="mainMenu" onclick="location.href='search_room.do'">객실 조회</span><br/><br/>
 		<input type="button" id="addBtn" class="btn btn-primary" value="객실 추가"/>
 		
 		<div id="roomList"> 
@@ -138,7 +173,7 @@ function showRoomDetail(roomName){
 		<c:if test="${ not empty param.rName }">
 		
 		<div id="viewRoom">
-		<form name ="chgFrm" id ="chgFrm"  action="http://localhost/hotel_final_prj/admin/admin_room/admin_room_change.jsp" method="post">
+		<form name ="chgFrm" id ="chgFrm"  action="change_room_form.do" method="post">
 		<input type="button" id="chgBtn" name="chgBtn" class="btn btn-primary" value="객실 정보 수정"/>
 			<input type="hidden" name="selectedRName" id="selectedRName"/>
 		<br/>
@@ -239,16 +274,24 @@ function showRoomDetail(roomName){
 		
 		<label style="margin-left:13px">객실 이미지 </label>
 		<br/>
-		<img src="http://localhost/hotel_final_prj/roomImages/${rmVO.img}" title="${rmVO.img}" name="img" class="viewImg"/>
-		<input type="hidden" name="mainImg" value="${rmVO.img}"/>
+		<c:set var="mainImg" value="${rmVO.img}"/>
 		</c:forEach>
-
+		
+		<table class="table" style="width:70%" id="imgTable">
+		<tr><td style="width:20px;height: 20px;text-align: center;">
+		<img src="http://localhost/hotel_final_prj/roomImages/${mainImg}" title="${mainImg}" name="img" id="mainImg" class="viewImg"/>
+		<span style="font-weight: bold;font-size: 14px"><c:out value="${mainImg}"/></span>
+ 		</td>
  		<c:if test="${not empty imgList}">
 		 <c:forEach var="img" items="${imgList}">
-		   <img src="http://localhost/hotel_final_prj/roomImages/${img.imgSrc}" title="${img.imgSrc}" name="img" class="viewImg"/>
-			<input type="hidden" name="otherImg" value="${img.imgSrc}" />
+		 <td style="width:20px;height: 20px;text-align: center;">
+		   <img src="http://localhost/hotel_final_prj/roomImages/${img.imgSrc}" title="${img.imgSrc}" name="img" id="otherImg" class="viewImg"/>
+			<span style="font-weight: bold;font-size: 14px"><c:out value="${img.imgSrc}"/></span>
+		 </td>
 		 </c:forEach>
 		</c:if> <!-- not empty imgList -->
+		</tr>
+		</table>
 		</form> <!-- chgFrm -->
 		
 		</div> <!-- view room div  -->

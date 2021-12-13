@@ -1,6 +1,7 @@
 package kr.co.mvc.admin.service;
 
 import java.io.File;
+
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -13,7 +14,11 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.stereotype.Component;
+
+import com.oreilly.servlet.MultipartRequest;
 
 import kr.co.mvc.admin.vo.ImgFormVO;
 import kr.co.mvc.admin.vo.ImgUploadVO;
@@ -21,18 +26,72 @@ import kr.co.mvc.admin.vo.ImgUploadVO;
 @Component
 public class ImgUploadService {
 
-	public String addImgFileProcess(HttpServletRequest request, String fileName) {
-		File tempFolder = new File("C:/Users/user/git/hotel_final_prj/hotel_final_prj/src/main/webapp/temp");
+	public String addImgFileProcess(HttpServletRequest request) {
+
+		//temp폴더에 파일 업로드
+		File uploadPath = new File("C:/Users/user/git/hotel_final_prj/hotel_final_prj/src/main/webapp/temp");
+
+		if(!uploadPath.exists()){ // 경로에 업로드 폴더가 없으면 생성
+			uploadPath.mkdirs();
+		}//end if
 		
-		if(!tempFolder.exists()) {
-			tempFolder.mkdirs();
-		}
-		
-		return "";
+		int maxSize = 1024*1024*5; // 5 Mbyte
+		MultipartRequest mr = null;
+		JSONObject imgJson = null;
+		try {
+			mr = new MultipartRequest(request, uploadPath.getAbsolutePath(), maxSize, "UTF-8");
+			
+			String fileName = mr.getParameter("fileName");
+			
+			//main이미지로 등록되었으면 파일명 변경하여 저장
+			if(!("".equals(fileName)) && fileName != null){
+				markMainImg(fileName);
+			}//end if
+			
+			//temp 파일에 있는 이미지 리스트 조회하여 JSONObject로 Return 
+			List<ImgUploadVO> imgList = searchImgList();
+			imgJson = new JSONObject();
+			
+			JSONArray ja = new JSONArray();
+			JSONObject jo = new JSONObject();
+			for(ImgUploadVO imgVO : imgList){
+				jo = new JSONObject();
+				jo.put("imgName", imgVO.getImgName());
+				jo.put("imgLeng", imgVO.getImgLength() + " KB");
+				ja.add(jo);
+			}//end if	
+			
+			imgJson.put("imgData", ja);
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}//end catch
+
+		return imgJson.toJSONString();
 	}//addImgFileProcess
 	
+	
 	public String removeImgFileProcess(String imgName) {
-		return "";
+		
+		//특정이미지 삭제 후 temp폴더에 있는 이미지 리스트 재조회
+		removeTempImg(imgName);
+		List<ImgUploadVO> imgList = searchImgList();
+			
+		//다시 조회한 이미지 리스트 json에 할당
+		JSONObject imgJson = new JSONObject();
+		
+		JSONArray ja = new JSONArray();
+		JSONObject jo = new JSONObject();
+		for(ImgUploadVO imgVO : imgList){
+			jo = new JSONObject();
+			jo.put("imgName", imgVO.getImgName());
+			jo.put("imgLeng", imgVO.getImgLength() + " KB");
+			ja.add(jo);
+		}//end for
+		
+		imgJson.put("imgData", ja);
+		
+		return imgJson.toJSONString();
 	}//removeImgFileProcess
 	
 	
@@ -113,12 +172,11 @@ public class ImgUploadService {
 		}
 	}//CompareDateAsc
 
-	
 	/**
 	 * 객실추가 성공 시 temp에 있는 사진들을 roomImages폴더로 이동
 	 * @throws IOException
 	 */
-	public void moveImgtoRoomImg() throws IOException {
+	public void moveImgtoRoomImg() {
 		// 원 폴더
 		File tempFolder = new File("C:/Users/user/git/hotel_final_prj/hotel_final_prj/src/main/webapp/temp");
 		// 복사할 폴더
@@ -126,18 +184,19 @@ public class ImgUploadService {
 		
 		if(!tempFolder.exists()) {
 			tempFolder.mkdirs();
-		}
+		}//end if
 		if(!imgFolder.exists()) {
 			imgFolder.mkdirs();
-		}
+		}//end if
 		
 		// 원 폴더의 파일수만큼 파일 배열 생성
 		File[] fileList = tempFolder.listFiles();
 
 		FileInputStream fis = null;
 		FileOutputStream fos = null;
-
+		
 		try {
+			//파일 복사
 			for (File file : fileList) {
 				File temp = new File(imgFolder.getAbsolutePath() + "/" + file.getName());
 
@@ -151,13 +210,20 @@ public class ImgUploadService {
 				} // end while
 			} // end for
 			fos.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
 		} finally {
-			if (fis != null) {
+			//연결 끊기
+			if (fis != null) {try {
 				fis.close();
-			}
-			if (fos != null) {
+			} catch (IOException e) {
+				e.printStackTrace();
+			}}//end catch
+			if (fos != null) {try {
 				fos.close();
-			}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}}//end catch
 		} // finally
 	}// moveImgtoRoomImg
 	
@@ -167,7 +233,7 @@ public class ImgUploadService {
 	 * param과 일치하는 이미지들을 roomImages에서 찾아서 temp에 복사
 	 * @throws IOException
 	 */
-	public void moveImgtoTemp(ImgFormVO ifrmVO) throws IOException {
+	public void moveImgtoTemp(ImgFormVO imgfrmVO) {
 //		// 원 폴더
 //		File imgFolder = new File("C:/Users/user/git/hotel_final_prj/hotel_final_prj/src/main/webapp/roomImages");
 //		// 복사할 폴더
@@ -214,14 +280,12 @@ public class ImgUploadService {
 	 */
 	public void removeTempImg(String fileName) {
 		File temp = new File("C:/Users/user/git/hotel_final_prj/hotel_final_prj/src/main/webapp/temp");
-		
 		//폴더가 없거나 비어있으면 return
-		if (temp.exists() || temp.listFiles().length ==0) {
+		if (!temp.exists() || temp.listFiles().length ==0) {
 			return;
 		}//end if
 		
 		File[] listFiles = temp.listFiles();
-		
 		if(fileName == null || "".equals(fileName)) { // fileName이 null | empty일 경우 temp 폴더의 파일 전체삭제
 			for (int i = 0; i < listFiles.length; i++) {
 				System.gc();
@@ -242,7 +306,7 @@ public class ImgUploadService {
 	/**
 	 * 객실 수정 완료 후 삭제된 roomImages의 파일 삭제 
 	 */
-	public void removeRoomImg(ImgFormVO iFormVO) {
+	public void removeRoomImg(ImgFormVO imgfrmVO) {
 		
 	}// removeOriginalImg
 	

@@ -49,7 +49,7 @@ td{
 	text-align: left;
 	padding-top:10px;
 	padding-left: 30px;
-	padding-bottom: 25px;
+	padding-bottom: 30px;
 	font-size:16px;
 }
 
@@ -193,7 +193,7 @@ $(function(){
 		<jsp:include page="/WEB-INF/views/admin/common/admin_header_nav.jsp"/>
 		
 		<div id="container" style="padding:50px">
-		<span id="mainMenu" onclick="javascript:location.href='chagne_res_form.do?resNum=${ruVO.resNo}'">예약변경</span><br/><br/>
+		<span id="mainMenu" onclick="location.href='change_res_form.do?resNum=${ruVO.resNo}'">예약 변경</span><br/><br/>
 		<form name="chgFrm" id="chgFrm" action="change_res_process.do" method="post" class="form-inline">
 		 
 		 <table>

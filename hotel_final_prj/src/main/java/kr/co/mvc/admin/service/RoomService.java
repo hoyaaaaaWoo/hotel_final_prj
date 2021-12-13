@@ -7,6 +7,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;
 
 import kr.co.mvc.admin.dao.RoomDAO;
+import kr.co.mvc.admin.vo.ImgFormVO;
 import kr.co.mvc.admin.vo.OtherImgVO;
 import kr.co.mvc.admin.vo.RoomVO;
 
@@ -50,4 +51,71 @@ public class RoomService {
 		return imgList;
 	}//searchOtherImg
 	
+	
+	/**
+	 * 객실 추가 시, 가장 끝번호의 RoomNo를 조회하여 사용
+	 * @return
+	 */
+	public int searchLastRoomNo(){
+		int num=0;
+		try {
+			num = roomDAO.selectLastRoomNo();
+		}catch(DataAccessException dae) {
+			dae.printStackTrace();
+		}//end catch
+		return num;
+	}//searchLastRoomNo
+	
+	
+	/**
+	 * 객실 추가
+	 * @param rmVO
+	 * @param lastRoomNo
+	 * @param imgFrmVO
+	 * @return
+	 */
+	public boolean addRoom(RoomVO rmVO, int lastRoomNo, ImgFormVO imgFrmVO) {
+		boolean flag = false;
+		try {
+			flag = roomDAO.insertRoom(rmVO, lastRoomNo, imgFrmVO);
+		}catch(DataAccessException dae) {
+			dae.printStackTrace();
+		}//end catch
+		return flag;
+	}//addRoom 
+	
+	
+	/**
+	 * 기타이미지 존재 시, 이미지 추가
+	 * @param rmVO
+	 * @param imgFrmVO
+	 * @return
+	 */
+	public boolean addOtherImg(RoomVO rmVO, ImgFormVO imgFrmVO) {
+		boolean flag = false;
+		try {
+			flag = roomDAO.insertOtherImg(rmVO, imgFrmVO);
+		}catch(DataAccessException dae) {
+			dae.printStackTrace();
+		}//end catch
+		return flag;
+	}//addOtherImg
+	
+
+	/**
+	 * 객실 수정 시, 중복 객실명 조회
+	 * @param rmVO
+	 * @return
+	 */
+	public List<String> searchDupRoomName(RoomVO rmVO) {
+		List<String> list = null;
+		try {
+			list = roomDAO.selectDupRoomName(rmVO);
+		}catch(DataAccessException dae) {
+			dae.printStackTrace();
+		}//end catch
+		return list;
+	}//searchDupRoomName
+	
 }// class
+

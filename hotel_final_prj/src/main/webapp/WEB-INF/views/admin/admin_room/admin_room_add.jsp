@@ -48,6 +48,7 @@ label{
 	font-size:16px;
 	font-weight:bold;
 	margin-top: 10px;
+	padding-bottom: 10px;
 }
 
 .form-control{
@@ -63,7 +64,7 @@ td{
 }
 
 th{
-	font-size:16px;
+	font-size:15px;
 	padding:10px;
 	background-color: #dfdfdf;
 	text-align: center;
@@ -103,7 +104,9 @@ img {
 }
 
 .btn{
-	margin:20px;
+	margin-top:0px;
+	margin-left:10px;
+	margin-bottom:15px;
 }
 
 .imgTh{
@@ -129,6 +132,11 @@ background-color: #F1F3F4;
 </style>
 
 <script type="text/javascript">
+<c:if test="${dupRName eq true}">
+	alert("동일한 이름의 객실은 추가할 수 없습니다.");
+</c:if>
+
+
 $(function(){
 	//submit 클릭
 	$("#addBtn").click(function(){
@@ -147,12 +155,12 @@ $(function(){
 		let guestNum = $("#guestNum").val();
 		let view = $("#view").val(); 
 		
-		if(roomName=="" || price=="" || mainDesc=="" || roomSize=="" || chkIn=="" || chkOut=="" ||
+ 		if(roomName=="" || price=="" || mainDesc=="" || roomSize=="" || chkIn=="" || chkOut=="" ||
 				specialServ=="" || generalAmn=="" || bathAmn=="" || otherAmn=="" || moreInfo=="" ||
 				type=="none"||guestNum=="none"||view=="none"){
 			alert("객실의 정보를 모두 기입해주세요.");
 			return;
-		}//end if
+		}//end if  
 		
 		// 이미지 등록 안 되어있을 경우 alert
 		var imgList = document.getElementById("imgTable");
@@ -161,17 +169,33 @@ $(function(){
 			return;
 		}//end if
 		
-		//테이블에 'main' img가 없을 경우 alert
-		var flag = false;
-		if(imgList.rows[1].cells.length ==3){
+		//이미지 테이블의 이미지명을 담은 input type을 생성하여 form에 추가 후 submit 
+	    var roomAddFrm = $("#roomAddFrm")[0]; // 객실추가 form
+	    var otherImgArr = new Array(); //기타이미지 담을 배열
+	    var flag = false; //메인이미지 포함여부 체크 flag
+	    var imgName; //for에서 이미지명 담을 변수
+	    
+		if(imgList.rows[1].cells.length == 3){
 			for (var i = 1; i < imgList.rows.length; i++) {
 				var imgName = imgList.rows[i].cells[1].innerText;
-				if((imgName.indexOf("main")) != -1){ // main img가 있다면 break
-					flag=true;
-					break;
-				}//end if
+				if((imgName.indexOf("main")) != -1){
+					flag = true;
+					var mainInput = document.createElement("input");
+					mainInput.type = "hidden";
+					mainInput.name = "mainImg";
+					mainInput.value = imgName;
+					roomAddFrm.appendChild(mainInput);
+				}else{
+					otherImgArr.push(imgName)
+				}//end else
 			}//end for
 		}//end if
+			var otherInput = document.createElement("input");
+			otherInput.type = "hidden";
+			otherInput.name = "otherImgs";
+			otherInput.value = otherImgArr;
+			roomAddFrm.appendChild(otherInput);
+		
 		if(!flag){
 			alert("메인이미지는 필수입니다.");
 			return;
@@ -179,7 +203,6 @@ $(function(){
 		
 		$("#roomAddFrm").submit();
 	})//submit
-	
 	
 	//가격 숫자형식 체크
 	$("#price").keyup(function(evt){
@@ -227,7 +250,6 @@ $(function(){
 	$("#mainFile").change(function(){
 		var fileName = this.files[0].name;
 		$("#fileName").val(fileName); // temp 파일 업로드용
-		$("#img").val(fileName); // DB insert용
 		
 		var flag = expCheck(fileName);
 		if(!flag){
@@ -241,25 +263,21 @@ $(function(){
 	let upFlag=false;
 	$("#otherFile").change(function(){
 		$("#fileName").val("");
-/*
-		 if(!upFlag){
 
-		setTimeout(this, 1000);
-		upFlag=true;
-		}else{
-		upFlag=false;
-			
-		} 
-*/
 		var selectedFileName=this.files[0].name;
-		 var imgList = document.getElementById("imgTable");
+		var imgList = document.getElementById("imgTable");
 		var flag = false;
+		
+		//기타이미지 첫 등록이면 하기 검증을 수행할 필요 없음
+		if(imgList.rows[1].cells[0].innerText == "이미지를 추가해주세요"){
+			return;
+		}//end if
 		
 		for (var i = 1; i < imgList.rows.length; i++) {
 			//테이블의 파일명 추출해서 main 체크
 			var imgName = imgList.rows[i].cells[1].innerText;
 			originalFileName=imgName.substring(0,imgName.lastIndexOf("_main"))+imgName.substring(imgName.lastIndexOf("."))
-			if(originalFileName == selectedFileName){ 
+			if(originalFileName == selectedFileName){
 				flag = true;
 				break;
 			}//end if
@@ -275,13 +293,13 @@ $(function(){
 		var flag = expCheck(selectedFileName);
 		if(!flag){
 			return;
-		}
+		}//end if
 	})//otherFile
 	
 	
 	$("#cancelBtn").click(function(){
 		alert("객실 추가를 취소합니다.");
-		location.href="http://localhost/hotel_final_prj/admin/admin_room/admin_room_main.jsp";
+		location.href="search_room.do";
 	});//click
 	
 	//ajax 이벤트 등록
@@ -290,7 +308,7 @@ $(function(){
 	//fileUpload 개수제한 이벤트 등록
 	document.getElementById("mainUpLoad").addEventListener("click", cntImg);
 	document.getElementById("otherUpLoad").addEventListener("click", cntImg);
-})//ready
+});//ready
 
 //이미지 개수 검증
 function cntImg(){
@@ -335,7 +353,7 @@ function addImg(){
 		var formData = new FormData(form);
 		
 		$.ajax({
-			url:"http://localhost/hotel_final_prj/admin/admin_room/admin_room_img_upload_process.jsp",
+			url:"add_img_file.do",
 			type:"post",
 			data:formData,
 			dataType:"json",
@@ -383,7 +401,7 @@ function delImg(ele){
 	var queryString = "imgName="+imgName;
 	
 	$.ajax({
-		url:"http://localhost/hotel_final_prj/admin/admin_room/admin_room_img_delete_process.jsp",
+		url:"remove_img_file.do",
 		type:"post",
 		data:queryString,
 		dataType:"json",
@@ -429,7 +447,6 @@ function resetFileTag(){
 	$("#fileName").val(""); // temp 업로드용 메인파일 히든값 초기화
 }//resetFileTag
 
-});
 </script>
 </head>
 <body>
@@ -440,25 +457,25 @@ function resetFileTag(){
 	
 		<!-- 컨테이너 시작  -->
 		<div id="container">
-		<span id="mainMenu" onclick="javascript:add_room_form.do'">객실 추가</span>
+		<span id="mainMenu" onclick="location.href='add_room_form.do'">객실 추가</span>
 		
-		<form name="roomAddFrm" id="roomAddFrm" action="add_room_process.do" method="get">
+		<form name="roomAddFrm" id="roomAddFrm" action="add_room_process.do" method="post">
 		<div id="tabDiv">
 		<table id="mainTab">
 		<tr>
 			<td>
 			  <label>* 객실명 </label><br/>
-			  <input type="text" name="roomName" id="roomName" class="form-control" maxlength="10" placeholder="객실명"/>
+			  <input type="text" name="roomName" id="roomName" class="form-control" maxlength="10" placeholder="객실명" value="${rmVO.roomName }"/>
 			</td>
 			<td>
 			  <label>* 1박 가격(원)</label><br/>
-			  <input type="text" name="price" id="price" class="form-control" maxlength="8"  placeholder="숫자만 입력"/>
+			  <input type="text" name="price" id="price" class="form-control" maxlength="8"  placeholder="숫자만 입력" value="${rmVO.price}"/>
 			</td>
 		</tr>
 		<tr>
 			<td colspan="2">
 			  <label>* 메인 설명</label><br/>
-			  <textarea id="mainDesc" name="mainDesc" rows="5" cols="90" placeholder="객실 메인 설명"></textarea>
+			  <textarea id="mainDesc" name="mainDesc" rows="5" cols="90" placeholder="객실 메인 설명"><c:out value="${rmVO.mainDesc}"/></textarea>
 			</td>
 		</tr>
 		<tr>
@@ -470,11 +487,21 @@ function resetFileTag(){
 			 	<td class="subTd">
 			 	 <select name="type" id="type" class="form-control sel">
 			  		<option value="none">--타입 선택--</option>
-			  		<option value="더블">더블</option>
-			  		<option value="더블 2개">더블 2개</option>
-			  		<option value="온돌">온돌</option>
-			  		<option value="킹">킹</option>
-			  		<option value="킹 2개">킹 2개</option>
+			  		<c:set var="selected" value=" "/>
+			  		<c:if test="${rmVO.type eq '더블'}"><c:set var="selected" value="selected='selected'"/></c:if>
+			  			<option value="더블" ${selected}>더블</option>
+			  		<c:set var="selected" value=" "/>
+			  		<c:if test="${rmVO.type eq '더블 2개'}"><c:set var="selected" value="selected='selected'"/></c:if>
+			  			<option value="더블 2개" ${selected}>더블 2개</option>
+			  		<c:set var="selected" value=" "/>
+			  		<c:if test="${rmVO.type eq '온돌'}"><c:set var="selected" value="selected='selected'"/></c:if>
+			  			<option value="온돌" ${selected}>온돌</option>
+			  		<c:set var="selected" value=" "/>
+			  		<c:if test="${rmVO.type eq '킹'}"><c:set var="selected" value="selected='selected'"/></c:if>
+			  			<option value="킹" ${selected}>킹</option>
+			  		<c:set var="selected" value=" "/>
+			  		<c:if test="${rmVO.type eq '킹 2개'}"><c:set var="selected" value="selected='selected'"/></c:if>
+			  			<option value="킹 2개" ${selected}>킹 2개</option>
 				 </select>
 			    </td>
 			  	<th>투숙인원</th>
@@ -482,7 +509,9 @@ function resetFileTag(){
 			 	 <select name="guestNum" id="guestNum" class="form-control sel">
 			  		<option value="none">--인원수 선택--</option>
 			  		<c:forEach var="num" begin="1" end="4" step="1"> 
-			  		<option value="${num}"><c:out value="${num}명"/></option>
+			  		<c:set var="selected" value=" "/>
+			  			<c:if test="${rmVO.guestNum eq num}"><c:set var="selected" value="selected='selected'"/></c:if>
+			  				<option value="${num}" ${selected}><c:out value="${num}명"/></option>
 			  		</c:forEach>
 				 </select>
 			    </td>
@@ -490,26 +519,32 @@ function resetFileTag(){
 			  <tr>
 			  	<th>객실면적(m<sup>2</sup>)</th>
 			 	<td class="subTd">
-			 	<input type="text" name="roomSize" id="roomSize" class="form-control" maxlength="10" placeholder="숫자만 또는 숫자~숫자"/>
+			 	<input type="text" name="roomSize" id="roomSize" class="form-control" maxlength="10" placeholder="숫자만 또는 숫자~숫자" value="${rmVO.roomSize}"/>
 			    </td>
 			  	<th>전망</th>
 			 	<td class="subTd">
 			 	 <select name="view" id="view" class="form-control sel">
 			  		<option value="none">--전망 선택--</option>
-			  		<option value="시티뷰">시티뷰</option>
-			  		<option value="리버뷰">리버뷰</option>
-			  		<option value="욕실전망">욕실전망</option>
+			  		<c:set var="selected" value=" "/>
+			  		<c:if test="${rmVO.view eq '시티뷰'}"><c:set var="selected" value="selected='selected'"/></c:if>
+			  			<option value="시티뷰" ${selected}>시티뷰</option>
+			  		<c:set var="selected" value=" "/>
+			  		<c:if test="${rmVO.view eq '리버뷰'}"><c:set var="selected" value="selected='selected'"/></c:if>
+			  			<option value="리버뷰"  ${selected}>리버뷰</option>
+			  		<c:set var="selected" value=" "/>
+			  		<c:if test="${rmVO.view eq '욕실전망'}"><c:set var="selected" value="selected='selected'"/></c:if>
+			  			<option value="욕실전망"  ${selected}>욕실전망</option>
 				 </select>
 				</td>
 				</tr>
 				<tr>
 			  	<th>체크인</th>
 			 	<td class="subTd">
-			 	<input type="text" name="chkIn" id="chkIn" class="form-control" maxlength="5" value="15:00" placeholder="15:00"/>
+			 	<input type="text" name="chkIn" id="chkIn" class="form-control" maxlength="5" value="15:00" placeholder="15:00" value="${rmVO.chkIn}"/>
 			    </td>
 			  	<th>체크아웃</th>
 			 	<td class="subTd">
-			 	<input type="text" name="chkOut" id="chkOut" class="form-control" maxlength="5" value="12:00" placeholder="12:00"/>
+			 	<input type="text" name="chkOut" id="chkOut" class="form-control" maxlength="5" value="12:00" placeholder="12:00" value="${rmVO.chkOut}"/>
 			   </td>
 			  </tr>
 			  </table>
@@ -517,7 +552,7 @@ function resetFileTag(){
 		<tr>
 			<td colspan="2">
 			  <label>* 특별 서비스</label><br/>
-			  <textarea id="specialServ" name="specialServ" rows="6" cols="90" placeholder="특별 서비스"></textarea>
+			  <textarea id="specialServ" name="specialServ" rows="6" cols="90" placeholder="특별 서비스"><c:out value="${rmVO.specialServ}"/></textarea>
 			</td>
 		</tr>
 		<tr>
@@ -527,39 +562,37 @@ function resetFileTag(){
 			  <tr>
 			  	<th>일반</th>
 			  	<td class="subTd">
-				 <textarea name="generalAmn" id="generalAmn" rows="2" cols="80" placeholder="일반 어메니티"></textarea>
+				 <textarea name="generalAmn" id="generalAmn" rows="2" cols="80" placeholder="일반 어메니티"><c:out value="${rmVO.generalAmn}"/></textarea>
 			  	</td>
 			  </tr>
 			  <tr>
 			  	<th>욕실</th>
 			  	<td class="subTd">
-				 <textarea name="bathAmn" id="bathAmn" rows="2" cols="80" placeholder="욕실 어메니티"></textarea>
+				 <textarea name="bathAmn" id="bathAmn" rows="2" cols="80" placeholder="욕실 어메니티"><c:out value="${rmVO.bathAmn}"/></textarea>
 			  	</td>
 			  </tr>
 			  <tr>
 			  	<th>기타</th>
 			  	<td class="subTd">
-				 <textarea name="otherAmn" id="otherAmn" rows="2" cols="80" placeholder="기타 어메니티"></textarea>
+				 <textarea name="otherAmn" id="otherAmn" rows="2" cols="80" placeholder="기타 어메니티"><c:out value="${rmVO.otherAmn}"/></textarea>
 			  	</td>
 			  </tr>
 			  </table>
 		<tr>
 			<td colspan="2">
 			  <label>* 추가 정보</label><br/>
-			  <textarea id="moreInfo" name="moreInfo" rows="7" cols="90" placeholder="추가 정보"></textarea>
+			  <textarea id="moreInfo" name="moreInfo" rows="7" cols="90" placeholder="추가 정보"><c:out value="${rmVO.moreInfo}"/></textarea>
 			</td>
 		</tr>
 		</table>
 		</div><!-- 테이블 div -->
 		
-		<input type="hidden" name="img" id="img"/>
- 		
 		</form> <!-- roomAddFrm  -->
 
 		<br/>
 
-		<form action="http://localhost/hotel_final_prj/admin/admin_room/admin_room_img_upload_process.jsp" id="uploadfrm" method="post" enctype="multipart/form-data">
-		<label>* 객실 이미지</label>
+		<form action="add_img_file.do" id="uploadfrm" method="post" enctype="multipart/form-data">
+		<label style="padding-left: 50px;padding-bottom:15px">* 객실 이미지</label>
 		<span style="font-size:14px;">&nbsp;(※최대 5장까지 등록 가능합니다.)</span>
 		<label for="mainFile" class="btn btn-info btn-sm" id="mainUpLoad">메인 이미지 추가</label>
 			<input type="file" name ="mainFile" id="mainFile" style="display: none;"/>
@@ -585,14 +618,13 @@ function resetFileTag(){
 		</table>
 		</div> 
 		</form>
-		
+		<br/>
 		<div id="btnGroup">
 			<input type="button" id="addBtn" name="addBtn" class="btn btn-primary btn-lg" value="추가"/>
 			<input type="reset" id="cancelBtn" name="cancelBtn" class="btn btn-default btn-lg" value="취소"/>
 		</div> <!-- btnGroup div -->
 		
 		</div><!-- 컨테이너 div -->
-		
 		<!-- footer import -->
 		<jsp:include page="/admin/common/admin_footer.jsp"/>
 		

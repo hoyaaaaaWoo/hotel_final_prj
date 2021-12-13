@@ -11,8 +11,7 @@ import org.springframework.stereotype.Component;
 public class RoomVO {
 
 	private String rStatus, roomNum, roomName, mainDesc, type, roomSize, view, chkIn, chkOut, specialServ, generalAmn,
-			bathAmn, otherAmn, moreInfo, img, inputDate, price;
-	private int guestNum;
+			bathAmn, otherAmn, moreInfo, img, inputDate, price, guestNum;
 
 	
 	public String getrStatus() {
@@ -151,13 +150,21 @@ public class RoomVO {
 		this.price = price;
 	}
 
-	public int getGuestNum() {
+	public String getGuestNum() {
 		return guestNum;
 	}
 
-	public void setGuestNum(int guestNum) {
+	public void setGuestNum(String guestNum) {
 		this.guestNum = guestNum;
 	}
 
+	@Override
+	public String toString() {
+		return "RoomVO [rStatus=" + rStatus + ", roomNum=" + roomNum + ", roomName=" + roomName + ", mainDesc="
+				+ mainDesc + ", type=" + type + ", roomSize=" + roomSize + ", view=" + view + ", chkIn=" + chkIn
+				+ ", chkOut=" + chkOut + ", specialServ=" + specialServ + ", generalAmn=" + generalAmn + ", bathAmn="
+				+ bathAmn + ", otherAmn=" + otherAmn + ", moreInfo=" + moreInfo + ", img=" + img + ", inputDate="
+				+ inputDate + ", price=" + price + ", guestNum=" + guestNum + "]";
+	}
 
 }// class
