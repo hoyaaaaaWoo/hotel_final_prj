@@ -125,10 +125,11 @@ public class ReservationController {
 	 */
 	@RequestMapping(value = "change_res_form.do", method = {GET,POST})
 	public String chagneResForm(String resNum, Model model) {
-		model.addAttribute("resNum", resNum);
-		model.addAttribute("ruVO", resSev.searchOneRes(resNum));
-		model.addAttribute("roomList", resSev.searchAvailableRoomList());
-		
+		if(resNum != null && !"".equals(resNum)) {
+			model.addAttribute("resNum", resNum);
+			model.addAttribute("ruVO", resSev.searchOneRes(resNum));
+			model.addAttribute("roomList", resSev.searchAvailableRoomList());
+		}//end if
 		return "admin/admin_reservation/admin_reservation_change";
 	}// chagneResForm
 

@@ -92,19 +92,19 @@ tr:hover td {
 </style>
 
 <script type="text/javascript">
-
+//예약삭제 결과 메시지
 <c:choose>
 	<c:when test="${delResult eq 'true'}">
-		alert("예약이 정상적으로 삭제되었습니다.");
+		alert("예약이 삭제되었습니다.");
 	</c:when>
 	<c:when test="${delResult eq 'false'}">
 		alert("죄송합니다. 잠시 후 다시 시도해주세요.");
 	</c:when>
 </c:choose>
-
+//예약수정 결과 메시지
 <c:choose>
 	<c:when test="${updateResult eq 'true'}">
-		alert("예약이 정상적으로 변경되었습니다.");
+		alert("예약이 변경되었습니다.");
 	</c:when>
 	<c:when test="${updateResult eq 'false'}">
 		alert("죄송합니다. 잠시 후 다시 시도해주세요.");

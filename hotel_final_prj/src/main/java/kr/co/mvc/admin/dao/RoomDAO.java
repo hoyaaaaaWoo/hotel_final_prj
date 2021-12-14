@@ -27,15 +27,22 @@ public class RoomDAO {
 	/**
 	 * 등록된 모든 room 상세정보 조회
 	 */
-	public List<RoomVO> selectRoomInfo(String rName) throws DataAccessException {
+	public List<RoomVO> selectRoomInfo(String rName, String roonNum) throws DataAccessException {
 		List<RoomVO> roomList = null;
 
 		StringBuilder select = new StringBuilder("select * from room");
-		//파라미터가 들어왔을 때 조건문 추가 
-		if (rName != null) { 
-			select.append("		where room_no = (select room_no from room where r_name='")
+		//객실명 들어왔을 때 조건문 추가 
+		if (rName != null && !"".equals(rName) ){ 
+			select.append("		where r_name='")
 					.append(rName)
-					.append("')");
+					.append("'");
+		} // end if
+		
+		//객실번호 들어왔을 때 조건문 추가 
+		if (roonNum != null && !"".equals(roonNum) ){ 
+			select.append("		where room_no='")
+			.append(roonNum)
+			.append("'");
 		} // end if
  
 		roomList = jt.query(select.toString(), new RowMapper<RoomVO>() {
@@ -90,14 +97,24 @@ public class RoomDAO {
 	 * @return
 	 * @throws DataAccessException
 	 */
-	public List<OtherImgVO> selectOtherImg(String rName) throws DataAccessException {
+	public List<OtherImgVO> selectOtherImg(String rName, String roomNum) throws DataAccessException {
 		List<OtherImgVO> imgList = null;
 		StringBuilder select = new StringBuilder();
 
-		select.append(" 	select * 	from   images")
-				.append(" 	where  room_no = (select room_no from room where r_name=?)");
+		select.append(" 	select * 	from   images");
+		if (rName != null && !"".equals(rName) ){ 
+			select.append(" 	where  room_no = (select room_no from room where r_name='")
+			      .append(rName)
+			      .append("')");
+		}//end if
 		
-			imgList = jt.query(select.toString(), new Object[] {rName}, 
+		if (roomNum != null && !"".equals(roomNum) ){ 
+			select.append(" 	where  room_no =")
+				.append(roomNum)
+				.append("'");
+		}//end if
+		
+			imgList = jt.query(select.toString(), 
 					new RowMapper<OtherImgVO>() {
 						public OtherImgVO mapRow(ResultSet rs, int rowNum) throws SQLException  {
 							OtherImgVO imgVO = new OtherImgVO();
@@ -209,6 +226,83 @@ public class RoomDAO {
 		
 		return flag;
 	}// insertOtherImg
+	
+	/**
+	 * 객실 상태 변경
+	 * @param statusRNo 룸넘버
+	 * @param rStatus Y | N
+	 * @return
+	 */
+	public int UpdateRoomStatus(RoomVO rmVO) throws DataAccessException {
+		int cnt = 0;
+
+		StringBuilder updateStatus = new StringBuilder();
+		updateStatus.append("update 	room		")
+				.append(" set   r_status=?	")
+				.append(" where 	room_no=?");
+
+		cnt = jt.update(updateStatus.toString(), rmVO.getrStatus(), rmVO.getRoomNum());
+
+		return cnt;
+	}// UpdateRoomStatus
+
+
+	/**
+	 * 객실 정보 수정
+	 * @param rmVO
+	 * @return
+	 * @throws DataAccessException
+	 */
+	public boolean updateRoom(RoomVO rmVO) throws DataAccessException {
+		boolean flag = false;
+		
+		StringBuilder updateRoom = new StringBuilder();
+		updateRoom
+			.append("	update	 room	")
+			.append("	set		r_name=?, 	description=?,	price=?,	bed_type=?, 	max_guest=?,	r_size=?,	")
+			.append("		chkin_time=?,	chkout_time=?, 	r_view=?,	service=?,	amnt_gen=?,		amnt_bath=?,	")
+			.append("		amnt_other=?,	more_info=?,	main_img=?,		input_date=sysdate")
+			.append("	where	 room_no = ?");
+		
+		int cnt = jt.update(updateRoom.toString(), rmVO.getRoomName(), rmVO.getMainDesc(),
+				rmVO.getPrice(), rmVO.getType(), rmVO.getGuestNum(), rmVO.getRoomSize(), rmVO.getChkIn(),
+				rmVO.getChkOut(), rmVO.getView(), rmVO.getSpecialServ(), rmVO.getGeneralAmn(),
+				rmVO.getBathAmn(), rmVO.getOtherAmn(), rmVO.getMoreInfo(), rmVO.getImg(),rmVO.getRoomNum());
+
+		// room insert 실패시 false return
+		if (cnt == 1) {
+			flag = true;
+		}//end if 
+		
+		return flag;
+	}// updateRoom
+	
+	/**
+	 * 기존에 기타 이미지가 있으면 삭제
+	 * @param rmVO
+	 * @return
+	 * @throws DataAccessException
+	 */
+	public boolean deleteAllOtherImg(RoomVO rmVO) throws DataAccessException {
+		boolean flag = false;
+
+		//기타이미지 없으면 delete 처리안하고 true return
+		List<OtherImgVO> list = selectOtherImg(rmVO.getRoomName(),null);
+		if(list.size()==0) {
+			flag = true;
+		} else {
+			StringBuilder deleteImg = new StringBuilder();
+			deleteImg.append("delete	from 	images	")
+					.append("where	room_no=?");
+	
+			int cnt = jt.update(deleteImg.toString(), rmVO.getRoomNum());
+			if(cnt == list.size()) {
+				flag = true;
+			}//end if
+		}//end else
+
+		return flag;
+	}// deleteAllOtherImg
 	
 	
 }//class

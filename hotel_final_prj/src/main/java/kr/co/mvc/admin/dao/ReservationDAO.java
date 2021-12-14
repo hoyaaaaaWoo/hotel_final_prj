@@ -1,6 +1,10 @@
 package kr.co.mvc.admin.dao;
 
+import java.io.UnsupportedEncodingException;
+import java.security.GeneralSecurityException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.ResultSet;
+
 import java.sql.SQLException;
 import java.util.List;
 
@@ -13,6 +17,8 @@ import org.springframework.stereotype.Component;
 import kr.co.mvc.admin.vo.ChkInDateVO;
 import kr.co.mvc.admin.vo.ReservationSelectVO;
 import kr.co.mvc.admin.vo.ReservationUpdateVO;
+
+import kr.co.sist.util.cipher.DataDecrypt;
 
 @Component
 public class ReservationDAO {
@@ -55,16 +61,25 @@ public class ReservationDAO {
 			@Override
 			public ReservationSelectVO mapRow(ResultSet rs, int rowNum) throws SQLException {
 				ReservationSelectVO rsVO = null;
-				rsVO = new ReservationSelectVO();
-				rsVO.setResNo(rs.getString("res_no"));
-				rsVO.setResDate(rs.getString("res_date"));
-				rsVO.setkName(rs.getString("kname"));
-				rsVO.setStayDate(rs.getString("staydate"));
-				rsVO.setGuest(rs.getInt("guest"));
-				rsVO.setrName(rs.getString("r_name"));
-				rsVO.setResStauts(rs.getString("res_status"));
+				try {
+					DataDecrypt dd = new DataDecrypt("AbcdEfgHiJkLmnOpQ");
+					rsVO = new ReservationSelectVO();
+					rsVO.setResNo(rs.getString("res_no"));
+					rsVO.setResDate(rs.getString("res_date"));
+					rsVO.setkName(dd.decryption(rs.getString("kname")));
+					rsVO.setStayDate(rs.getString("staydate"));
+					rsVO.setGuest(rs.getInt("guest"));
+					rsVO.setrName(rs.getString("r_name"));
+					rsVO.setResStauts(rs.getString("res_status"));
+				} catch (UnsupportedEncodingException e) {
+					e.printStackTrace();
+				} catch (NoSuchAlgorithmException e) {
+					e.printStackTrace();
+				} catch (GeneralSecurityException e) {
+					e.printStackTrace();
+				}//end catch
 				return rsVO;
-			}
+			}//end marRow
 		});
 		return rsList;
 	}// selectRes
@@ -131,15 +146,24 @@ public class ReservationDAO {
 		ruVO = jt.queryForObject(select.toString(), new Object[] { resNum }, new RowMapper<ReservationUpdateVO>() {
 			public ReservationUpdateVO mapRow(ResultSet rs, int rowNum) throws SQLException {
 				ReservationUpdateVO ruVO = null;
+				try {
+					DataDecrypt dd = new DataDecrypt("AbcdEfgHiJkLmnOpQ");
 					ruVO = new ReservationUpdateVO();
 					ruVO.setResNo(rs.getString("res_no"));
-					ruVO.setkName(rs.getString("kname"));
+					ruVO.setkName(dd.decryption(rs.getString("kname")));
 					ruVO.setChkInDate(rs.getString("chkin_date"));
 					ruVO.setChkOutDate(rs.getString("chkout_date"));
 					ruVO.setAdult(rs.getInt("adult"));
 					ruVO.setChild(rs.getInt("child"));
 					ruVO.setrName(rs.getString("r_name"));
 					ruVO.setAddReq(rs.getString("add_req"));
+				} catch (UnsupportedEncodingException e) {
+					e.printStackTrace();
+				} catch (NoSuchAlgorithmException e) {
+					e.printStackTrace();
+				} catch (GeneralSecurityException e) {
+					e.printStackTrace();
+				}//end catch
 				return ruVO;
 			}// mapRow
 		});

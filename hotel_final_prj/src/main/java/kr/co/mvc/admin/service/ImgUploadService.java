@@ -26,6 +26,11 @@ import kr.co.mvc.admin.vo.ImgUploadVO;
 @Component
 public class ImgUploadService {
 
+	/**
+	 * 이미지 파일 추가 프로세스 (AJAX)
+	 * @param request
+	 * @return jsonString
+	 */
 	public String addImgFileProcess(HttpServletRequest request) {
 
 		//temp폴더에 파일 업로드
@@ -71,8 +76,12 @@ public class ImgUploadService {
 	}//addImgFileProcess
 	
 	
+	/**
+	 * 이미지 파일 삭제 프로세스 (AJAX)
+	 * @param imgName
+	 * @return jsonString
+	 */
 	public String removeImgFileProcess(String imgName) {
-		
 		//특정이미지 삭제 후 temp폴더에 있는 이미지 리스트 재조회
 		removeTempImg(imgName);
 		List<ImgUploadVO> imgList = searchImgList();
@@ -174,7 +183,6 @@ public class ImgUploadService {
 
 	/**
 	 * 객실추가 성공 시 temp에 있는 사진들을 roomImages폴더로 이동
-	 * @throws IOException
 	 */
 	public void moveImgtoRoomImg() {
 		// 원 폴더
@@ -231,47 +239,56 @@ public class ImgUploadService {
 	/**
 	 * 객실 정보 수정 시,
 	 * param과 일치하는 이미지들을 roomImages에서 찾아서 temp에 복사
-	 * @throws IOException
 	 */
-	public void moveImgtoTemp(ImgFormVO imgfrmVO) {
-//		// 원 폴더
-//		File imgFolder = new File("C:/Users/user/git/hotel_final_prj/hotel_final_prj/src/main/webapp/roomImages");
-//		// 복사할 폴더
-//		File tempFolder = new File("C:/Users/user/git/hotel_final_prj/hotel_final_prj/src/main/webapp/temp");
-//
-//		if(!tempFolder.exists()) {
-//			tempFolder.mkdirs();
-//		}
-//		if(!imgFolder.exists()) {
-//			imgFolder.mkdirs();
-//		}
-//		
-//		FileInputStream fis = null;
-//		FileOutputStream fos = null;
-//
-//		try {
-//			for (int i = 0; i < list.size() ; i++) { // param으로 받은 이미지의 수만큼 반복
-//				File dbImg = new File(imgFolder.getAbsolutePath() + "/" + list.get(i));
-//				File temp = new File(tempFolder.getAbsolutePath() + "/" + list.get(i));
-//
-//				fis = new FileInputStream(dbImg);
-//				fos = new FileOutputStream(temp);
-//
-//				byte[] data = new byte[512];
-//				int byteCnt = 0;
-//				while ((byteCnt = fis.read(data)) != -1) { // End Of File 체크
-//					fos.write(data, 0, byteCnt);
-//				} // end while
-//			} // end for
-//			fos.flush();
-//		} finally {
-//			if (fis != null) {
-//				fis.close();
-//			}
-//			if (fos != null) {
-//				fos.close();
-//			}
-//		} // finally
+	public void moveImgtoTemp(List<String> imgList) {
+		// 원 폴더
+		File imgFolder = new File("C:/Users/user/git/hotel_final_prj/hotel_final_prj/src/main/webapp/roomImages");
+		// 복사할 폴더
+		File tempFolder = new File("C:/Users/user/git/hotel_final_prj/hotel_final_prj/src/main/webapp/temp");
+
+		if(!tempFolder.exists()) {
+			tempFolder.mkdirs();
+		}
+		if(!imgFolder.exists()) {
+			imgFolder.mkdirs();
+		}
+		
+		FileInputStream fis = null;
+		FileOutputStream fos = null;
+		
+		try {
+			for (int i = 0; i < imgList.size() ; i++) { // param으로 받은 이미지의 수만큼 반복
+				File dbImg = new File(imgFolder.getAbsolutePath() + "/" + imgList.get(i));
+				File temp = new File(tempFolder.getAbsolutePath() + "/" + imgList.get(i));
+
+				fis = new FileInputStream(dbImg);
+				fos = new FileOutputStream(temp);
+
+				byte[] data = new byte[512];
+				int byteCnt = 0;
+				while ((byteCnt = fis.read(data)) != -1) { // End Of File 체크
+					fos.write(data, 0, byteCnt);
+				} // end while
+			} // end for
+			fos.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (fis != null) {
+				try {
+					fis.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}//end catch
+			}//end if
+			if (fos != null) {
+				try {
+					fos.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}//end catch
+			}//end if
+		} // finally
 	}// moveImgtoTemp
 	
 	
@@ -303,11 +320,42 @@ public class ImgUploadService {
 		}//end else
 	}// removeTempImg
 	
+	
 	/**
 	 * 객실 수정 완료 후 삭제된 roomImages의 파일 삭제 
 	 */
-	public void removeRoomImg(ImgFormVO imgfrmVO) {
-		
-	}// removeOriginalImg
+	public void removeRoomImg(List<String> dbImgList, ImgFormVO imgFrmVO) {
+		//roomImages에서 지울 이미지 리스트
+			List<String> delImgList = new ArrayList<String>();
+			File roomImg = new File("/usr/local/www/hotel_prj/roomImages");
+				
+			//수정 완료 후 새로운 이미지 리스트 세팅
+			List<String> newImgList = new ArrayList<String>();
+			newImgList.add(imgFrmVO.getMainImg());
+			if(imgFrmVO.getOtherImgs().length != 0) {
+				for(String otherImg : imgFrmVO.getOtherImgs()) {
+					newImgList.add(otherImg);
+				}//end for
+			}// end if
+				
+			for(String oldImg : dbImgList) {
+				for(String newImg : newImgList) {
+					if (newImg.equals(oldImg)) {
+						break;
+					}//end if
+					delImgList.add(oldImg);
+				}//end for
+			}//end for
+				
+			//지울 리스트가 없으면 return
+			if(delImgList.size()==0) {
+				return;
+			}//end if
+				
+			for(String imgSrc : delImgList) {
+				File delImg = new File(roomImg + "/" + imgSrc);
+				delImg.delete();
+			}//end for
+	}// removeRoomImg
 	
 }//class

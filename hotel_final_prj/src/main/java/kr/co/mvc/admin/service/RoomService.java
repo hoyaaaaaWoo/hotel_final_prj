@@ -22,10 +22,10 @@ public class RoomService {
 	 * @param rName
 	 * @return
 	 */
-	public List<RoomVO> searchRoomInfo(String rName) {
+	public List<RoomVO> searchRoomInfo(String rName, String roomNum) {
 		List<RoomVO> roomList = null;
 		try {
-			roomList = roomDAO.selectRoomInfo(rName);
+			roomList = roomDAO.selectRoomInfo(rName, roomNum);
 		}catch(DataAccessException dae) {
 			dae.printStackTrace();
 		}//end catch
@@ -39,11 +39,11 @@ public class RoomService {
 	 * @param rName
 	 * @return
 	 */
-	public List<OtherImgVO> searchOtherImg(String rName) {
+	public List<OtherImgVO> searchOtherImg(String rName, String roomNum) {
 		List<OtherImgVO> imgList = null;
 		
 		try {
-			imgList = roomDAO.selectOtherImg(rName);
+			imgList = roomDAO.selectOtherImg(rName, roomNum);
 		}catch(DataAccessException dae) {
 			dae.printStackTrace();
 		}//end catch
@@ -101,6 +101,22 @@ public class RoomService {
 		return flag;
 	}//addOtherImg
 	
+	
+	/**
+	 * 객실 상태 변경
+	 * @param rmVO
+	 * @return
+	 */
+	public int changeRoomStatus(RoomVO rmVO){
+		int cnt = 0;
+		try {
+			cnt = roomDAO.UpdateRoomStatus(rmVO);
+		}catch(DataAccessException dae) {
+			dae.printStackTrace();
+		}//end catch
+		return cnt;
+	}//changeRoomStatus
+	
 
 	/**
 	 * 객실 수정 시, 중복 객실명 조회
@@ -116,6 +132,38 @@ public class RoomService {
 		}//end catch
 		return list;
 	}//searchDupRoomName
+	
+	
+	/**
+	 * 객실 정보 수정
+	 * @param rmVO
+	 * @return
+	 */
+	public boolean changeRoom(RoomVO rmVO) {
+		boolean flag = false;
+		try {
+			flag = roomDAO.updateRoom(rmVO);
+		}catch(DataAccessException dae) {
+			dae.printStackTrace();
+		}//end catch
+		return flag;
+	}//changeRoom
+	
+	
+	/**
+	 * 기존 객실의 기타이미지 존재 시 모두 삭제
+	 * @param rmVO
+	 * @return
+	 */
+	public boolean removeAllOtherImg(RoomVO rmVO) {
+		boolean flag = false;
+		try {
+			flag = roomDAO.deleteAllOtherImg(rmVO);
+		}catch(DataAccessException dae) {
+			dae.printStackTrace();
+		}//end catch
+		return flag;
+	}//removeAllOtherImg
 	
 }// class
 

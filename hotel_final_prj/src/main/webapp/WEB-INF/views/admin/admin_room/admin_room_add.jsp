@@ -116,6 +116,7 @@ img {
 .imgTd{
  text-align: center; 
  font-size:14px;
+ font-weight:bold;
  background-color: #FFFFFF;
  vertical-align: middle;
 }
@@ -260,7 +261,6 @@ $(function(){
 	
 	//기타 이미지 등록시 file hidden값 초기화 (temp 폴더에 중복 등록 방지)
 	//main img와 중복파일 및 파일 확장자 검증
-	let upFlag=false;
 	$("#otherFile").change(function(){
 		$("#fileName").val("");
 
@@ -268,7 +268,7 @@ $(function(){
 		var imgList = document.getElementById("imgTable");
 		var flag = false;
 		
-		//기타이미지 첫 등록이면 하기 검증을 수행할 필요 없음
+		//이미지 첫 등록이면 하기 검증을 수행할 필요 없음
 		if(imgList.rows[1].cells[0].innerText == "이미지를 추가해주세요"){
 			return;
 		}//end if

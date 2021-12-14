@@ -57,6 +57,14 @@
 	text-align: center;
 }
 
+.imgTd{
+	width:10px;
+	height:20px;
+	text-align:center;
+	padding:0px;
+	margin:0px
+}
+
 .rStatus{
 	width:120px;
 	margin-bottom: 10px;
@@ -74,11 +82,21 @@
 
 </style>
 <script type="text/javascript">
+//객실추가 결과 메시지
 <c:choose>
 <c:when test="${insertResult eq 'true'}">
-	alert("객실이 정상적으로 추가되었습니다.");
+	alert("객실이 추가되었습니다.");
 </c:when>
 <c:when test="${insertResult eq 'false'}">
+	alert("죄송합니다. 잠시 후 다시 시도해주세요.");
+</c:when>
+</c:choose>
+//객실상태변경 결과 메시지
+<c:choose>
+<c:when test="${updateStatusResult eq 'true'}">
+	alert("객실 상태가 변경되었습니다.");
+</c:when>
+<c:when test="${updateStatusResult eq 'false'}">
 	alert("죄송합니다. 잠시 후 다시 시도해주세요.");
 </c:when>
 </c:choose>
@@ -277,15 +295,17 @@ function showRoomDetail(roomName){
 		<c:set var="mainImg" value="${rmVO.img}"/>
 		</c:forEach>
 		
-		<table class="table" style="width:70%" id="imgTable">
-		<tr><td style="width:20px;height: 20px;text-align: center;">
-		<img src="http://localhost/hotel_final_prj/roomImages/${mainImg}" title="${mainImg}" name="img" id="mainImg" class="viewImg"/>
+		<table  id="imgTable" style="table-layout: fixed" >
+		<tr><td class="imgTd">
+		<img src="http://localhost/hotel_final_prj/roomImages/${mainImg}" title="${mainImg}" name="img" id="mainImg" class="viewImg" 
+			style="padding:0px;margin:10px;border:7px solid #ffffff"/><br/>
 		<span style="font-weight: bold;font-size: 14px"><c:out value="${mainImg}"/></span>
  		</td>
  		<c:if test="${not empty imgList}">
 		 <c:forEach var="img" items="${imgList}">
-		 <td style="width:20px;height: 20px;text-align: center;">
-		   <img src="http://localhost/hotel_final_prj/roomImages/${img.imgSrc}" title="${img.imgSrc}" name="img" id="otherImg" class="viewImg"/>
+		 <td class="imgTd">
+		   <img src="http://localhost/hotel_final_prj/roomImages/${img.imgSrc}" title="${img.imgSrc}" name="img" id="otherImg" class="viewImg"
+		   		style="padding:0px;margin:10px;border:7px solid #ffffff"/><br/>
 			<span style="font-weight: bold;font-size: 14px"><c:out value="${img.imgSrc}"/></span>
 		 </td>
 		 </c:forEach>

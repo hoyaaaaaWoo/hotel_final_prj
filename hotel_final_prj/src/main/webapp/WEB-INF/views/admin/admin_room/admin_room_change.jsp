@@ -119,6 +119,7 @@ width:600px;
 .imgTd{
  text-align: center; 
  font-size:14px;
+ font-weight:bold;
  background-color: #FFFFFF;
  vertical-align: middle;
 }
@@ -169,19 +170,34 @@ $(function(){
 			return;
 		}//end if
 		
-		//테이블에 'main' img가 없을 경우 alert
-		var flag = false;
-		if(imgList.rows[1].cells.length ==3){
+		//이미지 테이블의 이미지명을 담은 input type을 생성하여 form에 추가 후 submit 
+	    var roomChgFrm = $("#roomChgFrm")[0]; // 객실추가 form
+	    var otherImgArr = new Array(); //기타이미지 담을 배열
+	    var flag = false; //메인이미지 포함여부 체크 flag
+	    var imgName; //for에서 이미지명 담을 변수
+	    
+		if(imgList.rows[1].cells.length == 3){
 			for (var i = 1; i < imgList.rows.length; i++) {
 				var imgName = imgList.rows[i].cells[1].innerText;
-				if((imgName.indexOf("main")) != -1){ // main img가 있다면 break
-					$("#img").val(imgName);
-					flag=true;
-					break;
-				}//end if
+				if((imgName.indexOf("main")) != -1){
+					flag = true;
+					var mainInput = document.createElement("input");
+					mainInput.type = "hidden";
+					mainInput.name = "mainImg";
+					mainInput.value = imgName;
+					roomChgFrm.appendChild(mainInput);
+				}else{
+					otherImgArr.push(imgName)
+				}//end else
 			}//end for
 		}//end if
-		if(!flag){
+			var otherInput = document.createElement("input");
+			otherInput.type = "hidden";
+			otherInput.name = "otherImgs";
+			otherInput.value = otherImgArr;
+			roomChgFrm.appendChild(otherInput);
+
+			if(!flag){
 			alert("메인이미지는 필수입니다.");
 			return;
 		}//end if
@@ -192,12 +208,12 @@ $(function(){
 	//비활성화 클릭 시 
 	$("#hideBtn").click(function(){
 		var rStatus=$("#roomStatus").val();
-		if(rStatus=="비활성화"){
-			alert("해당 객실은 이미 비활성화 상태입니다.");
+		if(rStatus == "비활성화"){
+			alert("해당 객실은 비활성화 상태입니다.");
 			return;
 		}//end if
-		var roomNum = $("#roomNum").val();
-		$("#statusRNo").val(roomNum);
+		var roomNum = $("#rNum").val();
+		$("#roomNum").val(roomNum);
 		$("#rStatus").val("N");
 			
 		$("#statusFrm").submit();
@@ -207,11 +223,11 @@ $(function(){
 	$("#showBtn").click(function(){
 		var rStatus=$("#roomStatus").val();
 		if(rStatus=="활성화"){
-			alert("해당 객실은 이미 활성화 상태입니다.");
+			alert("해당 객실은 활성화 상태입니다.");
 			return;
 		}//end if
-		var roomNum=$("#roomNum").val();
-		$("#statusRNo").val(roomNum);
+		var roomNum=$("#rNum").val();
+		$("#roomNum").val(roomNum);
 		$("#rStatus").val("Y");
 		
 		$("#statusFrm").submit();
@@ -220,8 +236,8 @@ $(function(){
 	//취소 클릭 시
 	$("#cancelBtn").click(function(){
 		alert("객실 정보 수정을 취소합니다.")
-		history.back();
-	})//cancelBtn
+		location.href="search_room.do"
+	});//cancelBtn
 
 	//가격 숫자형식 체크
 	$("#price").keyup(function(evt){
@@ -232,7 +248,7 @@ $(function(){
 			$("#price").focus();
 			return;
 		}//end if
-	})//keyup
+	});//keyup
 
 	//roomSize 형식 체크
 	$("#roomSize").keyup(function(evt){
@@ -242,7 +258,7 @@ $(function(){
 			$("#roomSize").focus();
 			return;
 		}//end if
-	})//keyup
+	});//keyup
 	
 	//체크인시간 형식 체크
 	$("#chkIn").keyup(function(evt){
@@ -252,7 +268,7 @@ $(function(){
 			$("#chkIn").focus();
 			return;
 		}//end if
-	})//keyup
+	});//keyup
 	
 	//체크아웃시간 형식 체크
 	$("#chkOut").keyup(function(evt){
@@ -262,22 +278,19 @@ $(function(){
 			$("#chkOut").focus();
 			return;
 		}//end if
-	})//keyup
+	});//keyup
 	
 	
 	//메인이미지 등록시 file hidden값 파일명으로 설정
 	$("#mainFile").change(function(){
 		var fileName = this.files[0].name;
 		$("#fileName").val(fileName); // temp 파일 업로드용
-		$("#img").val(fileName); // DB insert용
 		
 		var flag = expCheck(fileName);
 		if(!flag){
 			return;
 		}//end if
-	})//mainFile
-	
-	
+	});//mainFile
 	
 	
 	//기타 이미지 등록시 file hidden값 초기화 (temp 폴더에 중복 등록 방지)
@@ -288,6 +301,12 @@ $(function(){
 		var selectedFileName=this.files[0].name;
 		var imgList = document.getElementById("imgTable");
 		var flag = false;
+		
+		//이미지 첫 등록이면 하기 검증을 수행할 필요 없음
+		if(imgList.rows[1].cells[0].innerText == "이미지를 추가해주세요"){
+			return;
+		}//end if
+		
 		for (var i = 1; i < imgList.rows.length; i++) {
 			//테이블의 파일명 추출해서 main 체크
 			var imgName = imgList.rows[i].cells[1].innerText;
@@ -311,7 +330,7 @@ $(function(){
 		if(!flag){
 			return;
 		}
-	})//otherFile
+	});//otherFile
 	
 	//ajax 이벤트 등록
 	document.getElementById("mainFile").addEventListener("change", addImg);
@@ -364,12 +383,13 @@ function addImg(){
 		var formData = new FormData(form);
 		
 		$.ajax({
-			url:"http://localhost/hote_finall_prj/admin/admin_room/admin_room_img_upload_process.jsp",
+			url:"add_img_file.do",
 			type:"post",
 			data:formData,
 			dataType:"json",
 			contentType:false,
 			processData:false,
+			async:false,
 			error: function(xhr){
 				console.log(xhr.status + " / " + xhr.statusText)
 			},
@@ -381,7 +401,7 @@ function addImg(){
 					
 				$.each(imgJson.imgData, function(idx, imgData){ //imgData가 JSONArray
 				output += "<tr class='imgTr'>" +
-						  "<td class='imgTd'>" + (idx+1) +"</td>" +
+						  "<td class='imgTd'><strong>" + (idx+1) +"<strong></td>" +
 						  "<td class='imgTd' style='font-weight:bold'>" + imgData.imgName +"</td>" +
 						  "<td class='imgTd'>" +
 						  "<input type='button' name='delBtn' class='delBtn btn btn-default btn-sm'"+ 
@@ -411,7 +431,7 @@ function delImg(ele){
 	var queryString = "imgName="+imgName;
 	
 	$.ajax({
-		url:"http://localhost/hote_finall_prj/admin/admin_room/admin_room_img_delete_process.jsp",
+		url:"remove_img_file.do",
 		type:"post",
 		data:queryString,
 		dataType:"json",
@@ -432,7 +452,7 @@ function delImg(ele){
 			}else{	
 				$.each(imgJson.imgData, function(idx, imgData){ //imgData가 JSONArray
 					output += "<tr class='imgTr'>" +
-					  "<td class='imgTd'>" + (idx+1) +"</td>" +
+					  "<td class='imgTd'><strong>" + (idx+1) +"</strong></td>" +
 					  "<td class='imgTd' style='font-weight:bold'>" + imgData.imgName +"</td>" +
 					  "<td class='imgTd'>" +
 					  "<input type='button' name='delBtn' class='delBtn btn btn-default btn-sm'"+ 
@@ -461,8 +481,8 @@ function resetFileTag(){
 </head>
 <body>
 <!-- 객실 메인 페이지에서 넘어오지 않았을 경우 redirect 해주기 (객실 선택 필요) -->
-	<c:if test="${empty param.selectedRName}">
-  	  <c:redirect url="http://localhost/hotel_final_prj/change_room_form.do"/>
+	<c:if test="${empty selectedRName}">
+  	  <c:redirect url="http://localhost/hotel_final_prj/search_room.do"/>
 	</c:if> 
 	
 	<div id="wrap">
@@ -472,24 +492,24 @@ function resetFileTag(){
 		
 		<!-- 컨테이너 시작  -->
 		<div id="container" style="padding:50px"> 
-		<span id="mainMenu" onclick="location.href='change_room_form.do'">객실 정보 수정</span>
+		<span id="mainMenu" onclick="location.href='change_room_form.do?'">객실 정보 수정</span>
 		
 		<form name="roomChgFrm" id="roomChgFrm" action="change_room_process.do" method="get">
 		<div id="tabDiv">
 		<c:forEach var="rVO" items="${rList}">
-					
-		<input type="hidden" name="roomNum" id="roomNum" value="${rVO.roomNum}"/> <!-- 객실활성화에 사용할 값 -->
+		<input type="hidden" name="rNum" id="rNum" value="${rVO.roomNum}"/>
+
 		<table id="mainTab">
 		<tr>
 		<td colspan="2">
 		<label>* 상태</label><br/>
-	    <input type="text" name="roomStatus" id="roomStatus" value ="${rVO.rStatus=='Y'?'활성화':'비활성화'}" style="margin-left: 11px" class="form-control" maxlength="10" readonly="readonly"/>
+	    <input type="text" name="roomStatus" id="roomStatus" value ="${rVO.rStatus=='Y'?'활성화':'비활성화'}" style="margin-left: 10px" class="form-control" maxlength="10" readonly="readonly"/>
 		</td>
 		</tr>
 		<tr>
 			<td>
 			  <label>* 객실명 </label><br/>
-			  <input type="text" name="roomName" id="roomName" value="${rVO.roomName}" class="form-control" maxlength="10"/>
+			  <input type="text" name="rName" id="roomName" value="${rVO.roomName}" class="form-control" maxlength="10"/>
 			</td>
 			<td>
 			  <label>* 1박 가격(원)</label><br/>
@@ -609,8 +629,11 @@ function resetFileTag(){
 			</td>
 		</tr>
 		</table>
+		
+		<c:set var="mainImg" value="${rVO.img}"/>
 		</c:forEach>
 		</div><!-- 테이블 div -->
+		
 		
 		</form> <!-- roomChgFrm  -->
 
@@ -641,21 +664,23 @@ function resetFileTag(){
 			<tr class="imgTr">
 				<c:set var="i" value="${ i+1 }"/>
 				<td class="imgTd"> 1 </td>
-				<td class="imgTd" style="font-weight:bold"><c:out value="${otherImgList.mainImg}"/></td>
+				<td class="imgTd" style="font-weight:bold"><c:out value="${mainImg}"/></td>
 				<td class="imgTd">
 				<input type="button" name="delBtn" class="delBtn btn btn-default btn-sm" 
 				style="margin:0px;font-size:13px" value="삭제" onclick="delImg(this)"/></td>
 			</tr>
-			<c:forEach var="otherImg" items="${otherImgList.otherImgs}">	
+			<c:if test="${not empty otherImgList}">
+			<c:forEach var="otherImg" items="${otherImgList}">	
 				<tr>
 				<c:set var="i" value="${ i+1 }"/>
 				<td class="imgTd"><c:out value= "${i}"/></td>
-				<td class="imgTd" style="font-weight:bold"><c:out value="${otherImg}"/></td>
+				<td class="imgTd" style="font-weight:bold"><c:out value="${otherImg.imgSrc}"/></td>
 				<td class="imgTd">
 				<input type="button" name="delBtn" class="delBtn btn btn-default btn-sm" 
 				style="margin:0px;font-size:13px" value="삭제" onclick="delImg(this)"/></td>
 				</tr>
 			</c:forEach>
+			</c:if>
 		</table>
 		</div> <!-- imgDiv -->
 		</form> <!-- imgFrm  -->
@@ -669,7 +694,7 @@ function resetFileTag(){
 		
 		<form name="statusFrm" id="statusFrm" action="change_roomStatus_process.do" method="get">
 			<input type="hidden" name="rStatus" id="rStatus"/>
-			<input type="hidden" name="statusRNo" id="statusRNo"/>
+			<input type="hidden" name="roomNum" id="roomNum"/>
 		</form>
 		
 		</div><!-- 컨테이너 div -->
