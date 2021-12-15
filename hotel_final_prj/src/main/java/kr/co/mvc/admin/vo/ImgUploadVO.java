@@ -1,8 +1,6 @@
 package kr.co.mvc.admin.vo;
 
-import org.springframework.stereotype.Component;
 
-@Component
 public class ImgUploadVO {
 	private String imgName, lastModified;
 	private int imgLength;

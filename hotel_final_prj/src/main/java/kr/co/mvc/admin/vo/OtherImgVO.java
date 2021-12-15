@@ -1,13 +1,11 @@
 package kr.co.mvc.admin.vo;
 
-import org.springframework.stereotype.Component;
 
 /**
  * 객실 메인 이미지 외 기타 이미지를 저장할 VO
  * @author user
  */
 
-@Component
 public class OtherImgVO {
 	
 	private String imgSrc;

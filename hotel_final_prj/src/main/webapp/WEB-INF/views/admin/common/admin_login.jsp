@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Hotel Ritz - 관리자 로그인</title>
 <link rel="stylesheet" type="text/css"
-	href="http://localhost/hotel_prj/common/css/main_v20211012.css">
+	href="http://localhost/hotel_final_prj/common/css/main_v20211012.css">
 	
 <!-- jQuery CDN -->
 <script
@@ -24,7 +24,7 @@
 
 <!-- 관리자 메인 CSS -->
 <link rel="stylesheet" type="text/css"
-	href="http://localhost/hotel_prj/admin/css/admin_main.css">
+	href="http://localhost/hotel_final_prj/admin/css/admin_main.css">
 
 <style type="text/css">
 #container {
@@ -42,8 +42,8 @@
 }
 
 .login{
-	width:200px;
-	padding-top:100px;
+	width:250px;
+	padding-top:180px;
 	margin:0px auto;
 }
 .login_id, .login_pass{
@@ -53,35 +53,44 @@
 	font-size:18px;
 }
 
-.log_btn {
-	width: 150px;
+#btn {
+	width: 200px;
+	height:50px;
 	margin-left:35px;
 	padding:10px;
-	font-size:18px;
+	font-size:22px;
 	font-weight:bold;
 	background-color: #343A40;
 	color: #ffffff;
 }
 
-.log_btn:hover {
+#btn:hover {
 	color: #ffffff;
 }
 
 .form-control{
 	color:#000000;
 	width:200px;
-	height:35px;
+	height:40px;
 	margin-top:5px;
+	font-size:18px
 }
+#title{
+	font-size:22px;
+	font-weight: bold;
+}
+
 </style>
 
 <script type="text/javascript">
+//로그인 수행 실패 시
+<c:if test="${loginResult eq false}">
+	alert("아이디와 비밀번호를 확인해주세요.");
+</c:if>
+
 	$(function() {
 		$("#btn").click(function() {
-			login();
-		});
 		// 로그인 유효성 검증
-		function login() {
 			if ($("#id").val() == "") {
 				alert("아이디를 입력하세요");
 				$("#id").focus();
@@ -93,8 +102,8 @@
 				return;
 			}
 				$("#frm").submit();
-		}//login	
-	})
+		});//click
+	})//ready
 </script>
 </head>
 <body>
@@ -102,35 +111,31 @@
 	<div id="wrap">
 		<!-- header  -->
 		<div id="header">
-			<span class="cursor" onclick="location.href='http://localhost/hotel_prj/admin/common/admin_login.jsp'">Hotel Ritz Seoul</span>
+			<span class="cursor" onclick="location.href='admin_login_form.do'">Hotel Ritz Seoul</span>
 			<span class="glyphicon glyphicon-user" aria-hidden="true" id="adminImg" ></span>
 			<span id="admin"> admin</span>
 		</div>
 
 		<!-- container  -->
 		<div id="container">
-			<form action="http://localhost/hotel_prj/admin/common/admin_login_process.jsp" name="login_form" method="post"
-				id="frm">
+			<form action="admin_login.do" name="login_form" method="post" id="frm">
 				<div class="login">
 					<div class="login_id">
-							<strong>ID</strong>
-						<input type="text" name="userid" placeholder="ID" id="id" class="form-control" maxlength="15"/>
+						<label id="title">ID</label>
+						<input type="text" name="id" placeholder="ID" id="id" class="form-control" maxlength="15"/>
 					</div>
 					<div class="login_pass">
-							<strong>Password</strong>
-						<input type="password" name="password" placeholder="Password" class="form-control"
-							id="pass" maxlength="15" />
+						<label id="title">Password</label>
+						<input type="password" name="password" placeholder="Password" class="form-control"	id="pass" maxlength="15"/>
 					</div>
 					<br />
-					<div class="submit">
-						<input type="button" value="Login" class="log_btn btn" id="btn" />
-					</div>
+						<input type="button" value="Login" class="log_btn btn btn-lg" id="btn" />
 				</div>
 			</form>
 		</div>
 		
 		<!-- footer import -->
-		<c:import url="http://localhost/hotel_prj/admin/common/admin_footer.jsp" />
+		<jsp:include page="/admin/common/admin_footer.jsp"/>
 	</div>
 </body>
 </html>

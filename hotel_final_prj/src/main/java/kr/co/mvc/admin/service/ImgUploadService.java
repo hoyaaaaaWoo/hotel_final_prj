@@ -182,7 +182,7 @@ public class ImgUploadService {
 	}//CompareDateAsc
 
 	/**
-	 * 객실추가 성공 시 temp에 있는 사진들을 roomImages폴더로 이동
+	 * 객실추가/수정 성공 시 temp에 있는 사진들을 roomImages폴더로 이동
 	 */
 	public void moveImgtoRoomImg() {
 		// 원 폴더
@@ -323,11 +323,13 @@ public class ImgUploadService {
 	
 	/**
 	 * 객실 수정 완료 후 삭제된 roomImages의 파일 삭제 
+	 * @param dbImgList
+	 * @param imgFrmVO
 	 */
 	public void removeRoomImg(List<String> dbImgList, ImgFormVO imgFrmVO) {
 		//roomImages에서 지울 이미지 리스트
 			List<String> delImgList = new ArrayList<String>();
-			File roomImg = new File("/usr/local/www/hotel_prj/roomImages");
+			File roomImg = new File("C:/Users/user/git/hotel_final_prj/hotel_final_prj/src/main/webapp/roomImages");
 				
 			//수정 완료 후 새로운 이미지 리스트 세팅
 			List<String> newImgList = new ArrayList<String>();

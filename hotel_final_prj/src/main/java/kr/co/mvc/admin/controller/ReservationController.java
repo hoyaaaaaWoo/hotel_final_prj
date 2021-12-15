@@ -32,7 +32,7 @@ public class ReservationController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value = "admin_main.do", method = GET)
+	@RequestMapping(value = "admin_main.do", method = {GET,POST})
 	public String searchTodayRes(String page, Model model) {
 
 		// 현재일자 설정

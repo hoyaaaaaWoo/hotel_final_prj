@@ -1,13 +1,11 @@
 package kr.co.mvc.admin.vo;
 
-import org.springframework.stereotype.Component;
 
 /**
  * 체크인 일자로 예약일 조회시 사용할 VO
  * @author user
  */
 
-@Component
 public class ChkInDateVO {
 	
 	private String year, month, day;

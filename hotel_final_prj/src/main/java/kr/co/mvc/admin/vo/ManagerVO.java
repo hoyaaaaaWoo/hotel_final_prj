@@ -1,22 +1,23 @@
 package kr.co.mvc.admin.vo;
 
+
 public class ManagerVO {
-	private String mg_id,pass;
+	private String id,password;
 
-	public String getMg_id() {
-		return mg_id;
+	public String getId() {
+		return id;
 	}
 
-	public void setMg_id(String mg_id) {
-		this.mg_id = mg_id;
+	public void setId(String id) {
+		this.id = id;
 	}
 
-	public String getPass() {
-		return pass;
+	public String getPassword() {
+		return password;
 	}
 
-	public void setPass(String pass) {
-		this.pass = pass;
+	public void setPassword(String password) {
+		this.password = password;
 	}
-	
+
 }

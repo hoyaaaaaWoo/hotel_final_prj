@@ -80,7 +80,7 @@ public class RoomDAO {
 	}// selectRoomInfo
 	
 	/**
-	 * List<RoomVO>에서 room no 순서대로 정렬하는 inner Class
+	 *selectRoomInfo에서 room no 순서대로 정렬하는 inner Class
 	 * @author user
 	 */
 	public class CompareRNoAsc implements Comparator<RoomVO> {
@@ -109,7 +109,7 @@ public class RoomDAO {
 		}//end if
 		
 		if (roomNum != null && !"".equals(roomNum) ){ 
-			select.append(" 	where  room_no =")
+			select.append(" 	where  room_no ='")
 				.append(roomNum)
 				.append("'");
 		}//end if
@@ -124,8 +124,24 @@ public class RoomDAO {
 							return imgVO;
 						}//mapRow
 			});
+			
+			//이미지 이름 대로 정렬
+			if(imgList != null) {
+				Collections.sort(imgList, new CompareImgSrcAsc());
+			}//end if
 		return imgList;
 	}// selectOtherImg
+	
+	/**
+	 * selectOtherImg에서 imrSrc 이름 순서대로 정렬하는 inner Class
+	 * @author user
+	 */
+	public class CompareImgSrcAsc implements Comparator<OtherImgVO> {
+		@Override
+		public int compare(OtherImgVO o1, OtherImgVO o2) {
+			return o1.getImgSrc().compareTo(o2.getImgSrc());
+		}
+	}// CompareRNoAsc
 	
 	/**
 	 * 객실 추가 시 가장 끝번호인 RoomNo를 조회하여 사용
@@ -149,8 +165,6 @@ public class RoomDAO {
 		List<String> list = null;
 		//현재 객실번호와 다르나 객실이름이 같은 항목을 조회하여 반환
 		String select = "select r_name from room where r_name=? and room_no!=?";
-		System.out.println(rmVO.getRoomName());
-		System.out.println(rmVO.getRoomNum());
 		list = jt.query(select, new Object[] {rmVO.getRoomName(), rmVO.getRoomNum()}, new RowMapper<String>() {
 			public String mapRow(ResultSet rs, int rowNum) throws SQLException {
 				String name = rs.getString("r_name");
@@ -204,7 +218,7 @@ public class RoomDAO {
 		
 		insertImg.append("insert into 	images	 (img_no, room_no, img_src)		")
 				.append("values 	(img_seq.nextval, (select room_no from room where r_name=?),?)");
-		System.out.println(imgFrmVO);
+		
 		String[] otherImgList = imgFrmVO.getOtherImgs();
 		int cnt = 0;
 		if (otherImgList.length != 0) {

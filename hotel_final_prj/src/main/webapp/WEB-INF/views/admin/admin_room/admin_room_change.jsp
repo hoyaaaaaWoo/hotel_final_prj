@@ -136,6 +136,7 @@ background-color: #F1F3F4;
 </style>
 
 <script type="text/javascript">
+
 $(function(){
 	
 	//수정 클릭 시 
@@ -494,10 +495,9 @@ function resetFileTag(){
 		<div id="container" style="padding:50px"> 
 		<span id="mainMenu" onclick="location.href='change_room_form.do?'">객실 정보 수정</span>
 		
-		<form name="roomChgFrm" id="roomChgFrm" action="change_room_process.do" method="get">
+		<form name="roomChgFrm" id="roomChgFrm" action="change_room_process.do" method="post">
 		<div id="tabDiv">
-		<c:forEach var="rVO" items="${rList}">
-		<input type="hidden" name="rNum" id="rNum" value="${rVO.roomNum}"/>
+		<input type="hidden" name="roomNum" id=rNum value="${rVO.roomNum}"/>
 
 		<table id="mainTab">
 		<tr>
@@ -509,7 +509,7 @@ function resetFileTag(){
 		<tr>
 			<td>
 			  <label>* 객실명 </label><br/>
-			  <input type="text" name="rName" id="roomName" value="${rVO.roomName}" class="form-control" maxlength="10"/>
+			  <input type="text" name="roomName" id="roomName" value="${rVO.roomName}" class="form-control" maxlength="10"/>
 			</td>
 			<td>
 			  <label>* 1박 가격(원)</label><br/>
@@ -629,9 +629,7 @@ function resetFileTag(){
 			</td>
 		</tr>
 		</table>
-		
 		<c:set var="mainImg" value="${rVO.img}"/>
-		</c:forEach>
 		</div><!-- 테이블 div -->
 		
 		
@@ -664,7 +662,7 @@ function resetFileTag(){
 			<tr class="imgTr">
 				<c:set var="i" value="${ i+1 }"/>
 				<td class="imgTd"> 1 </td>
-				<td class="imgTd" style="font-weight:bold"><c:out value="${mainImg}"/></td>
+				<td class="imgTd" style="font-weight:bold"><c:out value="${rVO.img}"/></td>
 				<td class="imgTd">
 				<input type="button" name="delBtn" class="delBtn btn btn-default btn-sm" 
 				style="margin:0px;font-size:13px" value="삭제" onclick="delImg(this)"/></td>

@@ -133,11 +133,6 @@ background-color: #F1F3F4;
 </style>
 
 <script type="text/javascript">
-<c:if test="${dupRName eq true}">
-	alert("동일한 이름의 객실은 추가할 수 없습니다.");
-</c:if>
-
-
 $(function(){
 	//submit 클릭
 	$("#addBtn").click(function(){

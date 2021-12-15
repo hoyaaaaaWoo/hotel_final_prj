@@ -100,7 +100,19 @@
 	alert("죄송합니다. 잠시 후 다시 시도해주세요.");
 </c:when>
 </c:choose>
-
+//객실정보수정 결과 메시지
+<c:choose>
+<c:when test="${updateRoomResult eq 'true'}">
+	alert("객실 정보가 변경되었습니다.");
+</c:when>
+<c:when test="${updateRoomResult eq 'false'}">
+	alert("죄송합니다. 잠시 후 다시 시도해주세요.");
+</c:when>
+</c:choose>
+//객실정보수정 시 객실이름 체크 결과 메시지
+<c:if test="${dupRNameChk eq true}">
+alert("동일한 이름의 객실이 존재하여 객실정보수정을 취소합니다.");
+</c:if>
 $(function(){
 	
 	//객실추가 시 

@@ -1,15 +1,22 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" info="관리자 공통 디자인 - header, navi"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
- 
- 
+
+ <%// 관리자 로그인 세션 검증  
+ 	String mg_id = (String)session.getAttribute("id");
+	 if( mg_id == null ) { %> 
+  	<script type="text/javascript">
+ 	alert("로그인 되지 않았습니다.");
+ 	location.href="admin_login_form.do";
+ 	</script>  
+ <%}%>
 
 		<div id="header">
 		Hotel Ritz Seoul  &nbsp; &nbsp;
-		<span id="homeBtn" class="glyphicon glyphicon-home cursor" aria-hidden="true" onclick="javascript:location.href='admin_main.do'"></span>
+		<span id="homeBtn" class="glyphicon glyphicon-home cursor" aria-hidden="true" onclick="location.href='admin_main.do'"></span>
 		<span class="glyphicon glyphicon-user" aria-hidden="true" id="adminImg" ></span>
-		<span style="position: absolute; right: 3px; top: 7px;"><strong>   </strong></span>
-		<span id="logOut" class="cursor" onclick="javascript:location.href=''">로그아웃</span>
+		<span style="position: absolute; right: 3px; top: 7px;"><strong> <%=mg_id%></strong></span>
+		<span id="logOut" class="cursor" onclick="location.href='admin_logout.do'">로그아웃</span>
 		</div>
 
 		<nav id="naviBar">

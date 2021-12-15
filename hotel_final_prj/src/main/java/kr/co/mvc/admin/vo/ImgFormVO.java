@@ -1,13 +1,18 @@
 package kr.co.mvc.admin.vo;
 
-import org.springframework.stereotype.Component;
+import java.util.Arrays;
 
-@Component
 public class ImgFormVO {
 	
 	private String mainImg;
 	private String[] otherImgs;
 	
+	
+	
+	@Override
+	public String toString() {
+		return "ImgFormVO [mainImg=" + mainImg + ", otherImgs=" + Arrays.toString(otherImgs) + "]";
+	}
 	public String getMainImg() {
 		return mainImg;
 	}

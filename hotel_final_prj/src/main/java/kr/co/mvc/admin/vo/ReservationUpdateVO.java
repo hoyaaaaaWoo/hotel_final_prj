@@ -1,12 +1,10 @@
 package kr.co.mvc.admin.vo;
 
-import org.springframework.stereotype.Component;
 
 /**
  * 예약변경 시 사용할 VO
  * @author user
  */
-@Component
 public class ReservationUpdateVO {
 
 	private String resNo, kName, chkInDate, chkOutDate,rName,addReq;
