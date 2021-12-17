@@ -9,12 +9,18 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.dao.IncorrectResultSizeDataAccessException;
+import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
 import kr.co.mvc.admin.vo.OtherImgVO;
 import kr.co.mvc.admin.vo.RoomVO;
+import kr.co.mvc.user.vo.ImagesVO;
+import kr.co.mvc.user.vo.UserMemberVO;
+import kr.co.mvc.user.vo.UserRoomVO;
 
 
 @Component
@@ -104,7 +110,7 @@ public class UserReservationDAO {
 			rmVO.setInputDate(rs.getString("input_date"));
 			String price = new DecimalFormat("#,###").format(rs.getInt("price"));
 			rmVO.setPrice(price);
-			rmVO.setGuestNum(rs.getInt("max_guest"));
+			rmVO.setGuestNum(rs.getString("max_guest"));
 			
 			return rmVO;
 		}// mapRow
@@ -142,5 +148,185 @@ public class UserReservationDAO {
 
 		return imgList;
 	}// selectOtherImg
+	
+//--------------------------------------------------------------------------------------------------
+	
+	public List<UserRoomVO> selectAvaileReserve(String start_date, String end_date, int adult, int child)
+			throws SQLException{
+		
+		List<UserRoomVO> rList = null;
+	
+				   
+		//쿼리실행
+		StringBuilder selectAvailReserve = new StringBuilder();
+		selectAvailReserve
+		.append("	select 	room_no, room.r_status, room.r_name, room.max_guest, room.description, room.price, room.main_img	")
+		.append("	from room	")
+		.append("	where room_no not in ")
+		.append("	(select room.room_no	")
+		.append("	from  room room, reservation res	")
+		.append("	where (res.room_no=room.room_no)	")
+		.append("	and (  (to_date(chkin_date,'yyyy.mm.dd')<=to_date(?,'yyyy.mm.dd')	")
+		.append("	and to_date(chkout_date,'yyyy.mm.dd') >= to_date(?,'yyyy.mm.dd')))	")
+		.append(" 	)	")
+		.append("	and ((to_number(?) + nvl(to_number(?),0) ) <= room.max_guest)	")
+		.append("   and(room.r_status = 'Y')"	);
+		// 날짜에 해당하는 값이 없고,
+		// 최대 인원수보다 작거나 같은 방
+		// adult, child 파라메터를 String형으로 받아오기 때문에, 연산가능한 number로 형변환한다.
+		// 어린이 0 명일때를 고려하여 nvl 사용
+		
+		
+		rList = jt.query(selectAvailReserve.toString(), new Object[] { start_date, end_date, adult, child },
+				new RowMapper<UserRoomVO>() {
+
+					@Override
+					public UserRoomVO mapRow(ResultSet rs, int rowCnt) throws SQLException {
+						UserRoomVO rVO = new UserRoomVO();
+						rVO.setR_name(rs.getString("r_name"));
+						rVO.setRoom_no(rs.getInt("room_no"));
+						rVO.setR_status(rs.getString("r_status"));
+						rVO.setMax_guest(rs.getInt("max_guest"));
+						rVO.setDescription(rs.getString("description"));
+						rVO.setPrice(rs.getInt("price"));
+						rVO.setMain_img(rs.getString("main_img"));
+						return rVO;
+					}
+		});
+
+		return rList;	
+	}//selectAvailReserve
+	
+	
+	/**
+	 * 하나의 객실정보 얻어오기 하나의 객실정보인데 왜 List가 반환형이에요? 여러값이 있어여요 room_no = ?는 PK아니에요? 맞습닏가 그럼 조회결과는 하나가 나오죠
+	 * @param room_no
+	 * @return
+	 * @throws SQLException
+	 */
+	public UserRoomVO selectRoomInfo( int room_no ) throws SQLException{
+
+		UserRoomVO rList = null;
+		
+		// 3. 쿼리 실행
+		String select = "select r_name, description, bed_type, max_guest, r_size, chkin_time, chkout_time, r_view, "
+				+ "amnt_gen, amnt_bath, amnt_other, main_img, price from room where room_no = ?";
+		
+		// interface를 anonymous inner class로 생성하여 그 안에서 조회결과를 VO에 할당
+		rList = jt.queryForObject(select, new Object[] { room_no }, 
+				new RowMapper<UserRoomVO>() {
+				public UserRoomVO mapRow(ResultSet rs, int rowNum) throws SQLException{
+					UserRoomVO rv = new UserRoomVO();
+						// ResultSet을 사용하여 조회결과를 VO에 저장
+						rv.setR_name(rs.getString("r_name"));
+						rv.setDescription(rs.getString("description"));
+						rv.setBed_type(rs.getString("bed_type"));
+						rv.setMax_guest(rs.getInt("max_guest"));
+						rv.setR_view(rs.getString("r_view"));
+						rv.setR_size(rs.getString("r_size"));
+						rv.setChkin_time(rs.getString("chkin_time"));
+						rv.setChkout_time(rs.getString("chkout_time"));
+						rv.setAmnt_gen(rs.getString("amnt_gen"));
+						rv.setAmnt_bath(rs.getString("amnt_bath"));
+						rv.setAmnt_other(rs.getString("amnt_other"));
+						rv.setMain_img(rs.getString("main_img"));
+						rv.setPrice(rs.getInt("price"));
+
+						// 조회결과를 저장한 dv 반환
+						return rv;
+					}
+				});
+		rList.setRoom_no(room_no);
+
+		return rList;
+	}//selectRoomInfo
+	
+	
+	/**
+	 * 룸당 등록된 사진 갯수 
+	 * 캐러셀 인디케이터 설정 시 사용
+	 * @param room_no
+	 * @return
+	 * @throws EmptyResultDataAccessException
+	 * @throws IncorrectResultSizeDataAccessException
+	 * @throws BadSqlGrammarException
+	 */
+	public int selectCountImg( int room_no ) throws EmptyResultDataAccessException, IncorrectResultSizeDataAccessException, BadSqlGrammarException{
+		int cnt = 0;
+
+		String selectCountImg = "select count(img_src) from images where room_no = ? ";
+		
+		cnt = jt.queryForObject(selectCountImg, new Object[] { room_no }, int.class);
+
+		return cnt;
+	}//selectCountImg
+	
+	/**
+	 * 룸넘버로 서브이미지들 가져오기(캐러셀)
+	 * @param room_no
+	 * @return
+	 * @throws SQLException
+	 */
+	public List<ImagesVO> selectSubImages( int room_no ) throws SQLException {
+		List<ImagesVO> list = null;
+		
+		// 3. 쿼리실행
+		StringBuilder selectImg = new StringBuilder();
+		selectImg.append
+		("	select img_src").append("	from images	");
+		
+		// Dynamic query
+		if( room_no != 0) {
+			selectImg.append("	where room_no = ?	");
+		}//end if
+			
+		if( room_no == 0) {
+			
+			list = jt.query(selectImg.toString(), new SelectImg() );
+		}else {
+			
+			list = jt.query(selectImg.toString(), new Object[] { Long.valueOf(room_no) }, new SelectImg() );
+		}//end else
+
+		return list;
+	}//selectImages
+	
+	/////////////////////////////////////////////////
+	public class SelectImg implements RowMapper<ImagesVO>{
+		public ImagesVO mapRow(ResultSet rs, int rowNum) throws SQLException{
+			ImagesVO iv = new ImagesVO();
+			iv.setImg_src(rs.getString("img_src"));
+			return iv;
+		}//mapRow
+	}
+
+	
+//--------------------------------------------------------------------------------
+	public UserMemberVO selectMemAllInfo (String id) throws SQLException{
+		UserMemberVO mv = null;
+		
+		String selectMem = "select * from member where id = ?";
+		
+		// interface를 anonymous inner class로 생성하여 그 안에서 조회결과를 VO에 할당
+		mv = jt.queryForObject(selectMem, new Object[] { id }, 
+			new RowMapper<UserMemberVO>() {
+				public UserMemberVO mapRow(ResultSet rs, int rowNum) throws SQLException{
+					UserMemberVO mv = new UserMemberVO();
+					mv.setId(rs.getString("id"));
+					mv.setEmail(rs.getString("email"));
+					mv.setPass(rs.getString("pass"));
+					mv.setEname_fst(rs.getString("ename_fst"));
+					mv.setEname_lst(rs.getString("ename_lst"));
+					mv.setKname(rs.getString("kname"));
+					mv.setBirth_year(rs.getString("birth_year"));
+					mv.setTel(rs.getString("tel"));
+					mv.setReq_agree(rs.getString("req_agree"));
+					mv.setOpt_agree(rs.getString("opt_agree"));
+					// 조회결과를 반환
+					return mv;
+				}
+			});
+		return mv;
+	}//selectMemInfo
 	
 }//class

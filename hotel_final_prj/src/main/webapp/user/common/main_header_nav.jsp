@@ -15,7 +15,7 @@
 			String id=(String)session.getAttribute("id");
 					if( id == null){
 			%>
-		</span> <span> <a href="http://team3.aws.sist.co.kr/user/login/login.jsp" id="linkLogin">로그인</a></span>
+		</span> <span> <a href="http://localhost/hotel_final_prj/user/user_login/user_login.do" id="linkLogin">로그인</a></span>
 			<% }else{ %>
 		 <span> <a href="http://team3.aws.sist.co.kr/user/login/logout.jsp" id="linkLogin">로그아웃</a></span>
 			<% }//end if %>

@@ -146,11 +146,11 @@ $(function(){
 		 let child = $("#child").val();
 		 
 		 var userId = '<%=(String)session.getAttribute("id") %>';
-			if(userId == "null"){
+			/* if(userId == "null"){
 				alert("예약은 로그인 후 가능합니다. ")
 				location.href = "http://team3.aws.sist.co.kr/user/login/login.jsp";
 				return;
-			}//endif
+			}//endif */
 
 		 
 		  if( (Number(adult) + Number(child)) > 4 ){
@@ -170,17 +170,18 @@ $(function(){
 		 
 		//alert(sd +"  / " +ed + " / " + " / " + Number(adult) + " / " + Number(child) + " / " + (Number(adult) + Number(child)));
 	 
-		 let queryString = "start_date="+sd+"&end_date="+ed+"&adult="+adult+"&child="+child;
-		
+		 let queryString = "start_date="+sd+"&end_date="+ed+"&adult="+$("#adult").val()+"&child="+child;
+		 
 		 $.ajax({
-			 url:"http://team3.aws.sist.co.kr/user/reser_room/ajax_room_date.jsp",
+			 url:"ajax_room_date.do",
 			 type:"post",
-			 data:queryString,
+			 data: queryString, 
 			 dataType:"json",
 			 error:function(xhr){
 				 console.log("에러코드:" + xhr.status + "/ 에러메시지" + xhr.statusText);
 				},
 			 success: function(jsonObj){
+				 
 				//단일데이터
 				if(!jsonObj.dataResult){
 				//복합데이터
@@ -194,14 +195,16 @@ $(function(){
 				
 				//조회 데이터 (JSONArray) 보여주기
 				let param="start_date="+sd+"&end_date="+ed+"&adult="+adult+"&child="+child+"&";
-				
+				let roomHidden="";
 				$.each(jsonObj.data,function(idx,temp){
-					param += "rev_room_num="+temp.room_no+"&";
+					roomHidden+="<input type='hidden' name='rev_room_num' value='"+temp.room_no+"'/>";
 				//요기서 디자인하기
 				});//each
 				
-				location.href="http://team3.aws.sist.co.kr/user/reser_room/room_reserve.jsp?"+param;
-		
+				//alert( $("#hidDiv") )
+				$("#hidDiv").html(roomHidden );
+				//location.href="http://localhost/hotel_final_prj/user/user_room/room_reserve.do?"+param;
+				$("#dateFrm").submit();
 			 }//success
 			 
 		 });//end ajax
@@ -231,9 +234,10 @@ $(function(){
  String userId = (String)session.getAttribute("id");
 pageContext.setAttribute("userId", userId);
 %> --%>
-
-	<div class="wrapper" >
+	<div class="wrapper">
 		<jsp:include page="/user/common/main_header_nav.jsp"/>
+	</div>
+	<div class="wrapper" style = " text-align: center;">
 		
 		<!-- header/navibar import -->
 		
@@ -250,7 +254,7 @@ pageContext.setAttribute("userId", userId);
   		
 		<br/>
 		
-		<form name = "dateFrm" id = "dateFrm" method = "get" action = "room_reserve.do">
+		<form name = "dateFrm" id = "dateFrm" method = "post" action = "room_reserve.do">
 		<div style = "width: 800px; margin: 0px auto">
 		<div style = "width: 500px;  margin: 0px auto">
 		
@@ -297,7 +301,7 @@ pageContext.setAttribute("userId", userId);
 			<td style = "width: 300px; height: 60px;  font-size: 16px; font-weight: bold">
 			체크인<br/> 
 			<span class="Zebra_DatePicker_Icon_Wrapper"
-				style=" width: 300px;"> <input
+				style=" width: 300px;"> <input name="start_date"
 				id="datepicker-range-start" type="text" class="form-control"
 				data-zdp_readonly_element="false"
 				style="position: relative; float: none; inset: auto; margin: 0px; margin-top: 10px"></span>
@@ -308,7 +312,7 @@ pageContext.setAttribute("userId", userId);
 			<td  style = "width: 300px; height: 60px;  font-size: 16px; font-weight: bold">
 			체크아웃<br/>
 			<span class="Zebra_DatePicker_Icon_Wrapper"
-				style=" width: 300px;"> <input
+				style=" width: 300px;"> <input name="end_date"
 				id="datepicker-range-end" type="text" class="form-control"
 				data-zdp_readonly_element="false"
 				style="position: relative; float: none; inset: auto; margin: 0px;  margin-top: 10px "></span>
@@ -320,15 +324,10 @@ pageContext.setAttribute("userId", userId);
 			<div style = "width: 1130px; text-align: center">
 			<input type="button"  value="조회" id="btn" />
 			</div>
+			<div id="hidDiv"></div>
 			</form>
 <!--  -->
 
-
-
-
-
-
-	
 
 	</div><!-- wrapper -->
 	</div>

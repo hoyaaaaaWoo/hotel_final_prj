@@ -22,7 +22,7 @@ public class MainService {
 		try {
 			mrList = mainDAO.selectMainRoom();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			e.printStackTrace(); 
 		}//end catch
 		
 		return mrList;

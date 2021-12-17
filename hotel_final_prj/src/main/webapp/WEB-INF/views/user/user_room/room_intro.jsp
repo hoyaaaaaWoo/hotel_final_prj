@@ -248,6 +248,7 @@ $(function(){
 				<c:forEach var = "i" begin = "1" end = "${cnt.get(i) }" step = "1">
 					<li data-target="#myCarousel_<%=i %>" data-slide-to= "${cnt.get(i) }"></li>
 				</c:forEach>
+				
 			</ol>
 			
 			<!-- carousel-inner -->
