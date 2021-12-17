@@ -448,7 +448,7 @@ function resetFileTag(){
 	<div id="wrap">
 	   
 		<!-- header/navibar import -->
-		<jsp:include page="/WEB-INF/views/admin/common/admin_header_nav.jsp"/>		
+		<jsp:include page="/admin/common/admin_header_nav.jsp"/>		
 	
 		<!-- 컨테이너 시작  -->
 		<div id="container">
@@ -588,7 +588,7 @@ function resetFileTag(){
 
 		<form action="add_img_file.do" id="uploadfrm" method="post" enctype="multipart/form-data">
 		<label style="padding-left: 50px;padding-bottom:15px">* 객실 이미지</label>
-		<span style="font-size:14px;">&nbsp;(※최대 5장까지 등록 가능합니다.)</span>
+		<span style="font-size:14px;margin-right: 65px">&nbsp;(※최대 5장 등록 가능)</span>
 		<label for="mainFile" class="btn btn-info btn-sm" id="mainUpLoad">메인 이미지 추가</label>
 			<input type="file" name ="mainFile" id="mainFile" style="display: none;"/>
 		<label for="otherFile" class="btn btn-info btn-sm" id="otherUpLoad">기타 이미지 추가</label>

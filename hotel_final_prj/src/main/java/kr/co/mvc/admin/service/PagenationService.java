@@ -34,23 +34,32 @@ public class PagenationService {
 
 	
 	/**
+	 * 현재페이지 형식 체크
+	 * @return
+	 */
+	public int setCurrentpage(String currentPage) {
+		int currentPage1 = 0;
+		try {
+			currentPage1 = Integer.parseInt(currentPage);
+		}catch(NumberFormatException nfe) {
+			currentPage1 = 1;
+		}//end catch
+		return currentPage1;
+	}//setCurrentpage
+	
+	
+	/**
 	 * 현재페이지에 따라 시작번호 구하기
 	 * @param currentPage
 	 * @param pageScale
 	 * @return
 	 */
-	public int getStartNum(String currentPage) {
+	public int getStartNum(int currentPage) {
 		int startNum =0;
-		
-		try {
-			startNum = Integer.parseInt(currentPage)*pageScale-pageScale+1;
-		}catch(NumberFormatException nfe) {
-			startNum = 1;
-		}//end catch
-		
+		startNum = currentPage*pageScale-pageScale+1;
 		return startNum;
 	}//getStartNum
-
+ 
 	
 	/**
 	 * 끝번호 구하기

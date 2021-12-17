@@ -35,19 +35,23 @@
 	border-bottom: 1px solid #454D55;
 	width:100%;
 	hegiht:300px;
+	padding-left:5px;
 }
 
 #resList{
 	font-size: 15px;
 	margin-left: 10px;
 	margin-bottom:0px;
+	padding-left:5px;
 }
 
 #year,#month,#day{
 	width:120px;
 	margin-right: 5px;
 	font-size: 15px;
-	color:#000000}
+	color:#000000;
+	
+}
 
 .table{
 	width:1200px;
@@ -180,7 +184,7 @@ $(function(){
 		let td = tr.children();
 
 		//선택된 행에서 예약번호 얻어오기
-		let resNum = td.eq(1).text();
+		let resNum = td.eq(0).text();
 		
 		if(resNum != "예약번호" && resNum != null){
 		//해당 예약번호를 예약변경 페이지로 전송!
@@ -198,7 +202,7 @@ $(function(){
 		let tr = delBtn.parent().parent(); 
 		let td = tr.children();
 		//예약번호 얻기
-		let resNum = td.eq(0).text();
+		let resNum = td.eq(1).text();
 		
 		if(confirm("["+resNum+"] 예약을 삭제하시겠습니까?")){
 			$("#delResNum").val(resNum);
@@ -216,23 +220,23 @@ $(function(){
 <body>
 	<div id="wrap">
 		<!-- header/navibar import -->
-		<jsp:include page="/WEB-INF/views/admin/common/admin_header_nav.jsp"/>
+		<jsp:include page="/admin/common/admin_header_nav.jsp"/>
 
-		<div id="container" style="padding:50px">
+		<div id="container" >
 		<form name="dateFrm" id="dateFrm" action="search_res_list.do" method="get" class="form-inline">
 		 <span id="mainMenu" onclick="location.href='search_res_list.do'">예약 조회</span><br/><br/>
 		
 		 <div id="date">
 		 <span style="font-size: 15px;color: #343A40;font-weight: bold">&nbsp;※ 체크인 일자 검색</span><br/>
 		 <!-- 날짜 입력/선택여부에 따라 value 설정-->
-		 	<c:choose>
+ 		 	<c:choose>
 		  	 <c:when test="${not empty param.year}">
-		  	  <input type="text" id="year" name="year" class="form-control" value="${param.year}" maxlength="4" style="margin-top: 13px"/>년 &nbsp;
+		  	  <input type="text" id="year" name="year" class="form-control" value="${param.year}" maxlength="4" />년 &nbsp;
 		  	  <input type="text" id="month" name="month" class="form-control" value="${param.month}" maxlength="2"/>월 &nbsp;
 		  	  <input type="text" id="day" name="day" class="form-control" value="${param.day}" maxlength="2"/>일 &nbsp;
 		  	 </c:when>
 		  	 <c:otherwise>
-		  	  <input type="text" id="year" name="year" class="form-control" placeholder="YYYY" maxlength="4" style="margin-top: 13px"/>년 &nbsp;
+		  	  <input type="text" id="year" name="year" class="form-control" placeholder="YYYY" maxlength="4" />년 &nbsp;
 		  	  <input type="text" id="month" name="month" class="form-control" placeholder="MM" maxlength="2"/>월 &nbsp;
 		  	  <input type="text" id="day" name="day" class="form-control" placeholder="DD" maxlength="2"/>일 &nbsp;
 		  	 </c:otherwise>
@@ -246,12 +250,12 @@ $(function(){
 		 <div id="resList">
 		 <table class="table table-bordered" id="resList">
 		 <tr>
-		 	<th>예약일자</th>
 		 	<th>예약번호</th>
 		 	<th>예약자명</th>
 		 	<th>객실</th>
 		 	<th>투숙기간</th>
 		 	<th>인원수</th>
+		 	<th>예약일자</th>
 		 	<th>예약관리</th>
 		 </tr>
 		 
@@ -264,12 +268,12 @@ $(function(){
 	
 		<c:forEach var="res" items="${ resList }">
 		  <tr>
-			<td><c:out value="${ res.resDate }"/></td>
 			<td><c:out value="${ res.resNo }"/></td>
 			<td><c:out value="${ res.kName }"/></td>
 			<td><c:out value="${ res.rName }"/></td>
 			<td><c:out value="${ res.stayDate }"/></td>
 			<td><c:out value="${ res.guest }"/></td>
+			<td><c:out value="${ res.resDate }"/></td>
 	 		<td onclick="event.cancelBubble=true">
 	 	 	<input type="button" id="delBtn" name="delBtn" class="delBtn btn btn-danger" value="예약삭제"></td>
 		  </tr>
@@ -294,15 +298,15 @@ $(function(){
 
 		<c:if test="${totalPage ne 0}">
 		<ul class="pagination" id="page">
-		    <li><a href="#">&lt;&lt;</a></li>
+		    <li><a href="#void">&lt;&lt;</a></li>
 		    <c:forEach var="num" begin="1" end="${totalPage}" step="1">
 		    	<c:if test="${num eq currentPage}">
 		    		<c:set var="active" value="style='background:#dfdfdf'"/>
 			    </c:if>
-			    <li><a href="#" ${active}><c:out value="${num}"/></a></li>
+			    <li><a href="#void" ${active}><c:out value="${num}"/></a></li>
 		    	<c:set var="active" value=""/>
 		    </c:forEach>
-		    <li><a href="#">&gt;&gt;</a></li>
+		    <li><a href="#void">&gt;&gt;</a></li>
 		 </ul>
 		 </c:if>
 		 

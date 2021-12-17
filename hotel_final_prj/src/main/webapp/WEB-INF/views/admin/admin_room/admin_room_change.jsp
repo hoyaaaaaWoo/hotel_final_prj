@@ -489,7 +489,7 @@ function resetFileTag(){
 	<div id="wrap">
 	
 		<!-- header/navibar import -->
-		<jsp:include page="/WEB-INF/views/admin/common/admin_header_nav.jsp"/>
+		<jsp:include page="/admin/common/admin_header_nav.jsp"/>
 		
 		<!-- 컨테이너 시작  -->
 		<div id="container" style="padding:50px"> 

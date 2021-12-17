@@ -125,6 +125,7 @@ $(function(){
 		  outDate+='-'+outDay;
 	 	//date 형식변환
 		let ckInDate = Date.parse(inDate);
+		let ckInDate2 = new Date(inDate);
 		let ckOutDate = Date.parse(outDate);
 		
 		//date형식 변환했을 때, 유효하지 않은 날짜는 NaN이 return
@@ -135,13 +136,18 @@ $(function(){
 		
 		//현재일자 구하기
 	 	var toDay = new Date();
+	 	var year = toDay.getFullYear();
+	 	var month = ('0' + (toDay.getMonth() + 1)).slice(-2);
+	 	var day = ('0' + toDay.getDate()).slice(-2);
 
-		if(toDay > ckInDate) {
+	 	var dateString = year + '-' + month  + '-' + day;
+		
+		if(!(ckInDate2 = dateString || ckInDate2 > dateString )) {
 			alert("체크인은 오늘 또는 이후의 날짜로 입력해주세요.")
 			return;
 		}//end if 
 
-		if(toDay > ckOutDate){
+		if(ckOutDate < toDay ){
 			alert("체크아웃은 오늘 이후의 날짜로 입력해주세요.")
 			return;
 		}//end if 
@@ -190,7 +196,7 @@ $(function(){
 	<div id="wrap">
 		
 		<!-- header/navibar import -->
-		<jsp:include page="/WEB-INF/views/admin/common/admin_header_nav.jsp"/>
+		<jsp:include page="/admin/common/admin_header_nav.jsp"/>
 		
 		<div id="container" style="padding:50px">
 		<span id="mainMenu" onclick="location.href='change_res_form.do?resNum=${ruVO.resNo}'">예약 변경</span><br/><br/>

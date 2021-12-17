@@ -50,14 +50,16 @@ public class ReservationController {
 		if(page == null || "".equals(page)) {
 			page = "1";
 		}//end if
+		
+		int currentPage = pageSev.setCurrentpage(page);
 
 		//페이지네이션 작업
 		pageSev.setPageScale(10);
 		model.addAttribute("totalPage", pageSev.getTotalPage(resSev.selectAllResCnt(date)));
-		model.addAttribute("currentPage", page);
+		model.addAttribute("currentPage", currentPage);
 		
 		//요청 페이지 넘버에 따른 조회 범위 구하기
-		int startNum = pageSev.getStartNum(page);
+		int startNum = pageSev.getStartNum(currentPage);
 		int endNum = pageSev.getEndNum(startNum);
 		
 		model.addAttribute("todayList", resSev.searchRes(date, startNum, endNum));
@@ -79,13 +81,15 @@ public class ReservationController {
 			page = "1";
 		}//end if
 
+		int currentPage = pageSev.setCurrentpage(page);
+		
 		//페이지네이션 작업
 		pageSev.setPageScale(10);
 		model.addAttribute("totalPage", pageSev.getTotalPage(resSev.selectAllResCnt(date)));
-		model.addAttribute("currentPage", page);
+		model.addAttribute("currentPage", currentPage);
 		
 		//요청 페이지 넘버에 따른 조회 범위 구하기
-		int startNum = pageSev.getStartNum(page);
+		int startNum = pageSev.getStartNum(currentPage);
 		int endNum = pageSev.getEndNum(startNum);
 		
 		//예약 조회 작업
@@ -116,7 +120,7 @@ public class ReservationController {
 		return "forward:search_res_list.do";
 	}// removeRes
 
-	
+	 
 	/**
 	 * 예약수정 form
 	 * @param resNum

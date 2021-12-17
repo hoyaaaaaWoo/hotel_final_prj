@@ -68,7 +68,7 @@ tr:hover td {
 
 <script type="text/javascript">
 $(function(){
-/* 예약 변경 */
+/* 예약메인 이동*/
 $("#toDayList tr").click(function(){
 	//현재 선택된 tr과 td
 	let tr = $(this);
@@ -80,7 +80,35 @@ $("#toDayList tr").click(function(){
 	if(resNum != "예약번호" && resNum != null){
 		$("#moveFrm").submit();
 	}//end if
-})//table click
+});//table click
+
+/* 페이지네이션 클릭시 현재페이지 전송 */
+$(".pagination li").click(function() {
+	let page = $(this).text();
+	let currentPage = ${currentPage};
+	let totalPage = ${totalPage};
+
+	//이전 버튼 클릭
+	if(page == '<<') {
+		if(currentPage == 1) { //현재 1 페이지면 1 반환
+			page = 1; 
+		} else {
+			page = currentPage-1;
+		}//end else
+	}//end if  
+	
+	//다음 버튼 클릭
+	if(page == ">>") {
+		if(currentPage == totalPage) {//현재 끝 페이지면 끝 반환
+			page = totalPage; 
+		} else {
+			page = currentPage+1;
+		}//end else
+	}//end if  
+ 	
+	location.href="admin_main.do?page="+page;
+});//페이지네이션 click
+
 
 })//ready
 </script>
@@ -89,7 +117,7 @@ $("#toDayList tr").click(function(){
 
 	<div id="wrap">
 		<!-- header/navibar import -->
-		<jsp:include page="/WEB-INF/views/admin/common/admin_header_nav.jsp"/>
+		<jsp:include page="/admin/common/admin_header_nav.jsp"/>
 		
 		<div id="container">
 			<span id="mainMenu" onclick="location.href='admin_main.do'">오늘의 예약</span><br/>
@@ -97,12 +125,12 @@ $("#toDayList tr").click(function(){
 		<div id="todayRes">
 		<table  class="table table-bordered" id="toDayList">
 			<tr>
-			<th>예약일자</th>
 			<th>예약번호</th>
 			<th>예약자명</th>
 			<th>객실</th>
 			<th>투숙기간</th>
 			<th>인원수</th>
+			<th>예약일자</th>
 		<tr>
 				
 		<c:if test="${ empty todayList }">
@@ -114,12 +142,12 @@ $("#toDayList tr").click(function(){
 		
 		<c:forEach var="data" items="${ todayList }">
 		  <tr>
-			<td><c:out value="${ data.resDate }"/></td>
 			<td><c:out value="${ data.resNo }"/></td>
 			<td><c:out value="${ data.kName }"/></td>
 			<td><c:out value="${ data.rName }"/></td>
 			<td><c:out value="${ data.stayDate }"/></td>
 			<td><c:out value="${ data.guest }"/></td>
+			<td><c:out value="${ data.resDate }"/></td>
 		  </tr>
 		</c:forEach>
 		
@@ -137,15 +165,15 @@ $("#toDayList tr").click(function(){
 		 
 		<c:if test="${totalPage ne 0}">
 		<ul class="pagination" id="page">
-		    <li><a href="#">&lt;&lt;</a></li>
+		    <li><a href="#void">&lt;&lt;</a></li>
 		    <c:forEach var="num" begin="1" end="${totalPage}" step="1">
 		    	<c:if test="${num eq currentPage}">
 		    		<c:set var="active" value="style='background:#dfdfdf'"/>
 			    </c:if>
-			    <li><a href="#" ${active}><c:out value="${num}"/></a></li>
+			    <li><a href="#void" ${active}><c:out value="${num}"/></a></li>
 		    	<c:set var="active" value=""/>
 		    </c:forEach>
-		    <li><a href="#">&gt;&gt;</a></li>
+		    <li><a href="#void">&gt;&gt;</a></li>
 		 </ul>
 		 </c:if>
 

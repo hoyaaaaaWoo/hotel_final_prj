@@ -34,23 +34,25 @@
 <style type="text/css">
 #addBtn{
 	margin-top:30px;
-	margin-left:45px;
+	margin-left:40px;
 }
 
 #roomList{
 	width:100%;
-	padding-left:20px;
+	margin-top:0px;
+	margin-left:20px;
 	border-bottom: 1px solid #454D55;
 }
 
 #roomTab{
-	height:250px;
 	text-align: left;
 }
 
 .mainTd{
 	width : 170px;
-	padding : 10px;
+	height: 220px;
+	padding-left:0px;
+	padding-right : 10px;
 	font-size: 15px;
 	font-weight: bold;
 	color:#000000;
@@ -167,7 +169,7 @@ function showRoomDetail(roomName){
 	<div id="wrap">
 	
 		<!-- header/navibar import -->
-		<jsp:include page="/WEB-INF/views/admin/common/admin_header_nav.jsp"/>	
+		<jsp:include page="/admin/common/admin_header_nav.jsp"/>	
 		
 		<!-- 컨테이너 시작 -->
 		<div id="container" style="padding:50px"> 
@@ -181,11 +183,15 @@ function showRoomDetail(roomName){
 		  <c:forEach var="roomList" items="${ roomList }">
 	        <c:set var="rStatus" value="roomStatusY"/>
 		    <c:set var="height" value=""/>
+			<c:if test="${roomList.getrStatus() eq 'N'}">
+		      <c:set var="rStatus" value="roomStatusN"/>
+		      <c:set var="height" value="style='height:110px'"/>
+		 	</c:if>
+		 	<c:if test="${ not empty param.rName && param.rName eq roomList.getRoomName()}">
+		      <c:set var="rStatus" value="roomStatusClick"/>
+		      <c:set var="height" value=""/>
+  			</c:if>
 			<td class="mainTd">
-			 <c:if test="${roomList.getrStatus() eq 'N'}">
-		         <c:set var="rStatus" value="roomStatusN"/>
-		         <c:set var="height" value="style='height:110px'"/>
-		 	 </c:if>
   			<img src="http://localhost/hotel_final_prj/admin/room_status_img/${rStatus}.png" ${height} class="rStatus img-rounded"
   			onclick="showRoomDetail( '${roomList.getRoomName()}' )"/>
 			<br/>
