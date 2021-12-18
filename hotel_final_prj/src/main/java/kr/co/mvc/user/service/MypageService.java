@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import kr.co.mvc.user.dao.MypageDAO;
 import kr.co.mvc.user.vo.LoginVO;
+import kr.co.mvc.user.vo.MemberChgPassVO;
 import kr.co.mvc.user.vo.UserMemberVO;
 import kr.co.sist.util.cipher.DataEncrypt;
 
@@ -50,6 +51,11 @@ public class MypageService {
 	}//passFlag
 	
 	
+	/**
+	 * 회원의 기존 이름, 전화번호, 이메일 가져옴
+	 * @param id
+	 * @return
+	 */
 	public List<UserMemberVO> searchMemPersonalInfo( String id ){
 		List<UserMemberVO> umVO = null;
 		try {
@@ -64,5 +70,16 @@ public class MypageService {
 		return umVO;
 	}//searchMemPersonalInfo
 	
+	
+	
+	public boolean chgPass ( MemberChgPassVO cpVO ) {
+		boolean flag = false;
+		int cnt = myDAO.updatePass(cpVO);
+		if( cnt == 1) {
+			flag = true;
+		}//end if
+		System.out.println("mSer flag : " + flag);
+		return flag;
+	}//chgPass
 	
 }//class

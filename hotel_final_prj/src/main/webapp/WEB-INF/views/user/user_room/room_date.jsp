@@ -112,14 +112,14 @@ tr { border: 1px solid #FFFF00}
 
 <script type="text/javascript">
 
-<%--  function loginChk(){
+function loginChk(){
 	var userId = '<%=(String)session.getAttribute("id") %>';
 	if(userId == "null"){
 		alert("예약은 로그인 후 가능합니다. ")
-		location.href = "http://team3.aws.sist.co.kr/user/login/login.jsp";
+		location.href = "http://localhost/hotel_final_prj/user/user_login/login.do";
 		return;
 	}//endif
-}//loginChk --%>
+}//loginChk 
 
 $(function(){
 	$('#datepicker-range-start').Zebra_DatePicker({
@@ -146,11 +146,11 @@ $(function(){
 		 let child = $("#child").val();
 		 
 		 var userId = '<%=(String)session.getAttribute("id") %>';
-			/* if(userId == "null"){
+			 if(userId == "null"){
 				alert("예약은 로그인 후 가능합니다. ")
-				location.href = "http://team3.aws.sist.co.kr/user/login/login.jsp";
+				location.href = "http://localhost/hotel_final_prj/user/user_login/login.do";
 				return;
-			}//endif */
+			}//endif 
 
 		 
 		  if( (Number(adult) + Number(child)) > 4 ){
@@ -230,10 +230,10 @@ $(function(){
 <!-- NAVBAR
 ================================================== -->
 <body>
-<%-- <%
+ <%
  String userId = (String)session.getAttribute("id");
 pageContext.setAttribute("userId", userId);
-%> --%>
+%> 
 	<div class="wrapper">
 		<jsp:include page="/user/common/main_header_nav.jsp"/>
 	</div>

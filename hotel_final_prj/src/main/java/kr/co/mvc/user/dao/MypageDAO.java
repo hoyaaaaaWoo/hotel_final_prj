@@ -14,6 +14,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
 import kr.co.mvc.user.vo.LoginVO;
+import kr.co.mvc.user.vo.MemberChgPassVO;
 import kr.co.mvc.user.vo.UserMemberVO;
 import kr.co.sist.util.cipher.DataDecrypt;
 
@@ -91,6 +92,20 @@ public class MypageDAO {
 		}
 		return list;
 	}//DecryptDeleteMemberData
+	
+	
+	/**
+	 * 비밀번호 변경
+	 * @param mVO
+	 * @return
+	 * @throws 
+	 */
+	public int updatePass( MemberChgPassVO cpVO)throws DataAccessException{
+		String updatePass="update member set pass=? where id=? and pass=?";
+		int cnt=jt.update(updatePass,cpVO.getChange_pass(), cpVO.getId(), cpVO.getPass() );
+		System.out.println("mDAO cnt : " + cnt);
+		return cnt;
+	}//updatePass
 	
 	
 }//class

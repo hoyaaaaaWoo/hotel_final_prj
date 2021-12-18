@@ -207,7 +207,7 @@ pageContext.setAttribute("info", infoVO);
 <br/><br/><br/>
 	<p style = "font-size: 18px; font-weight: bold; ">비밀번호 변경하기<p>
 
-	<form  id="passFrm" action="http://team3.aws.sist.co.kr/user/mypage/member_pass_process.jsp" method="post">
+	<form  id="passFrm" action="member_pass_process.do" method="post">
 	
 	<input type="password" style="width:250px;height:40px" placeholder="현재 비밀번호를 입력하세요"id="pass"  name ="pass">
 	<br/><br/>

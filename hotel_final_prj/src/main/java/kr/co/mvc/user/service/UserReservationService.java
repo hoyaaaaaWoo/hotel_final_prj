@@ -19,6 +19,7 @@ import kr.co.mvc.user.dao.UserReservationDAO;
 import kr.co.mvc.user.vo.ImagesVO;
 import kr.co.mvc.user.vo.UserCardVO;
 import kr.co.mvc.user.vo.UserMemberVO;
+import kr.co.mvc.user.vo.UserResCheckVO;
 import kr.co.mvc.user.vo.UserReservationVO;
 import kr.co.mvc.user.vo.UserRoomVO;
 import kr.co.mvc.user.vo.searchRoomVO;
@@ -265,5 +266,37 @@ public class UserReservationService {
 		System.out.println("카드변경service----------" + cardVO);
 		resDAO.updateCard(cardVO);
 	}//modifyCardInfo
+	
+	
+	
+	/**
+	 * 회원의 예약리스트 조회
+	 * @param id
+	 * @return
+	 */
+	public List<UserReservationVO> searchResList( String id ){
+		List<UserReservationVO> rList = null;
+		
+		try {
+			rList = resDAO.reserInq(id);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}//end catch
+		
+		return rList;
+	}//searchResList
+	
+	/**
+	 * 예약번호에 해당하는 방정보와 회원정보 조회
+	 * @param res_no
+	 * @return
+	 */
+	public UserResCheckVO searchResRoomInfo ( String res_no ) {
+		UserResCheckVO rVO = null;
+		rVO = resDAO.selectResRoomInfo(res_no);
+		return rVO;
+	}//searchResRoomInfo
+	
+
 	
 }//class

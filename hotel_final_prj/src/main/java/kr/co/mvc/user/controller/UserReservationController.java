@@ -10,20 +10,25 @@ import kr.co.mvc.user.service.UserReservationService;
 import kr.co.mvc.user.vo.RoomVO;
 import kr.co.mvc.user.vo.UserCardVO;
 import kr.co.mvc.user.vo.UserMemberVO;
+import kr.co.mvc.user.vo.UserResCheckVO;
 import kr.co.mvc.user.vo.UserReservationVO;
 import kr.co.mvc.user.vo.UserRoomVO;
+import kr.co.sist.util.cipher.DataDecrypt;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 import java.io.UnsupportedEncodingException;
 import java.security.GeneralSecurityException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -296,13 +301,54 @@ public class UserReservationController {
 			System.out.println("카드정보변경 : " + cardVO);
 			resService.modifyCardInfo(cardVO);
 		}//end if
-		
-		
-		
-		
-		
-		
+
 	return "user/user_room/room_reserve4_final";
 	}//reserve_04final
+	
+	
+	@RequestMapping( value = "user/user_chk/reservation_inq.do", method = {GET, POST} )
+	public String reservationChkList( HttpSession session, Model model ) {
+		
+		String id = (String) session.getAttribute("id");
+		List<UserReservationVO> rList = null;
+		rList = resService.searchResList(id);
+		model.addAttribute("reserInq", rList);
+		return "user/user_chk/reservation_inq";
+	}//reservationChkList
+	
+	
+	@RequestMapping( value = "user/user_chk/reservation_confirm.do", method = {GET, POST} )
+	public String reservationConfirm ( HttpSession session, Model model, String res_no ) throws ParseException, NoSuchAlgorithmException, UnsupportedEncodingException, GeneralSecurityException {
+		String id = (String) session.getAttribute("id");
+		
+		UserResCheckVO rVO = null;
+		rVO = resService.searchResRoomInfo(res_no);
+		
+		Date sdFormat = new SimpleDateFormat("yyyy.MM.dd").parse(rVO.getChkin_date());
+		Date edFormat = new SimpleDateFormat("yyyy.MM.dd").parse(rVO.getChkout_date());
+		long diffDays = (edFormat.getTime() - sdFormat.getTime() )/1000/(24*60*60);
+		
+		int price = rVO.getPrice();
+		int tax = (int) (price*0.21);
+		int daysPrice = price*(int)diffDays;
+		int daysTax = tax*(int)diffDays;
+		int daysTotal = (daysPrice + daysTax);
+		
+		DataDecrypt dd=new DataDecrypt("AbcdEfgHiJkLmnOpQ");
+	 	rVO.setTel(dd.decryption(rVO.getTel()));
+		rVO.setEname_fst(dd.decryption(rVO.getEname_fst()));
+		rVO.setEname_lst(dd.decryption(rVO.getEname_lst()));
+		rVO.setEmail(dd.decryption(rVO.getEmail()));
+		
+		model.addAttribute("res_no", res_no);
+		model.addAttribute("rVO", rVO);
+		model.addAttribute("price", price);
+		model.addAttribute("daysPrice", daysPrice);
+		model.addAttribute("daysTax", daysTax);
+		model.addAttribute("daysTotal", daysTotal);
+
+		
+		return "user/user_chk/reservation_confirm";
+	}//reservationConfirm
 	
 }//class

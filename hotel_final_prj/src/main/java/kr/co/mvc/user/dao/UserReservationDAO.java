@@ -21,6 +21,7 @@ import kr.co.mvc.admin.vo.RoomVO;
 import kr.co.mvc.user.vo.ImagesVO;
 import kr.co.mvc.user.vo.UserCardVO;
 import kr.co.mvc.user.vo.UserMemberVO;
+import kr.co.mvc.user.vo.UserResCheckVO;
 import kr.co.mvc.user.vo.UserReservationVO;
 import kr.co.mvc.user.vo.UserRoomVO;
 
@@ -442,5 +443,99 @@ public class UserReservationDAO {
 		int cnt = jt.update(updateCard, cardVO.getCard_no(), cardVO.getId() );
 
 	}//updateCard
+	
+	
+	/**
+	 * 회원의 예약 리스트
+	 * @param id
+	 * @return
+	 * @throws SQLException
+	 */
+	public List<UserReservationVO> reserInq(String id) throws SQLException {
+		List<UserReservationVO> list = null;
+		
+		StringBuilder chkInq = new StringBuilder();
+		chkInq.append("	select reser.res_no, reser.chkin_date, reser.chkout_date, reser.res_status, r.r_name	")
+		.append("	from reservation reser, room r	")
+		.append("	where reser.room_no=r.room_no(+) and reser.id=?	");	
+		
+		list=jt.query(chkInq.toString(), new Object[] { id },new chkInq());
+
+		return list;
+		
+	}//reserInq
+	
+	public class chkInq implements RowMapper<UserReservationVO>{
+		public UserReservationVO mapRow(ResultSet rs, int rowCnt) throws SQLException {
+			UserReservationVO rVO= new UserReservationVO();
+			rVO.setRes_no(rs.getString("res_no"));
+			rVO.setChkin_date(rs.getString("chkin_date"));
+			rVO.setChkout_date(rs.getString("chkout_date"));
+			rVO.setRes_status(rs.getString("res_status"));
+			rVO.setR_name(rs.getString("r_name"));
+			return rVO;
+		}
+	}//RowMapper
+	
+	
+	
+	/**
+	 * 예약번호로 예약된 방 정보와 회원정보 조회하기
+	 * @param res_no
+	 * @return
+	 * @throws DataAccessException
+	 */
+	public UserResCheckVO selectResRoomInfo(String res_no) throws DataAccessException{
+		UserResCheckVO rVO = null;
+
+		String reser = "select r.r_name, r.price, r.main_img, reser.res_no, reser.chkin_date, reser.chkout_date, m.ename_fst, m.ename_lst, m.email, m.tel, "
+				+ "reser.adult, reser.child, reser.id, reser.card_no, reser.company, reser.res_status, reser.add_req  " 
+				+ "from reservation reser, room r, member m "
+				+ "where reser.room_no=r.room_no and reser.id=m.id and reser.res_no='"+ res_no+"'";	
+		rVO=jt.queryForObject(reser,  new RowMapper<UserResCheckVO>() {
+
+			@Override
+			public UserResCheckVO mapRow(ResultSet rs, int rowCnt) throws SQLException {
+				UserResCheckVO rVO=new UserResCheckVO();
+				rVO.setR_name(rs.getString("r_name"));
+				rVO.setPrice(rs.getInt("price"));
+				rVO.setMain_img(rs.getString("main_img"));
+				rVO.setRes_no(rs.getString("res_no"));
+				rVO.setChkin_date(rs.getString("chkin_date"));
+				rVO.setChkout_date(rs.getString("chkout_date"));
+				rVO.setAdult(rs.getInt("adult"));
+				rVO.setChild(rs.getInt("child"));
+				rVO.setCard_no(rs.getString("card_no"));
+				rVO.setCompany(rs.getString("company"));
+				rVO.setId(rs.getString("id"));
+				rVO.setEname_fst (rs.getString("ename_fst"));
+				rVO.setEname_lst (rs.getString("ename_lst"));
+				rVO.setEmail (rs.getString("email"));
+				rVO.setTel(rs.getString("tel"));
+				rVO.setRes_status(rs.getString("res_status"));
+				rVO.setAdd_req(rs.getString("add_req"));
+				return rVO;
+			}
+		});
+		return rVO;
+	}//reservation
+	
+	/**
+	 * 금액
+	 * @param rVO
+	 * @return
+	 * @throws DataAccessException
+	 */
+	public int pay(String pri) throws DataAccessException {
+			Integer price=null;
+
+			String selectPrice = "select r.price from room r where r.room_no in"
+					+ "(select reser.room_no from reservation reser where reser.res_no='"+ pri+"')";
+
+			price = jt.queryForObject(selectPrice,  Integer.class);
+			return price.intValue();		
+	}//pay
+	
+
 	
 }//class
