@@ -1,5 +1,10 @@
+<%@page import="org.springframework.dao.DataAccessException"%>
+<%@page import="kr.co.sist.util.cipher.DataDecrypt"%>
+<%@page import="kr.co.sist.util.cipher.DataEncrypt"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" info = "Hotel Ritz Seoul"%>
+    pageEncoding="UTF-8"%>
+    
+     <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -11,12 +16,13 @@
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
 
+    <title>Hotel_Ritz_Seoul</title>
     <!-- 메인 CSS -->
 	<link rel="stylesheet" type="text/css"
 	href="http://localhost/hotel_final_prj/user/css/main.css">
-     <title>Hotel_Ritz_Seoul</title>
+    
 	<style type = "text/css">
-	
+	/* 		div {margin: 0px auto; width: 1130px;} */
 .hr1 {border-bottom: 1px solid #d3d3d3;}
 
 .loginTitle {
@@ -25,28 +31,44 @@
 	font-size: 25px
 }
 
-#btn:hover {
-	background-color: #FCF4C0  ;
-	color: #333;
-	cursor: pointer;
-}
-
-#btn {
+#gohome {
 	border: 1px solid #E9E9E9;
-	font-size : 15px;
+	font-size : 14px;
 	font-weight: bold;
-	background-color: #FAFAFA;
-	color: #333;
-	width: 230px;
-	height : 40px;
+	background-color: #000;
+	color: #F5DF3C;
+	width: 130px;
+	height: 40px;
 	cursor: pointer;
 	text-align: center;
 	border-radius: 7px;
 }
 
-#join:hover {color:#333; font-weight: bold;}
+#gohome:hover {
+	background-color: #F5dF4D;
+	color: #000000;
+	cursor: pointer;
+}
 
-#find:hover {color:#333;  font-weight: bold;}
+
+#goLogin:hover {
+	background-color: #FCF4C0  ;
+	color: #333;
+	cursor: pointer;
+}
+
+#goLogin {
+	border: 1px solid #E9E9E9;
+	font-size : 15px;
+	font-weight: bold;
+	background-color: #FAFAFA;
+	color: #333;
+	width: 250px;
+	height : 40px;
+	cursor: pointer;
+	text-align: center;
+	border-radius: 7px;
+}
 /*
 div { border: 1px solid #0000FF}
 td { border: 1px solid #FF0000}
@@ -54,13 +76,14 @@ tr { border: 1px solid #FF0000}
 span { border: 1px solid #FF00FF}
 p { border: 1px solid #FF00FF}
 */
+
 	</style>
-	
+
     <!-- Bootstrap core CSS -->
 	<!-- jQuery CDN -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 	
-	
+
 	<!-- Bootstrap CDN -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
@@ -71,79 +94,48 @@ p { border: 1px solid #FF00FF}
     <script src="http://localhost/hotel_final_prj/common/bootstrap/ie-emulation-modes-warning.js"></script>
 
     <link href="http://localhost/hotel_final_prj/common/bootstrap/carousel.css" rel="stylesheet">
-    <script type="text/javascript">
-  $(function() {
-		$("#btn").click(function() {
-			if($("#id").val()==""){
-				alert("아이디를 입력해 주세요.");
-				return;
-		}//end if
-	
-			if($("#pass").val()==""){
-				alert("비밀번호를 입력해 주세요.");
-				return;
-		}//end if
-			
-			
-			$("#frm").submit();
-		});//click	
-		
-
-  });
-  </script>
-  
   </head>
 
 <!-- NAVBAR
 ================================================== -->
-	<jsp:include page="/user/common/main_header_nav.jsp"/>
   <body>
 
-	
-      	<br/><br/><br/><br/><br/>
-    <div class = "container">	
-    <div style="text-align: center">
+		 <jsp:include page="/user/common/main_header_nav.jsp"/>
+ <div class="wrapper" >
+ 
+	<br/><br/><br/><br/><br/>
+	<div class="container marketing">
+   <div style="text-align: center">
 		<p class="loginTitle">로그인</p>
     <hr class="hr1">
 			</div>
+ 
+  
+<div style="width: 800px;text-align: center;margin:0px auto;">
+  
+<br/><br/>
+<p style = "font-size: 18px; font-weight: bold; ">아이디/비밀번호를 다시 확인해 주세요.</p>
+<br/><br/><br/>
+<input type="button" value="로그인" id = "goLogin" onclick="location.href='http://localhost/hotel_final_prj/user/user_login/login.do'">
+</div>
+																																					
 
-    <br/><br/>
-     <form method="post" id="frm" name="frm" action="http://localhost/hotel_final_prj/user/user_login/loginProcess.do">
-    <table style="margin: 0px auto; width: 230px">
-    	<tr>
-    		<tr>
-    			<td style = "padding: 10px"><input type="text" placeholder="아이디" style = "height: 40px" name="id" id="id" class="form-control"> </td>
-    		</tr>
-    		<tr>
-    			<td  style = "padding: 10px"><input type="password" placeholder="비밀번호" style = "height: 40px" name="pass" id="pass" class="form-control"> </td>
-    		</tr>
-    		<tr>
-    			<td  style = "padding: 10px"><input type="button"  value="로그인"  id="btn" ></td>
-    		</tr>
-    		<tr>
-    			<td style = "padding: 5px">
-    			&nbsp;&nbsp;
-    			<a href="http://localhost/hotel_final_prj/user/user_login/user_signup.do" style="color: #C0C0C0" ><span id = "join">회원가입&nbsp;&nbsp;</span></a>
-				&nbsp;&nbsp;&nbsp;&nbsp;
-    			<a href="http://localhost/hotel_final_prj/user/user_login/user_find_form.do" style="color: #C0C0C0"><span id = "find">아이디/비밀번호 찾기</span></a></td>
-    		</tr>
-    </table>
-    </form>
-    
-    </div>
+</div>
 
+  <br/><br/>
+ <div style="width:150px; text-align: center;margin:0px auto;">
+  <input type="button" style="width: 100px;" id = "gohome" value="홈으로" onclick="location.href = 'http://localhost/hotel_final_prj/user/user_main/Hotel_Ritz_Seoul.do'">
+
+  </div>
+</div>
     <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
       <!-- FOOTER -->
-    <jsp:include page="/user/common/main_footer.jsp" />
+   <jsp:include page="/user/common/main_footer.jsp"/>
+
     <!-- Bootstrap core JavaScript
     ================================================== -->
     
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="http://localhost/hotel_final_prj/common/bootstrap/ie10-viewport-bug-workaround.js"></script>
-    <script>
-
-   		
-    	
-    </script>
   </body>
 </html>

@@ -1,17 +1,40 @@
 package kr.co.mvc.user.service;
 
+import java.security.NoSuchAlgorithmException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.support.SessionStatus;
 
 import kr.co.mvc.user.dao.UserLoginDAO;
+import kr.co.mvc.user.vo.LoginVO;
 import kr.co.mvc.user.vo.UserFindVO;
+import kr.co.sist.util.cipher.DataEncrypt;
 
 @Component
 public class UserLoginService {
 
 	@Autowired
 	private UserLoginDAO loginDAO;
+	
+	public boolean userMember(LoginVO lVO)  {
+		boolean logFlag=false;	
+			try {
+				lVO.setPass( DataEncrypt.messageDigest("SHA-512", lVO.getPass()) );
+				String kname=loginDAO.loginProc(lVO);
+				logFlag=!"".equals(kname);
+			} catch (NoSuchAlgorithmException e) {
+				e.printStackTrace();
+			}
+		return logFlag;		
+	}	
+	
+	public void userLogout(SessionStatus ss) {
+		ss.setComplete();
+	}
+	
+	
 	
 	public String searchUserId(UserFindVO ufVO) {
 		String userId="";
@@ -25,6 +48,8 @@ public class UserLoginService {
 		
 		return userId;
 	}//searchUserId
+	
+	
 	
 	/**
 	 * 비밀번호 찾기 전, 이름과 아이디와 이메일로 사용자 인증<br>

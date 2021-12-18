@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 import kr.co.mvc.user.service.MainService;
@@ -14,7 +16,7 @@ public class MainController {
 	@Autowired
 	private MainService mainService;
 
-	@RequestMapping(value="user/user_main/Hotel_Ritz_Seoul.do", method=GET)
+	@RequestMapping(value="user/user_main/Hotel_Ritz_Seoul.do", method= {GET, RequestMethod.POST,}) 
 	public String main(Model model) {
 		model.addAttribute("mainRooms", mainService.searchMainRooms());
 		

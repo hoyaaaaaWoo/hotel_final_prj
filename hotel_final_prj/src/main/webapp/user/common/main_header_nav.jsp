@@ -13,11 +13,12 @@
 			<strong>Hotel Ritz Seoul</strong>
 			<% 
 			String id=(String)session.getAttribute("id");
+			
 					if( id == null){
 			%>
-		</span> <span> <a href="http://localhost/hotel_final_prj/user/user_login/user_login.do" id="linkLogin">로그인</a></span>
+		</span> <span> <a onclick="location.href='http://localhost/hotel_final_prj/user/user_login/login.do'" id="linkLogin">로그인</a></span>
 			<% }else{ %>
-		 <span> <a href="http://team3.aws.sist.co.kr/user/login/logout.jsp" id="linkLogin">로그아웃</a></span>
+		 <span> <a onclick="location.href='http://localhost/hotel_final_prj/user/user_login/logout.do'" id="linkLogin">로그아웃</a></span>
 			<% }//end if %>
 		 <span> <a href="http://team3.aws.sist.co.kr/user/reser_chk/reservation_inq.jsp" id="linkResView">예약조회</a>
 		</span> <span> <a href="http://team3.aws.sist.co.kr/user/mypage/Mypage.jsp" id="linkMyPage">마이페이지</a></span>
