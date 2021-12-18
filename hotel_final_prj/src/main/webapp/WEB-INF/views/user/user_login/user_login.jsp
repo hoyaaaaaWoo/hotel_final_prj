@@ -125,7 +125,7 @@ p { border: 1px solid #FF00FF}
     			&nbsp;&nbsp;
     			<a href="http://localhost/hotel_final_prj/user/user_login/user_signup.do" style="color: #C0C0C0" ><span id = "join">회원가입&nbsp;&nbsp;</span></a>
 				&nbsp;&nbsp;&nbsp;&nbsp;
-    			<a href="http://team3.aws.sist.co.kr/user/login/find.jsp" style="color: #C0C0C0"><span id = "find">아이디/비밀번호 찾기</span></a></td>
+    			<a href="user_find_form.do" style="color: #C0C0C0"><span id = "find">아이디/비밀번호 찾기</span></a></td>
     		</tr>
     </table>
     </form>
