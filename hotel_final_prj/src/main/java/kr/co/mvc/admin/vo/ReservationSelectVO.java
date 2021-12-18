@@ -8,7 +8,7 @@ package kr.co.mvc.admin.vo;
 
 public class ReservationSelectVO {
 
-	private String resNo, kName, stayDate, rName, resStauts, resDate;
+	private String resNo, kName, stayDate, rName, resStauts, resDate, rNum;
 	private int guest;
 
 
@@ -66,6 +66,14 @@ public class ReservationSelectVO {
 
 	public void setGuest(int guest) {
 		this.guest = guest;
+	}
+
+	public String getrNum() {
+		return rNum;
+	}
+
+	public void setrNum(String rNum) {
+		this.rNum = rNum;
 	}
 	
 }// class

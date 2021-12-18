@@ -62,11 +62,19 @@ public List<MemberVO> searchInactiveMember(String id, int startNum, int endNum) 
 }//searchInactiveMember
 
 
-public int changeMemberProcess(String id) {
-	int cnt=0;
-	
-	
+/**
+ * 회원 삭제 (flag N로 변경)
+ * @param id
+ * @return
+ */
+public int removeMember(String id) {
+	int cnt = 0;
+	try {
+		cnt = memDAO.deleteMember(id); 
+	}catch(DataAccessException dae) {
+		dae.printStackTrace();
+	}//end catch
 	return cnt;
-}
+}//removeMember
 	
 }//class

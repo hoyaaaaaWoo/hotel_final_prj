@@ -26,6 +26,7 @@ public class MemberDAO {
 
 	/**
 	 * 정상회원 조회
+	 * 
 	 * @param id
 	 * @param startNum
 	 * @param endNum
@@ -34,11 +35,11 @@ public class MemberDAO {
 	 */
 	public List<MemberVO> selectActiveMember(String id, int startNum, int endNum) throws DataAccessException {
 		List<MemberVO> list = null;
-		
+
 		StringBuilder selectMember = new StringBuilder();
-		selectMember.append("	select 	id,kname,birth_year,tel,email,ename_fst,ename_lst, to_char(join_date,'yyyy.mm.dd') join_date")
-				.append("	from (")
-				.append("		select 	row_number() over(order by join_date desc)r_num,")
+		selectMember.append(
+				"	select 	id,kname,birth_year,tel,email,ename_fst,ename_lst, to_char(join_date,'yyyy.mm.dd') join_date, r_num")
+				.append("	from (").append("		select 	row_number() over(order by join_date desc)r_num,")
 				.append("				id,kname,birth_year,tel,email,ename_fst,ename_lst,join_date")
 				.append("		from 	member		where   m_status= 'Y' ");
 
@@ -48,7 +49,7 @@ public class MemberDAO {
 
 		selectMember.append(") where r_num between ? and ?");
 
-		list = jt.query(selectMember.toString(), new Object[] {startNum, endNum},new RowMapper<MemberVO>() {
+		list = jt.query(selectMember.toString(), new Object[] { startNum, endNum }, new RowMapper<MemberVO>() {
 			@Override
 			public MemberVO mapRow(ResultSet rs, int rowNum) throws SQLException {
 				MemberVO mVO = new MemberVO();
@@ -62,34 +63,35 @@ public class MemberDAO {
 					mVO.setEname_fst(dd.decryption(rs.getString("ename_fst")));
 					mVO.setEname_lst(dd.decryption(rs.getString("ename_lst")));
 					mVO.setJoin_date(rs.getString("join_date"));
+					mVO.setrNum(rs.getString("r_num"));
 				} catch (UnsupportedEncodingException e) {
 					e.printStackTrace();
 				} catch (NoSuchAlgorithmException e) {
 					e.printStackTrace();
 				} catch (GeneralSecurityException e) {
 					e.printStackTrace();
-				}//end catch
+				} // end catch
 				return mVO;
 			}// mapRow
 		});
 		return list;
 	}// selectActiveMember
-	
-	
+
 	/**
 	 * 탈퇴회원 조회
+	 * 
 	 * @param id
 	 * @param startNum
 	 * @param endNum
 	 * @return
 	 * @throws DataAccessException
 	 */
-	public List<MemberVO> selectInactiveMember(String id,int startNum, int endNum) throws DataAccessException {
+	public List<MemberVO> selectInactiveMember(String id, int startNum, int endNum) throws DataAccessException {
 		List<MemberVO> list = null;
 
 		StringBuilder selectMember = new StringBuilder();
-		
-		selectMember.append("	select 	id,kname, to_char(out_date,'yyyy.mm.dd') out_date ")
+
+		selectMember.append("	select 	id,kname, to_char(out_date,'yyyy.mm.dd') out_date, r_num ")
 				.append("	from (")
 				.append("		select 	row_number() over(order by out_date desc)r_num,")
 				.append("				id,kname,out_date")
@@ -101,7 +103,7 @@ public class MemberDAO {
 
 		selectMember.append(") where r_num between ? and ?");
 
-		list = jt.query(selectMember.toString(), new Object[] {startNum, endNum},new RowMapper<MemberVO>() {
+		list = jt.query(selectMember.toString(), new Object[] { startNum, endNum }, new RowMapper<MemberVO>() {
 
 			@Override
 			public MemberVO mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -111,13 +113,14 @@ public class MemberDAO {
 					mVO.setId(rs.getString("id"));
 					mVO.setKname(dd.decryption(rs.getString("kname")));
 					mVO.setOut_date(rs.getString("out_date"));
+					mVO.setrNum(rs.getString("r_num"));
 				} catch (UnsupportedEncodingException e) {
 					e.printStackTrace();
 				} catch (NoSuchAlgorithmException e) {
 					e.printStackTrace();
 				} catch (GeneralSecurityException e) {
 					e.printStackTrace();
-				}//end catch
+				} // end catch
 				return mVO;
 			}// mapRow
 		});
@@ -126,29 +129,39 @@ public class MemberDAO {
 
 	/**
 	 * 페이지네이션에 사용할 전체 레코드 조회
+	 * 
 	 * @param id
 	 * @return
 	 * @throws DataAccessException
 	 */
 	public int selectAllMemberCnt(String id, String status) throws DataAccessException {
 		int allMemCnt = 0;
-		
+
 		StringBuilder selectMember = new StringBuilder();
-		selectMember.append("		select 	count(id)")
-				.append("		from 	member		where   m_status=?");
+		selectMember.append("		select 	count(id)").append("		from 	member		where   m_status=?");
 
 		if (id != null && !"".equals(id)) {// id가 들어왔으면 조건 추가
 			selectMember.append("	and	id='").append(id).append("'");
 		} // end if
 
-		allMemCnt = jt.queryForObject(selectMember.toString(), new Object[] {status} ,Integer.class);
-		
+		allMemCnt = jt.queryForObject(selectMember.toString(), new Object[] { status }, Integer.class);
+
 		return allMemCnt;
-	}//selectAllMemberCnt
-	
-	
-	public int updateMemberProcess(String id) {
+	}// selectAllMemberCnt
+
+	/**
+	 * 회원 삭제 (flag N로 변경)
+	 * @param id
+	 * @return
+	 * @throws DataAccessException
+	 */
+	public int deleteMember(String id) throws DataAccessException {
 		int cnt = 0;
+
+		String deleteMember = "update member set 	m_status='N', out_date=sysdate	where id=?";
+		cnt = jt.update(deleteMember, id);
+
 		return cnt;
-	}
+	}// deleteMember
+
 }// class

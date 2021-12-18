@@ -57,7 +57,6 @@ public class MemberController {
 
 	/**
 	 * 탈퇴회원 조회
-	 * 
 	 * @param id
 	 * @param model
 	 * @return
@@ -78,7 +77,7 @@ public class MemberController {
 		int currentPage = pageSev.setCurrentpage(page);
 
 		// 페이지네이션 작업
-		pageSev.setPageScale(10);
+		pageSev.setPageScale(15);
 		model.addAttribute("totalPage", pageSev.getTotalPage(memSev.searchAllMemberCnt(id, "N")));
 		model.addAttribute("currentPage", currentPage);
 
@@ -92,8 +91,21 @@ public class MemberController {
 
 	
 	
-	@RequestMapping(value = "change_member.do", method = POST)
-	public String changeMember(String id, Model model) {
-		return "";
-	}
+	/**
+	 * 회원삭제
+	 * @param id
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "delete_member.do", method = POST)
+	public String deleteMember(String delId, Model model) {
+		int cnt = memSev.removeMember(delId);
+		if(cnt==1) {
+			model.addAttribute("delResult", true);
+		}else {
+			model.addAttribute("delResult", false);
+		}//else
+		return "forward:search_active_member.do";
+	}//deleteMember
+	
 }// class

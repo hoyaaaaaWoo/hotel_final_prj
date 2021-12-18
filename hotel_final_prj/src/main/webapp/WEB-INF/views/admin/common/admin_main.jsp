@@ -37,12 +37,13 @@
 	width:1100px;
 	}
 
-th{
+.table-bordered>tbody>tr>th{
 	height:40px;
 	font-size: 16px;
 	text-align: center;
 	vertical-align: middle;
 	background-color: #dfdfdf;
+	border:1px solid #C0C5CE;
 	}
 	
 td{
@@ -58,7 +59,10 @@ tr:hover td {
 	cursor:pointer;
 }
 
-.pagination>li>a {color:#343A40}
+.pagination>li>a {
+	color:#343A40;
+	font-size: 17px;
+}
 
 #page{
 	margin-top : 60px;
@@ -125,6 +129,7 @@ $(".pagination li").click(function() {
 		<div id="todayRes">
 		<table  class="table table-bordered" id="toDayList">
 			<tr>
+			<th>No.</th>
 			<th>예약번호</th>
 			<th>예약자명</th>
 			<th>객실</th>
@@ -135,13 +140,14 @@ $(".pagination li").click(function() {
 				
 		<c:if test="${ empty todayList }">
 		<tr>
-			<td onclick="event.cancelBubble=true" colspan="6" style="font-weight: bold">
+			<td onclick="event.cancelBubble=true" colspan="7" style="font-weight: bold">
 			예약 정보가 존재하지 않습니다.</td>
 		</tr>
 		</c:if>
 		
 		<c:forEach var="data" items="${ todayList }">
 		  <tr>
+			<td><c:out value="${ data.rNum }"/></td>
 			<td><c:out value="${ data.resNo }"/></td>
 			<td><c:out value="${ data.kName }"/></td>
 			<td><c:out value="${ data.rName }"/></td>

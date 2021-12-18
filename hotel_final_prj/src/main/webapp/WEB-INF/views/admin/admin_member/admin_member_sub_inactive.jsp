@@ -64,14 +64,15 @@
 	margin-top: 40px;
 	}
 
-th{
+.table-bordered>tbody>tr>th{
 	width:200px;
 	height:40px;
 	font-size: 16px;
 	text-align: center;
 	vertical-align: middle;
 	background-color: #dfdfdf;
-	}
+	border:1px solid #C0C5CE;
+}
 	
 td{
 	font-size: 16px;
@@ -90,11 +91,12 @@ tr:hover td {
 
 #page {
 	margin-top: 50px;
-	padding-left: 420px;
+	padding-left: 250px;
 }
 
 .pagination>li>a {
-	color: #343A40
+	color: #343A40;
+	font-size: 17px;
 }
 
 #navMember{
@@ -164,17 +166,19 @@ $(function(){
 			<div id="memberList"> 
 			<table class="table table-bordered" id="table">
 				<tr>
+					<th>No.</th>
 					<th>ID</th>
 					<th>이름</th>
 					<th>탈퇴일자</th>
 				</tr>
 				<c:if test="${  empty memberList }">
 					<tr>
-						<td colspan="3">회원정보가 존재하지 않습니다.</td>
+						<td colspan="4">회원정보가 존재하지 않습니다.</td>
 					</tr>
 				</c:if>
 					<c:forEach var="member" items="${memberList}">
 						<tr>
+							<td><c:out value="${member.rNum }" /></td>
 							<td><c:out value="${member.id }" /></td>
 							<td><c:out value="${member.kname }" /></td>
 							<td><c:out value="${member.out_date }" /></td>

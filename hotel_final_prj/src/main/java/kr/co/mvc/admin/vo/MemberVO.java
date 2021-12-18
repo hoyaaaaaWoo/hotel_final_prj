@@ -3,7 +3,7 @@ package kr.co.mvc.admin.vo;
 
 public class MemberVO {
 
-	private String id,email,ename_fst,ename_lst,kname,birth_year,tel,m_status,join_date, out_date;
+	private String id,email,ename_fst,ename_lst,kname,birth_year,tel,m_status,join_date, out_date, rNum;
 
 
 	public String getId() {
@@ -86,5 +86,12 @@ public class MemberVO {
 		this.join_date = join_date;
 	}
 
-	
+	public String getrNum() {
+		return rNum;
+	}
+
+	public void setrNum(String rNum) {
+		this.rNum = rNum;
+	}
+
 }//class

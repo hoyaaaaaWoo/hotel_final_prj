@@ -5,7 +5,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="refresh" content="5;http://localhost/hotel_final_prj/admin_login_form.do">
+
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Hotel Ritz - 관리자 로그아웃</title>
 <link rel="stylesheet" type="text/css"
@@ -43,7 +44,7 @@
 
 #move{
 	color:#0000FF;
-	font-size: 18px;
+	font-size: 17px;
 	font-weight:bold
 }
 
@@ -74,7 +75,8 @@
 		<!-- container  -->
 		<div id="container">
 			<span id="info">정상적으로 로그아웃 되었습니다.</span> <br/>
-			<span class="cursor" id="move" onclick="location.href='admin_login_form.do'">로그인 화면으로 이동</span>
+			 <span style="font-size:17px;font-weight:bold">5초 후 로그인 화면으로 이동됩니다.</span><br/><br/>
+			<span class="cursor" id="move" onclick="location.href='admin_login_form.do'">지금 로그인하러 가기</span>
 		</div>
 		
 		<!-- footer import -->

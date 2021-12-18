@@ -58,12 +58,13 @@
 	margin-top: 40px;
 	}
 
-th{
+.table-bordered>tbody>tr>th{
 	height:40px;
 	font-size: 16px;
 	text-align: center;
 	vertical-align: middle;
 	background-color: #dfdfdf;
+	border:1px solid #C0C5CE;
 	}
 	
 td{
@@ -81,7 +82,10 @@ td{
 	padding-left:500px;
 }
 
-.pagination>li>a {color:#454D55}
+.pagination>li>a {
+	color:#454D55;
+	font-size: 17px;
+}
 
 tr:hover td {
 	background-color: #F1F3F4;
@@ -184,7 +188,7 @@ $(function(){
 		let td = tr.children();
 
 		//선택된 행에서 예약번호 얻어오기
-		let resNum = td.eq(0).text();
+		let resNum = td.eq(1).text();
 		
 		if(resNum != "예약번호" && resNum != null){
 		//해당 예약번호를 예약변경 페이지로 전송!
@@ -227,7 +231,7 @@ $(function(){
 		 <span id="mainMenu" onclick="location.href='search_res_list.do'">예약 조회</span><br/><br/>
 		
 		 <div id="date">
-		 <span style="font-size: 15px;color: #343A40;font-weight: bold">&nbsp;※ 체크인 일자 검색</span><br/>
+		 <span style="font-size: 15px;color: #343A40;">&nbsp;※ 체크인 일자 검색</span><br/>
 		 <!-- 날짜 입력/선택여부에 따라 value 설정-->
  		 	<c:choose>
 		  	 <c:when test="${not empty param.year}">
@@ -250,6 +254,7 @@ $(function(){
 		 <div id="resList">
 		 <table class="table table-bordered" id="resList">
 		 <tr>
+		 	<th style="">No.</th>
 		 	<th>예약번호</th>
 		 	<th>예약자명</th>
 		 	<th>객실</th>
@@ -261,13 +266,14 @@ $(function(){
 		 
 		<c:if test="${ empty resList }">
 		<tr>
-			<td onclick="event.cancelBubble=true" colspan="7" style="font-weight: bold">
+			<td onclick="event.cancelBubble=true" colspan="8" style="font-weight: bold">
 			예약 정보가 존재하지 않습니다.</td>
 		</tr>
 		</c:if>
 	
 		<c:forEach var="res" items="${ resList }">
 		  <tr>
+			<td><c:out value="${ res.rNum }"/></td>
 			<td><c:out value="${ res.resNo }"/></td>
 			<td><c:out value="${ res.kName }"/></td>
 			<td><c:out value="${ res.rName }"/></td>

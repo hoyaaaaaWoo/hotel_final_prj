@@ -64,6 +64,7 @@ public class ReservationDAO {
 				try {
 					DataDecrypt dd = new DataDecrypt("AbcdEfgHiJkLmnOpQ");
 					rsVO = new ReservationSelectVO();
+					rsVO.setrNum(rs.getString("rnum"));
 					rsVO.setResNo(rs.getString("res_no"));
 					rsVO.setResDate(rs.getString("res_date"));
 					rsVO.setkName(dd.decryption(rs.getString("kname")));

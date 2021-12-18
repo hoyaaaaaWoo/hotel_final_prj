@@ -189,7 +189,7 @@ $(function(){
 </head>
 <body>
 	<!-- 예약관리 메인 페이지에서 넘어오지 않았을 경우 redirect 해주기 (예약번호 선택 필요) -->
-	<c:if test="${empty param.resNum}">
+	<c:if test="${empty param.resNum || param.resNum eq ''}">
   	  <c:redirect url="http://localhost/hotel_final_prj/search_res_list.do"/>
 	</c:if>
 		 

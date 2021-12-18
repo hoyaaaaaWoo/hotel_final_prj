@@ -66,12 +66,13 @@
 	margin-top: 40px;
 	}
 
-th{
+.table-bordered>tbody>tr>th{
 	height:40px;
 	font-size: 16px;
 	text-align: center;
 	vertical-align: middle;
 	background-color: #dfdfdf;
+	border:1px solid #C0C5CE;
 	}
 	
 td{
@@ -95,7 +96,8 @@ tr:hover td {
 }
 
 .pagination>li>a {
-	color: #343A40
+	color: #343A40;
+	font-size: 17px;
 }
 
 #navMember{
@@ -105,6 +107,16 @@ tr:hover td {
 </style>
 
 <script type="text/javascript">
+//예약삭제 결과 메시지
+<c:choose>
+	<c:when test="${delResult eq 'true'}">
+		alert("회원이 삭제되었습니다.");
+	</c:when>
+	<c:when test="${delResult eq 'false'}">
+		alert("죄송합니다. 잠시 후 다시 시도해주세요.");
+	</c:when>
+</c:choose>
+
 $(function(){
 $("#searchBtn").click(function(){
 	$("#frm_search").submit();
@@ -145,7 +157,7 @@ $(".delBtn").click(function(){
 	let tr = delBtn.parent().parent(); 
 	let td = tr.children();
 	//삭제번호 얻기
-	let id = td.eq(0).text();
+	let id = td.eq(1).text();
 	if(confirm("["+id+"] 회원을 삭제하시겠습니까?")){
 		$("#delId").val(id);
 		$("#delFrm").submit();
@@ -187,6 +199,7 @@ $(".delBtn").click(function(){
 			<div id="memberList"> 
 			<table class="table table-bordered"  id="table">
 				<tr>
+					<th>No.</th>
 					<th>ID</th>
 					<th>예약자명</th>
 					<th>영문이름</th>
@@ -198,14 +211,15 @@ $(".delBtn").click(function(){
 				</tr>	
 			 <c:if test="${ empty memberList }">
 	   			<tr> 
-	     		 <td colspan="7">회원정보가 존재하지 않습니다.</td>
+	     		 <td colspan="9">회원정보가 존재하지 않습니다.</td>
 	   			</tr>
    			</c:if>
 				<c:forEach var="member" items="${memberList}">
 				<tr>
+					<td><c:out value="${member.rNum }"/></td>
 					<td><c:out value="${member.id }"/></td>
 					<td><c:out value="${member.kname }"/></td>
-					<td><c:out value="${member.ename_fst }${member.ename_lst }"/></td>
+					<td><c:out value="${member.ename_fst} ${member.ename_lst }"/></td>
 					<td><c:out value="${member.birth_year }"/></td>
 					<td><c:out value="${member.tel }"/></td>
 					<td><c:out value="${member.email }"/></td>
@@ -233,7 +247,7 @@ $(".delBtn").click(function(){
 		</div> <!-- 컨테이너 div  -->
 		
 		<!-- 삭제버튼 클릭시 hidden값 설정 및 페이지 이동 -->
-		 <form name="delFrm" id="delFrm" action="http://localhost/hotel_final_prj/admin/admin_member/admin_member_del_process.jsp" method="post">
+		 <form name="delFrm" id="delFrm" action="delete_member.do" method="post">
 		 	<input type="hidden" name="delId" id="delId"/>
 		 </form>
 		 
