@@ -31,12 +31,12 @@
 <style type="text/css">
 
 #memberSearch{
-	font-size: 17px;
+	font-size: 16px;
 	font-weight: bold;
 	margin-left :20px;
 	padding-top :20px;
 	padding-left :10px;
-	padding-bottom :55px;
+	padding-bottom :65px;
 	border-bottom: 1px solid #454D55;
 	width:100%;
 	hegiht:200px;
@@ -48,19 +48,21 @@
 }
 
 #id{
-	width:170px;
+	width:200px;
 	margin-right: 5px;
 	font-size: 15px;
 	color:#000000;
 	position: absolute;
-	top: 190px;
-	left: 80px;	
+	top: 165px;
+	left: 85px;	
 }
 
-#idSearchBtn{
+#searchBtn{
 	position:absolute;
-	top: 186px;
-	left: 275px;	
+	top: 125px;
+	left: 310px;
+	width: 80px;
+	height: 70px;
 }
 
 .table{
@@ -94,7 +96,7 @@ tr:hover td {
 
 #page {
 	margin-top: 50px;
-	padding-left: 550px;
+	padding-left: 600px;
 }
 
 .pagination>li>a {
@@ -105,6 +107,12 @@ tr:hover td {
 #navMember{
 	background-color: #454D55;
 	text-decoration: none;
+}
+
+input[type=radio]{	
+	width: 18px;
+	height: 18px;
+	margin: 5px 5px 5px
 }
 </style>
 
@@ -121,7 +129,7 @@ tr:hover td {
 
 $(function(){
 	//회원 구분별 조회
-	$("#typeSearchBtn").click(function(){
+	$("#searchBtn").click(function(){
 		 //일반회원, 탈퇴회원 중 선택한 회원값을 히든에 할당
 		 var radioVal = $('input[name="activeType"]:checked').val();
 		 $("#m_status").val(radioVal);
@@ -129,11 +137,6 @@ $(function(){
 		$("#frm_search").submit();
 	})//click
 	
-	//특정 ID 조회
-	$("#idSearchBtn").click(function(){
-		$("#frm_search").submit();
-	})//click
-
 /* 페이지네이션 클릭시 현재페이지 전송 */
 	$(".pagination li").click(function () {
 		let page = $(this).text();
@@ -166,7 +169,6 @@ $(function(){
 		 $("#frm_search").submit();
 	});//페이지네이션 click
 
-
 	$(".delBtn").click(function(){
 		//선택된 버튼 할당
 		var delBtn = $(this);
@@ -181,9 +183,13 @@ $(function(){
 		}else{
 			alert("회원 삭제를 취소합니다.");
 		}//end else
-});//click
-
-
+	});//click
+	
+	
+	$('input[name="activeType"]:radio').change(function(){
+		$("#id").val("");
+	});//change
+	
 })//ready
 
 </script>
@@ -199,22 +205,21 @@ $(function(){
 		
 		<div id="memberSearch">
 		<form id="frm_search" action="search_member.do" method="post">
-			<input type="radio" name="activeType" value="Y"
-				${empty radioValue || radioValue eq '' || radioValue eq 'Y' ?' checked="checked"':"" } />일반회원 &nbsp;
-			<input type="radio" name="activeType" value="N"
-				${radioValue eq 'N' ?' checked="checked"':"" }/>탈퇴회원  &nbsp;
-			<input type="button" value="검색" name="search" class="searchBtn btn btn-default" id="typeSearchBtn" /><br/>
+			<input type="radio" name="activeType" value="Y" 
+				${empty radioValue || radioValue eq '' || radioValue eq 'Y' ?' checked="checked"':""}/>일반회원 &nbsp;
+			<input type="radio" name="activeType" value="N" 
+				${radioValue eq 'N' ?' checked="checked"':""}/>탈퇴회원  &nbsp;
 			<input type="hidden" name="m_status" id="m_status"/>
 			<input type="hidden" name="page" id="page"/>
 				<c:choose>
-					<c:when test="${not empty id}">
-						<input type="text" name="id" value="${id}"  class="form-control" id="id" maxlength="10"/>&nbsp;
+					<c:when test="${not empty requestScope.id}">
+						<input type="text" name="id" value="${requestScope.id}"  class="form-control" id="id" maxlength="10"/>&nbsp;
 					</c:when>
 					<c:otherwise>
 						<input type="text" name="id" placeholder="ID 조회"  class="form-control" id="id" maxlength="10"/>&nbsp;
 					</c:otherwise>
 				</c:choose>
-					<input type="button" value="검색" name="search" class="searchBtn btn btn-default" id="idSearchBtn" />
+					<input type="button" value="검색" name="search" class="searchBtn btn btn-default" id="searchBtn" />
 		</form>	
 		</div>
 		
@@ -225,8 +230,8 @@ $(function(){
 				<tr>
 					<th>No.</th>
 					<th style="width:130px">ID</th>
-					<th>회원명</th>
-					<th>영문이름</th>
+					<th style="width:100px">회원명</th>
+					<th style="width:130px">영문이름</th>
 					<th>생년월일</th>
 					<th>연락처</th>
 					<th>이메일</th>

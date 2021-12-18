@@ -15,7 +15,7 @@ import kr.co.mvc.admin.vo.ManagerVO;;
 
 
 @Controller
-@SessionAttributes("id")
+@SessionAttributes("mg_id")
 public class LoginContoller {
 	@Autowired
 	private LoginService loginSev;
@@ -43,7 +43,7 @@ public class LoginContoller {
 		
 		if(loginFlag) {
 			returnPage = "forward:admin_main.do";
-			model.addAttribute("id",mngVO.getId());
+			model.addAttribute("mg_id",mngVO.getId());
 		}else {
 			model.addAttribute("loginResult", loginFlag);
 		}//endelse
