@@ -7,6 +7,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;
 
 import kr.co.mvc.admin.dao.MemberDAO;
+import kr.co.mvc.admin.vo.MemberPagingVO;
 import kr.co.mvc.admin.vo.MemberVO;
 
 @Component
@@ -20,10 +21,10 @@ public class MemberService {
  * @param id
  * @return
  */
-public List<MemberVO> searchActiveMember(String id, int startNum, int endNum) {
+public List<MemberVO> searchActiveMember(MemberPagingVO mpVO) {
 	List<MemberVO> list =null;
 	try {
-		list = memDAO.selectActiveMember(id, startNum, endNum); 
+		list = memDAO.selectActiveMember(mpVO); 
 	}catch(DataAccessException dae) {
 		dae.printStackTrace();
 	}//end catch
@@ -51,15 +52,31 @@ public int searchAllMemberCnt(String id, String status) {
  * @param id
  * @return
  */
-public List<MemberVO> searchInactiveMember(String id, int startNum, int endNum) {
+public List<MemberVO> searchInactiveMember(MemberPagingVO mpVO) {
 	List<MemberVO> list =null;
 	try {
-		list = memDAO.selectInactiveMember(id, startNum, endNum); 
+		list = memDAO.selectInactiveMember(mpVO); 
 	}catch(DataAccessException dae) {
 		dae.printStackTrace();
 	}//end catch
 	return list;
 }//searchInactiveMember
+
+
+/**
+ * 특정회원 조회
+ * @param id
+ * @return
+ */
+public List<MemberVO> searchOneMemberInfo(String id) {
+	List<MemberVO> list =null;
+	try {
+		list = memDAO.selectOneMemberInfo(id); 
+	}catch(DataAccessException dae) {
+		dae.printStackTrace();
+	}//end catch
+	return list;
+}//searchOneMemberInfo
 
 
 /**

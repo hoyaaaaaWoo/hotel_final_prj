@@ -73,11 +73,11 @@ th{
 
 .subTd{
 	border: 1px solid #A3A4A4;
-	font-size:15px;
+	padding-left: 10px;
 }
 
 #subTab{
-	width:700px;
+	width:650px;
 }
 
 textarea{
@@ -99,7 +99,8 @@ img {
 }
 
 #btnGroup{
-	margin-left:300px
+	margin-left:170px;
+	margin-top:20px
 }
 
 .btn{
@@ -108,13 +109,24 @@ img {
 	margin-bottom:15px;
 }
 
-#imgTabe{
-width:600px;
+.imgBtn{
+	font-weight: bold; 
 }
 
-.imgTh{
- font-size:14px;
+#imgTable{
+	width:650px;
 }
+
+.amntTa{
+	width:535px;
+}
+
+
+.table-bordered>tbody>tr>.imgTh{
+ font-size:14px;
+ border:1px solid #C0C5CE;
+}
+
 
 .imgTd{
  text-align: center; 
@@ -396,7 +408,7 @@ function addImg(){
 			},
 			success: function(imgJson){
 			  if(imgJson.imgData.length!=0){
-				var output="<table id='imgTable' class='table table-bordered' style='width:580px;'>";
+				var output="<table id='imgTable' class='table table-bordered'>";
 					output += "<tr>	<th class='imgTh'>번호</th> <th class='imgTh'>파일명</th>";
 					output += 	"<th class='imgTh'>관리</th> </tr>";
 					
@@ -444,7 +456,7 @@ function delImg(ele){
 			var length = imgJson.imgData.length;
 		
 			// 삭제 후 temp폴더에 존재하는 이미지가 없으면 테이블 '이미지 추가' 안내 
-				output="<table id='imgTable' class='table table-bordered' style='width:580px;'>";
+				output="<table id='imgTable' class='table table-bordered'>";
 				output += "<tr> <th class='imgTh'>번호</th>	<th class='imgTh'>파일명</th>";
 				output += " <th class='imgTh'>관리</th> </tr>";
 
@@ -639,10 +651,10 @@ function resetFileTag(){
 
 		<form action="http://localhost/hote_finall_prj/admin/admin_room/admin_room_img_upload_process.jsp" id="uploadfrm" method="post" enctype="multipart/form-data">
 		<label style="padding-left: 50px;padding-bottom:15px">* 객실 이미지</label>
-		<span style="font-size:14px;">&nbsp;(※최대 5장까지 등록 가능합니다.)</span>
-		<label for="mainFile" class="btn btn-info btn-sm" id="mainUpLoad">메인 이미지 추가</label>
+		<span style="font-size:14px;margin-right: 135px">&nbsp;(※최대 5장 등록 가능)</span>
+		<label for="mainFile" class="btn btn-info btn-sm imgBtn" id="mainUpLoad">메인 이미지 추가</label>
 			<input type="file" name ="mainFile" id="mainFile" style="display: none;"/>
-		<label for="otherFile" class="btn btn-info btn-sm" id="otherUpLoad">기타 이미지 추가</label>
+		<label for="otherFile" class="btn btn-info btn-sm imgBtn" id="otherUpLoad">기타 이미지 추가</label>
 			<input type="file" name ="otherFile" id="otherFile" style="display: none;"/>
 			
 		<input type="hidden" name= "fileName" id="fileName"/>
@@ -653,7 +665,7 @@ function resetFileTag(){
 		<!-- 이미지 추가 시 보여질 div -->
 		<div id="imgDiv">
 		
-		<table id="imgTable" class="table table-bordered" style="width:580px;">
+		<table id="imgTable" class="table table-bordered" >
 			<tr>	
 			<th class="imgTh">번호</th> 
 			<th class="imgTh">파일명</th>

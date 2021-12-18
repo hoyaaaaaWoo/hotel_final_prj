@@ -74,15 +74,16 @@ th{
 
 .subTd{
 	border: 1px solid #A3A4A4;
-	font-size:15px;
+	padding-left: 10px;
 }
 
 #subTab{
-	width:700px;
+	width:650px;
 }
 
 textarea{
 	font-size:15px;
+	width:650px;
 	color:#000000;
 	border: 1px solid #A3A4A4;
 	padding: 5px;
@@ -94,9 +95,8 @@ textarea{
 	width:200px;
 }
 
-img {
-	padding:20px;
-	width:300px;
+#imgTable{
+	width:640px;
 }
 
 #btnGroup{
@@ -109,20 +109,30 @@ img {
 	margin-bottom:15px;
 }
 
-.imgTh{
- font-size:14px;
+.imgBtn{
+	font-weight: bold; 
 }
 
+.amntTa{
+	width:535px;
+}
+
+.table-bordered>tbody>tr>.imgTh{
+	 font-size:14px;
+	 border:1px solid #C0C5CE;
+}
+
+
 .imgTd{
- text-align: center; 
- font-size:14px;
- font-weight:bold;
- background-color: #FFFFFF;
- vertical-align: middle;
+	 text-align: center; 
+	 font-size:14px;
+	 font-weight:bold;
+	 background-color: #FFFFFF;
+	 vertical-align: middle;
 }
 
 .imgTr:hover td{
-background-color: #F1F3F4;
+	background-color: #F1F3F4;
 }
 
 #navRoom{
@@ -264,7 +274,7 @@ $(function(){
 		var flag = false;
 		
 		//이미지 첫 등록이면 하기 검증을 수행할 필요 없음
-		if(imgList.rows[1].cells[0].innerText == "이미지를 추가해주세요"){
+		if(imgList.rows[1].cells[0].innerText == "이미지를 추가해주세요."){
 			return;
 		}//end if
 		
@@ -360,7 +370,7 @@ function addImg(){
 			},
 			success: function(imgJson){
 			  if(imgJson.imgData.length!=0){
-				var output="<table id='imgTable' class='table table-bordered' style='width:580px;'>";
+				var output="<table id='imgTable' class='table table-bordered'>";
 					output += "<tr>	<th class='imgTh'>번호</th> <th class='imgTh'>파일명</th>";
 					output += 	"<th class='imgTh'>관리</th> </tr>";
 					
@@ -408,7 +418,7 @@ function delImg(ele){
 			var length = imgJson.imgData.length;
 		
 			// 삭제 후 temp폴더에 존재하는 이미지가 없으면 테이블 '이미지 추가' 안내 
-				output="<table id='imgTable' class='table table-bordered' style='width:580px;'>";
+				output="<table id='imgTable' class='table table-bordered'>";
 				output += "<tr> <th class='imgTh'>번호</th>	<th class='imgTh'>파일명</th>";
 				output += " <th class='imgTh'>관리</th> </tr>";
 
@@ -553,23 +563,23 @@ function resetFileTag(){
 		<tr>
 			<td colspan="2">
 			  <label>* 어메니티</label><br/>
-			  <table id="subTab">
+			  <table >
 			  <tr>
-			  	<th>일반</th>
+			  	<th> 일반</th>
 			  	<td class="subTd">
-				 <textarea name="generalAmn" id="generalAmn" rows="2" cols="80" placeholder="일반 어메니티"><c:out value="${rmVO.generalAmn}"/></textarea>
+				 <textarea class="amntTa" name="generalAmn" id="generalAmn" rows="2" cols="80" placeholder="일반 어메니티"><c:out value="${rmVO.generalAmn}"/></textarea>
 			  	</td>
 			  </tr>
 			  <tr>
 			  	<th>욕실</th>
 			  	<td class="subTd">
-				 <textarea name="bathAmn" id="bathAmn" rows="2" cols="80" placeholder="욕실 어메니티"><c:out value="${rmVO.bathAmn}"/></textarea>
+				 <textarea class="amntTa" name="bathAmn" id="bathAmn" rows="2" cols="80" placeholder="욕실 어메니티"><c:out value="${rmVO.bathAmn}"/></textarea>
 			  	</td>
 			  </tr>
 			  <tr>
 			  	<th>기타</th>
 			  	<td class="subTd">
-				 <textarea name="otherAmn" id="otherAmn" rows="2" cols="80" placeholder="기타 어메니티"><c:out value="${rmVO.otherAmn}"/></textarea>
+				 <textarea class="amntTa" name="otherAmn" id="otherAmn" rows="2" cols="80" placeholder="기타 어메니티"><c:out value="${rmVO.otherAmn}"/></textarea>
 			  	</td>
 			  </tr>
 			  </table>
@@ -588,10 +598,10 @@ function resetFileTag(){
 
 		<form action="add_img_file.do" id="uploadfrm" method="post" enctype="multipart/form-data">
 		<label style="padding-left: 50px;padding-bottom:15px">* 객실 이미지</label>
-		<span style="font-size:14px;margin-right: 65px">&nbsp;(※최대 5장 등록 가능)</span>
-		<label for="mainFile" class="btn btn-info btn-sm" id="mainUpLoad">메인 이미지 추가</label>
+		<span style="font-size:14px;margin-right: 125px">&nbsp;(※최대 5장 등록 가능)</span>
+		<label for="mainFile" class="btn btn-info btn-sm imgBtn" id="mainUpLoad">메인 이미지 추가</label>
 			<input type="file" name ="mainFile" id="mainFile" style="display: none;"/>
-		<label for="otherFile" class="btn btn-info btn-sm" id="otherUpLoad">기타 이미지 추가</label>
+		<label for="otherFile" class="btn btn-info btn-sm imgBtn" id="otherUpLoad">기타 이미지 추가</label>
 			<input type="file" name ="otherFile" id="otherFile" style="display: none;"/>
 			
 		<input type="hidden" name= "fileName" id="fileName"/>
@@ -600,7 +610,7 @@ function resetFileTag(){
 		<form>
 		<div id="imgDiv">
 		<!-- 이미지 추가 시 보여질 div -->
-		<table id="imgTable" class="table table-bordered" style="width:580px;">
+		<table id="imgTable" class="table table-bordered">
 			<tr>	
 			<th class="imgTh">번호</th> 
 			<th class="imgTh">파일명</th>
@@ -608,7 +618,7 @@ function resetFileTag(){
 			</tr>
 			<tr class="imgTr">
 				<td class="imgTd" colspan="3">
-				이미지를 추가해주세요</td>
+				이미지를 추가해주세요.</td>
 			</tr>
 		</table>
 		</div> 

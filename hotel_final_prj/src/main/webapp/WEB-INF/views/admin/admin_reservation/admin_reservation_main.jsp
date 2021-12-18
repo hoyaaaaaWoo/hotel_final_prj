@@ -30,6 +30,7 @@
 <style type="text/css">
 #date{
 	font-size: 15px;
+	font-weight: bold;
 	margin: 20px;
 	padding-bottom :30px;
 	border-bottom: 1px solid #454D55;

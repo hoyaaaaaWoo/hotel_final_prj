@@ -33,15 +33,17 @@ public class MemberDAO {
 	 * @return
 	 * @throws DataAccessException
 	 */
-	public List<MemberVO> selectActiveMember(String id, int startNum, int endNum) throws DataAccessException {
+	public List<MemberVO> selectActiveMember(MemberPagingVO mpVO) throws DataAccessException {
 		List<MemberVO> list = null;
 
+		String id = mpVO.getId();
+		
 		StringBuilder selectMember = new StringBuilder();
 		selectMember.append(
 				"	select 	id,kname,birth_year,tel,email,ename_fst,ename_lst, to_char(join_date,'yyyy.mm.dd') join_date, r_num")
 				.append("	from (").append("		select 	row_number() over(order by join_date desc)r_num,")
 				.append("				id,kname,birth_year,tel,email,ename_fst,ename_lst,join_date")
-				.append("		from 	member		where   m_status= 'Y' ");
+				.append("		from 	member		where   m_status='Y' ");
 
 		if (id != null && !"".equals(id)) {// id가 들어왔으면 조건 추가
 			selectMember.append("	and	id='").append(id).append("'");
@@ -49,7 +51,7 @@ public class MemberDAO {
 
 		selectMember.append(") where r_num between ? and ?");
 
-		list = jt.query(selectMember.toString(), new Object[] { startNum, endNum }, new RowMapper<MemberVO>() {
+		list = jt.query(selectMember.toString(), new Object[] {mpVO.getStartNum(),mpVO.getEndNum()}, new RowMapper<MemberVO>() {
 			@Override
 			public MemberVO mapRow(ResultSet rs, int rowNum) throws SQLException {
 				MemberVO mVO = new MemberVO();
@@ -79,16 +81,17 @@ public class MemberDAO {
 
 	/**
 	 * 탈퇴회원 조회
-	 * 
 	 * @param id
 	 * @param startNum
 	 * @param endNum
 	 * @return
 	 * @throws DataAccessException
 	 */
-	public List<MemberVO> selectInactiveMember(String id, int startNum, int endNum) throws DataAccessException {
+	public List<MemberVO> selectInactiveMember(MemberPagingVO mpVO) throws DataAccessException {
 		List<MemberVO> list = null;
 
+		String id = mpVO.getId();
+		
 		StringBuilder selectMember = new StringBuilder();
 
 		selectMember.append("	select 	id,kname, to_char(out_date,'yyyy.mm.dd') out_date, r_num ")
@@ -103,7 +106,7 @@ public class MemberDAO {
 
 		selectMember.append(") where r_num between ? and ?");
 
-		list = jt.query(selectMember.toString(), new Object[] { startNum, endNum }, new RowMapper<MemberVO>() {
+		list = jt.query(selectMember.toString(), new Object[] { mpVO.getStartNum(), mpVO.getEndNum() }, new RowMapper<MemberVO>() {
 
 			@Override
 			public MemberVO mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -143,12 +146,58 @@ public class MemberDAO {
 		if (id != null && !"".equals(id)) {// id가 들어왔으면 조건 추가
 			selectMember.append("	and	id='").append(id).append("'");
 		} // end if
-
 		allMemCnt = jt.queryForObject(selectMember.toString(), new Object[] { status }, Integer.class);
 
 		return allMemCnt;
 	}// selectAllMemberCnt
+	
+	/**
+	 * 특정 ID의 정보 조회
+	 * @param id
+	 * @return
+	 * @throws DataAccessException
+	 */
+	public List<MemberVO> selectOneMemberInfo(String id) throws DataAccessException {
+		List<MemberVO> list = null;
 
+		StringBuilder selectOneMember = new StringBuilder();
+		selectOneMember.append("	select 	id,kname,birth_year,tel,email,ename_fst,ename_lst,m_status,")
+				.append("to_char(join_date,'yyyy.mm.dd') join_date, to_char(out_date,'yyyy.mm.dd') out_date")
+				.append("		from 	member		where   id='")
+				.append(id)
+				.append("'");
+
+		list = jt.query(selectOneMember.toString(), new RowMapper<MemberVO>() {
+			@Override
+			public MemberVO mapRow(ResultSet rs, int rowNum) throws SQLException {
+				MemberVO mVO = new MemberVO();
+				try {
+					DataDecrypt dd = new DataDecrypt("AbcdEfgHiJkLmnOpQ");
+					mVO.setId(rs.getString("id"));
+					mVO.setKname(dd.decryption(rs.getString("kname")));
+					mVO.setBirth_year(dd.decryption(rs.getString("birth_year")));
+					mVO.setTel(dd.decryption(rs.getString("tel")));
+					mVO.setEmail(dd.decryption(rs.getString("email")));
+					mVO.setEname_fst(dd.decryption(rs.getString("ename_fst")));
+					mVO.setEname_lst(dd.decryption(rs.getString("ename_lst")));
+					mVO.setM_status(rs.getString("m_status"));
+					mVO.setJoin_date(rs.getString("join_date"));
+					mVO.setOut_date(rs.getString("out_date"));
+					mVO.setrNum("1");
+				} catch (UnsupportedEncodingException e) {
+					e.printStackTrace();
+				} catch (NoSuchAlgorithmException e) {
+					e.printStackTrace();
+				} catch (GeneralSecurityException e) {
+					e.printStackTrace();
+				} // end catch
+				return mVO;
+			}// mapRow
+		});
+		return list;
+	}//selectOneMemberInfo
+	
+	
 	/**
 	 * 회원 삭제 (flag N로 변경)
 	 * @param id

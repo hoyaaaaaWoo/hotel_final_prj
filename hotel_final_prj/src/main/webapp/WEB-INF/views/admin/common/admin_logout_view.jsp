@@ -59,7 +59,18 @@
 </style>
 
 <script type="text/javascript">
+//카운트다운
+let i = 5;
+function printSecond() {
+    var second = document.getElementById("second");
+    second.innerHTML = i;
+    i--;
+    setTimeout("printSecond()",1000); //1초후에 printSecond()을 호출
+}//printSecond
 
+window.onload = function() { //HTML이 로딩되면 printSecond()함수를 호출
+	printSecond(); 
+}
 </script>
 </head>
 <body>
@@ -75,7 +86,8 @@
 		<!-- container  -->
 		<div id="container">
 			<span id="info">정상적으로 로그아웃 되었습니다.</span> <br/>
-			 <span style="font-size:17px;font-weight:bold">5초 후 로그인 화면으로 이동됩니다.</span><br/><br/>
+			 <span style="font-size:17px;font-weight:bold">
+			 	<span id="second" style="color:#FF0000"></span>초 후 로그인 화면으로 이동됩니다.</span><br/><br/>
 			<span class="cursor" id="move" onclick="location.href='admin_login_form.do'">지금 로그인하러 가기</span>
 		</div>
 		
