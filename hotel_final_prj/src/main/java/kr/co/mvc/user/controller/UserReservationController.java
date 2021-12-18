@@ -8,12 +8,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.co.mvc.user.service.UserReservationService;
 import kr.co.mvc.user.vo.RoomVO;
+import kr.co.mvc.user.vo.UserCardVO;
 import kr.co.mvc.user.vo.UserMemberVO;
+import kr.co.mvc.user.vo.UserReservationVO;
 import kr.co.mvc.user.vo.UserRoomVO;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
+import java.io.UnsupportedEncodingException;
+import java.security.GeneralSecurityException;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -146,7 +150,8 @@ public class UserReservationController {
 	
 	
 	@RequestMapping(value="user/user_room/room_reserve3_card.do", method=POST)
-	public String reserve_03card(String sd, String ed, String adult, String child, int room_no, long diffDays, String addReq, Model model) {
+	public String reserve_03card(String sd, String ed, String adult, String child, int room_no, long diffDays, String addReq, String id, Model model) throws UnsupportedEncodingException, GeneralSecurityException, SQLException {
+
 		
 		// 체크인월일 구하기 (res_no에 사용됨)
 		String year = sd.substring(0, 4);
@@ -164,6 +169,7 @@ public class UserReservationController {
 		
 		UserRoomVO rVO = resService.searchRoomInfo(room_no);
 		UserMemberVO mVO = resService.DecryptSelectMemInfo(id);
+		String savedFlag = resService.searchCardFlag(id);
 		
 		int price = rVO.getPrice();
 		int tax = (int) (price*0.21);
@@ -183,8 +189,120 @@ public class UserReservationController {
 		model.addAttribute("daysTax", daysTax);
 		model.addAttribute("daysTotal", daysTotal);
 		model.addAttribute("mv", mVO);
+		model.addAttribute("saveFlag", savedFlag);
+		model.addAttribute("strResNo", strResNo);
+		
+		 if( !savedFlag.equals("0")){//저장된 사용자의 카드 정보가 있다묜
+			 // 사용자의 카드 정보 가져오기
+			UserCardVO cVO = resService.searchCardInfo(id);
+			String savedCard_no = cVO.getCard_no(); 
+			String savedMM = cVO.getVal_mm();
+			String savedYY = cVO.getVal_yy();
+			String savedCompany = cVO.getCompany();
+			model.addAttribute("savedCard_no", savedCard_no);
+			model.addAttribute("savedMM", savedMM);
+			model.addAttribute("savedYY", savedYY);
+			model.addAttribute("savedCompany", savedCompany);
+		} //end if
 		
 		return "user/user_room/room_reserve3_card";
-	}
+	}//reserve_03card
+	
+	
+	
+	
+	@RequestMapping(value="user/user_room/room_reserve4_final.do", method=POST)
+	public String reserve_04final(String sd, String ed, String adult, String child, int room_no, long diffDays, String addReq,
+					String resNo, String card_no, String cardCompany, String val_MM, String val_YY,
+					String saveYN, String ccYN, String piYN, String saveFlag, String id, Model model) throws UnsupportedEncodingException, GeneralSecurityException, SQLException {
+	
+		
+		
+		UserRoomVO rVO = resService.searchRoomInfo(room_no);
+		model.addAttribute("rv", rVO);
+		
+		int price = rVO.getPrice();
+		int tax = (int) (price*0.21);
+		int totalP = (int)(price+tax);
+		int daysPrice = price*(int)diffDays;
+		int daysTax = tax*(int)diffDays;
+		int daysTotal = (daysPrice + daysTax);
+		
+		UserMemberVO mVO = resService.DecryptSelectMemInfo(id);
+		model.addAttribute("mv", mVO);
+		
+		
+		model.addAttribute("paramSd", sd);
+		model.addAttribute("paramEd", ed);
+		model.addAttribute("paramAdult", adult);
+		model.addAttribute("paramChild", child);
+		model.addAttribute("diffDays", diffDays);
+		model.addAttribute("addReq", addReq);
+		model.addAttribute("daysP", daysPrice);
+		model.addAttribute("daysTax", daysTax);
+		model.addAttribute("daysTotal", daysTotal);
+		
+		model.addAttribute("strResNo", resNo);
+		model.addAttribute("room_no", room_no);
+		model.addAttribute("card_no ", card_no);
+		model.addAttribute("cardCompany ", cardCompany);
+		model.addAttribute("val_MM ", val_MM);
+		model.addAttribute("val_YY ", val_YY);
+		model.addAttribute("paramCardSave ", saveYN);
+		model.addAttribute("paramCcAgree ", ccYN);
+		model.addAttribute("paramPiAgree ", piYN);
+		model.addAttribute("saveFlag ", saveFlag);
+		
+		//예약 insert 시작 --------------------
+		UserReservationVO rsVO = new UserReservationVO();
+		rsVO.setRes_no(resNo);
+		rsVO.setId(id);
+		rsVO.setRoom_no(room_no);
+		rsVO.setAdult(Integer.parseInt(adult));
+		rsVO.setChild(Integer.parseInt(child));
+		rsVO.setChkin_date(sd);
+		rsVO.setChkout_date(ed);
+		rsVO.setAdd_req(addReq);
+		rsVO.setCc_agree(ccYN);
+		rsVO.setPi_agree(piYN);
+		rsVO.setCard_no(card_no);
+		rsVO.setCompany(cardCompany);
+		System.out.println("예약 controller : " + rsVO + " / id : " + id);
+		resService.addReservation(rsVO);
+		//--------------------------------------예약 insert 끝
+				
+		// 카드저장을 체크한, 기존 카드정보가 없는 사용자
+		if ( saveYN.equals("Y") && saveFlag.equals("0")){
+		 // 카드정보 insert
+			UserCardVO cardVO = new UserCardVO();
+			cardVO.setCard_no(card_no);
+			cardVO.setCompany(cardCompany);
+			cardVO.setId(id);
+			cardVO.setRes_no(resNo);
+			cardVO.setVal_mm(val_MM);
+			cardVO.setVal_yy(val_YY);
+			//카드정보 추가
+			System.out.println("카드정보추가 : " + cardVO+ " / id : " + id);
+			resService.addCardInfo(cardVO);
+		}//end if
+		
+		// 카드저장을 체크한, 기존 카드정보가 있는 사용자
+		if ( saveYN.equals("Y") && !saveFlag.equals("0")){
+			// 카드정보 변경
+			UserCardVO cardVO = new UserCardVO();
+			cardVO.setCard_no(card_no);
+			cardVO.setId(id);
+			//카드정보 변경
+			System.out.println("카드정보변경 : " + cardVO);
+			resService.modifyCardInfo(cardVO);
+		}//end if
+		
+		
+		
+		
+		
+		
+	return "user/user_room/room_reserve4_final";
+	}//reserve_04final
 	
 }//class

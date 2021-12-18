@@ -366,7 +366,7 @@ $(function() {
 ================================================== -->
 <body>
 
-<%
+<%-- <%
 	request.setCharacterEncoding("UTF-8");
 	
 	String paramSd = request.getParameter("sd");
@@ -428,7 +428,7 @@ $(function() {
 		pageContext.setAttribute("savedCompany", savedCompany); 
 	} 
 
-%> 
+%>  --%>
 	<div class="wrapper" style="width: 1130px">
 		<!-- header/navibar import -->
 		<jsp:include page="/user/common/main_header_nav.jsp"/>
@@ -446,7 +446,7 @@ $(function() {
 				<table class="chkTab">
 					<tr>
 						<td style="width: 500px"><img
-							src="http://localhost/hotel_final_prj//roomImages/${  rv.getMain_img() }"
+							src="http://localhost/hotel_final_prj/roomImages/${  rv.getMain_img() }"
 							width="480" height="330" /><br /> <br /></td>
 
 						<td>
@@ -496,23 +496,23 @@ $(function() {
 			<!-- chkDiv -->
 			<br /> <br /> <br />
 
-<%-- 
+
 			<div class="guideDiv">
 				<div class="guideTitle">예약자 정보</div>
 				<div class="back">
 					<table class="backTab">
 						<tr>
 							<td class="guide">성(영문)</td>
-							<td class="guideText"><%= mv.getEname_lst() %></td>
+							<td class="guideText">${  mv.getEname_lst()}</td>
 							<td class="guide">연락처</td>
-							<td class="guideText"><%= mv.getTel() %></td>
+							<td class="guideText">${ mv.getTel() }</td>
 
 						</tr>
 						<tr>
 						<td class="guide">이름(영문)</td>
-						<td class="guideText"><%= mv.getEname_fst() %></td>
+						<td class="guideText">${ mv.getEname_fst() }</td>
 						<td class="guide">이메일</td>
-						<td class="guideText"><%= mv.getEmail() %></td>
+						<td class="guideText">${ mv.getEmail() }</td>
 						</tr>
 					</table>
 				</div>
@@ -522,7 +522,7 @@ $(function() {
 		
 		
  
-			<form name="FFrm" action="http://team3.aws.sist.co.kr/user/reser_room/reservation_complete.jsp" id="FFrm" method="post">
+			<form name="FFrm" action="room_reserve4_final.do" id="FFrm" method="post">
  					<div class="guideDiv">
 					<div class="guideTitle">신용카드 정보</div>
 					<p class="guideText" style="float: left">신용카드 정보는 게런티/위약금 결제를
@@ -616,7 +616,7 @@ $(function() {
 
 				</div>
 			
-			<!-- guideDiv --> --%>
+			<!-- guideDiv --> 
 			<br />
 			<br />
 			<br />
@@ -672,6 +672,7 @@ $(function() {
 			<input type="hidden" id="diffDays" name="diffDays" value = "${ diffDays }"/>
 			<input type="hidden" id="resNo" name="resNo" value = "${  strResNo }"/>
 			<input type="hidden" id="saveFlag" name="saveFlag" value = "${saveFlag}"/>
+			<input type="hidden" id="id" name="id" value = "day1217"/>
 			<button type="button" id = "completeBtn">예약하기</button>
 </form>
 			

@@ -19,7 +19,9 @@ import org.springframework.stereotype.Component;
 import kr.co.mvc.admin.vo.OtherImgVO;
 import kr.co.mvc.admin.vo.RoomVO;
 import kr.co.mvc.user.vo.ImagesVO;
+import kr.co.mvc.user.vo.UserCardVO;
 import kr.co.mvc.user.vo.UserMemberVO;
+import kr.co.mvc.user.vo.UserReservationVO;
 import kr.co.mvc.user.vo.UserRoomVO;
 
 
@@ -302,6 +304,12 @@ public class UserReservationDAO {
 
 	
 //--------------------------------------------------------------------------------
+	/**
+	 * id로 회원정보 조회하기
+	 * @param id
+	 * @return
+	 * @throws SQLException
+	 */
 	public UserMemberVO selectMemAllInfo (String id) throws SQLException{
 		UserMemberVO mv = null;
 		
@@ -328,5 +336,111 @@ public class UserReservationDAO {
 			});
 		return mv;
 	}//selectMemInfo
+	
+	
+	/**
+	 * 조회정보가 없으면 검색이 안되므로, 그때 쓸 플래그
+	 * @param card_no
+	 * @return
+	 * @throws SQLException
+	 */
+	public UserCardVO selectSavedCard (String id) throws SQLException{
+		UserCardVO cdVO = null;
+
+		String checkFlag = "select nvl(max(card_no), '0') card_no from  card_info where id = ?";
+		
+		// interface를 anonymous inner class로 생성하여 그 안에서 조회결과를 VO에 할당
+		cdVO = jt.queryForObject(checkFlag, new Object[] {id},
+				new RowMapper<UserCardVO>() {
+				@Override
+					public UserCardVO mapRow(ResultSet rs, int rowNum) throws SQLException {
+					UserCardVO cdVO = new UserCardVO();
+					cdVO.setCard_no(rs.getString("card_no"));
+					return cdVO;
+				}
+			});
+
+		return cdVO;
+	}//checkSavedCard
+	
+	
+	/**
+	 * 사용자 id로 기존의 저장된 카드 정보 가져오기
+	 * @param id
+	 * @return
+	 * @throws SQLException
+	 */
+	public UserCardVO selectCardInfo ( String id) throws SQLException{
+		
+		UserCardVO cVO = null;
+		
+		String selectCard = "select card_no, company, val_mm, val_yy from card_info where id = ?";
+		
+		// interface를 anonymous inner class로 생성하여 그 안에서 조회결과를 VO에 할당
+		cVO = jt.queryForObject(selectCard, new Object[] {id},
+				new RowMapper<UserCardVO>() {
+					@Override
+					public UserCardVO mapRow(ResultSet rs, int rowNum) throws SQLException {
+						UserCardVO cVO = new UserCardVO();
+						cVO.setCard_no(rs.getString("card_no"));
+						cVO.setCompany(rs.getString("company"));
+						cVO.setVal_mm(rs.getString("val_mm"));
+						cVO.setVal_yy(rs.getString("val_yy"));
+
+						return cVO;
+					}
+				});
+		
+	
+		return cVO;
+	}//selectCardInfo
+	
+	
+	/**
+	 * 예약추가
+	 * @param rsVO
+	 * @throws DataAccessException
+	 */
+	public void insertRes ( UserReservationVO rsVO ) throws DataAccessException{
+
+		String insertRes = "insert into reservation (res_no, id, room_no, adult, child, "
+				+ "chkin_date, chkout_date, add_req, cc_agree, pi_agree, res_date, res_status, card_no, company)"
+				+ "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, sysdate, 'Y', ?, ? )";
+		System.out.println(rsVO);
+		// 쿼리문 수행
+		int cnt = jt.update(insertRes, rsVO.getRes_no(), rsVO.getId(), rsVO.getRoom_no(), rsVO.getAdult(),
+				rsVO.getChild(), rsVO.getChkin_date(), rsVO.getChkout_date(), rsVO.getAdd_req(), rsVO.getCc_agree(),
+				rsVO.getPi_agree(), rsVO.getCard_no(), rsVO.getCompany());
+
+	}//insertRes
+	
+	
+	/**
+	 * 카드정보추가
+	 * @param cardVO
+	 * @return
+	 * @throws DataAccessException
+	 */
+	public void  insertCardInfo (UserCardVO cardVO) throws DataAccessException{
+
+		String insertCard = "insert into card_info (card_no, company, val_mm, val_yy, id, res_no) values( ?, ?, ?, ?, ?, ?)";
+
+		int cnt = jt.update(insertCard, cardVO.getCard_no(), cardVO.getCompany(), cardVO.getVal_mm(), cardVO.getVal_yy(), cardVO.getId(), cardVO.getRes_no() );
+
+	}//insertCard
+	
+	
+	/**
+	 * 사용자의 id로 카드번호 업데이트
+	 * @param cVO
+	 * @return
+	 * @throws DataAccessException
+	 */
+	public void updateCard ( UserCardVO cardVO ) throws DataAccessException{
+
+		String updateCard = "update card_info set card_no = ? where id = ?";
+		int cnt = jt.update(updateCard, cardVO.getCard_no(), cardVO.getId() );
+
+	}//updateCard
 	
 }//class

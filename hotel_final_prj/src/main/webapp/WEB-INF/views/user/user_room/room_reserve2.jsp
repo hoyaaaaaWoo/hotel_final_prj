@@ -160,6 +160,15 @@ $(function(){
 		
 	})//table click
 	
+	
+	$("#roomIntroBtn").click(function(){
+		location.href="http://localhost/hotel_final_prj/user/user_room/room_intro.do";
+	})//table click
+	
+	$("#roomReserBtn").click(function(){
+		location.href="http://localhost/hotel_final_prj/user/user_room/room_date.do";
+	})//table click
+	
 }); //ready
 
 
@@ -186,7 +195,7 @@ $(function(){
   		<table style = "width: 900px; margin: 0px auto">
   		<tr style = "width: 1000px; height: 50px">
   		<td style = "width: 50px;">
-  		<img style = "width: 30px" src = "http://team3.aws.sist.co.kr/main/main_images/cal_icon.png"/>
+  		<img style = "width: 30px" src = "http://localhost/hotel_final_prj/user/main_images/cal_icon.png"/>
   		</td>
   		<td style = " width: 400px; font-size: 18px; font-weight: bold">
   		&nbsp;&nbsp;${ paramSd }&nbsp;-&nbsp;${paramEd }&nbsp;(${diffDays }박)
@@ -323,6 +332,7 @@ $(function(){
 				 <input type="hidden" id="Adult" name="adult" value = "${ paramAdult }"/>
 				 <input type="hidden" id="Child" name="child" value = "${ paramChild }"/>
 				 <input type="hidden" id="diffDays" name="diffDays" value = "${ diffDays }"/>
+				 <input type="hidden" id="id" name="id" value = "day1217"/>
 				 
 				
 			<div class = "guideR">

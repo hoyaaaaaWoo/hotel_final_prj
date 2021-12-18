@@ -75,6 +75,9 @@ String card_no,	company, val_mm, val_yy, id, res_no;
 
 	@Override
 	public String toString() {
-		return "CardVO [card_no=" + card_no + "]";
+		return "UserCardVO [card_no=" + card_no + ", company=" + company + ", val_mm=" + val_mm + ", val_yy=" + val_yy
+				+ ", id=" + id + ", res_no=" + res_no + "]";
 	}
+
+	
 }

@@ -187,15 +187,15 @@ function roomDetail( Hroom,paramSd,paramEd,paramAdult ,paramChild){
 $(function(){
 	$("#goHome").click(function(){
 
-		location.href="http://team3.aws.sist.co.kr/main/Hotel_Ritz_Seoul.jsp";
+		location.href="http://localhost/hotel_final_prj/user/user_main/Hotel_Ritz_Seoul.do";
 	})//click
 	
 	$("#roomIntroBtn").click(function(){
-		location.href="http://team3.aws.sist.co.kr/user/reser_room/room_intro.jsp";
+		location.href="http://localhost/hotel_final_prj/user/user_room/room_intro.do";
 	})//table click
 	
 	$("#roomReserBtn").click(function(){
-		location.href="http://team3.aws.sist.co.kr/user/reser_room/room_date.jsp";
+		location.href="http://localhost/hotel_final_prj/user/user_room/room_date.do";
 	})//table click
 	
 	
@@ -257,7 +257,7 @@ $(function(){
 		<table style="width: 1000px;">
 			<tr>
 				<td style="width: 252px;" rowspan="2">
-				<img src="http://team3.aws.sist.co.kr/roomImages/${searchRoom.main_img }"
+				<img src="http://localhost/hotel_final_prj/roomImages/${searchRoom.main_img }"
 					style="width: 270px; height: 187px;">
 				</td>
 				<td style="height: 120px;"><br><br><br>

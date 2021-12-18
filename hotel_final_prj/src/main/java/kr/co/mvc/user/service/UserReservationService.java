@@ -17,7 +17,9 @@ import kr.co.mvc.admin.vo.OtherImgVO;
 import kr.co.mvc.admin.vo.RoomVO;
 import kr.co.mvc.user.dao.UserReservationDAO;
 import kr.co.mvc.user.vo.ImagesVO;
+import kr.co.mvc.user.vo.UserCardVO;
 import kr.co.mvc.user.vo.UserMemberVO;
+import kr.co.mvc.user.vo.UserReservationVO;
 import kr.co.mvc.user.vo.UserRoomVO;
 import kr.co.mvc.user.vo.searchRoomVO;
 import kr.co.sist.util.cipher.DataDecrypt;
@@ -207,5 +209,61 @@ public class UserReservationService {
 		return mv;
 					
 	}//DecryptSelectMemInfo
+	
+	
+	/**
+	 * 저장된 사용자의 카드 로우가 있는지 확인 -> 없으면 card_no을 0으로 반환
+	 * @param id
+	 * @return
+	 * @throws SQLException
+	 */
+	public String searchCardFlag( String id ) throws SQLException {
+		String savedFlag = null;
+		savedFlag = resDAO.selectSavedCard(id).getCard_no();
+		return savedFlag;
+	}//searchCardFlag
+	
+	
+	/**
+	 * 사용자의 카드 정보 가져오기
+	 * @param id
+	 * @return
+	 * @throws SQLException 
+	 */
+	public UserCardVO searchCardInfo( String id ) throws SQLException {
+		UserCardVO cVO = null;
+		cVO = resDAO.selectCardInfo(id);
+		return cVO;
+	} //searchCardInfo
+	
+	
+	/**
+	 * 예약하기
+	 * @param rsVO
+	 */
+	public void addReservation ( UserReservationVO rsVO ) {
+		System.out.println("예약service----------" + rsVO);
+		resDAO.insertRes(rsVO);
+	}//addReservation
+	
+	
+	/**
+	 * 카드정보 추가하기
+	 * @param cardVO
+	 */
+	public void addCardInfo ( UserCardVO cardVO ) {
+		System.out.println("카드추가service----------" + cardVO);
+		resDAO.insertCardInfo(cardVO);
+	}//addCardInfo
+	
+	
+	/**
+	 * 카드정보 변경하기
+	 * @param cardVO
+	 */
+	public void modifyCardInfo ( UserCardVO cardVO ) {
+		System.out.println("카드변경service----------" + cardVO);
+		resDAO.updateCard(cardVO);
+	}//modifyCardInfo
 	
 }//class
