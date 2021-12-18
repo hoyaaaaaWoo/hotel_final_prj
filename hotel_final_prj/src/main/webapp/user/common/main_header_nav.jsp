@@ -21,7 +21,7 @@
 		 <span> <a onclick="location.href='http://localhost/hotel_final_prj/user/user_login/logout.do'" id="linkLogin">로그아웃</a></span>
 			<% }//end if %>
 		 <span> <a href="http://team3.aws.sist.co.kr/user/reser_chk/reservation_inq.jsp" id="linkResView">예약조회</a>
-		</span> <span> <a href="http://team3.aws.sist.co.kr/user/mypage/Mypage.jsp" id="linkMyPage">마이페이지</a></span>
+		</span> <span> <a href="http://localhost/hotel_final_prj/user/mypage/mypage.do" id="linkMyPage">마이페이지</a></span>
 	</div>
 	<div style = "background-color: #000000">
 		<nav>
