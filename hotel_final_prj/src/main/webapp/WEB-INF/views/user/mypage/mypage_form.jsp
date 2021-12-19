@@ -230,7 +230,7 @@ pageContext.setAttribute("info", infoVO);
 <br/><br/><br/>
 
 <c:forEach var="info" items="${info}">
-	<form id="frm" action="http://team3.aws.sist.co.kr/user/mypage/member_update_process.jsp" method="get">
+	<form id="frm" action="member_update_process.do" method="post">
 
 	<p style = "font-size: 18px; font-weight: bold; ">이름 변경하기</p>
 	<input type="text" style="width:250px;height:40px" value="${ info.kname }" id="kname" name="kname" >
@@ -252,7 +252,7 @@ pageContext.setAttribute("info", infoVO);
 <div style = "width:450px; text-align: center; margin: 0px auto;">
 <br/><br/><br/>
 
-	<form action="member_del.jsp" id="delfrm" name="delfrm">
+	<form action="deleteMem.do" id="delfrm" name="delfrm">
 	<button type="button" id="delBtn">회원탈퇴</button>
 	</form>
 <br/><br/><br/>

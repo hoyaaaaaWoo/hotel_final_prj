@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import kr.co.mvc.user.dao.MypageDAO;
 import kr.co.mvc.user.vo.LoginVO;
+import kr.co.mvc.user.vo.MemberChgInfoVO;
 import kr.co.mvc.user.vo.MemberChgPassVO;
 import kr.co.mvc.user.vo.UserMemberVO;
 import kr.co.sist.util.cipher.DataEncrypt;
@@ -72,9 +73,15 @@ public class MypageService {
 	
 	
 	
-	public boolean chgPass ( MemberChgPassVO cpVO ) {
+	/**
+	 * 비밀번호 변경
+	 * @param DcpVO
+	 * @return
+	 */
+	public boolean modifyPass ( MemberChgPassVO DcpVO ) {
 		boolean flag = false;
-		int cnt = myDAO.updatePass(cpVO);
+		
+		int cnt = myDAO.updatePass(DcpVO);
 		if( cnt == 1) {
 			flag = true;
 		}//end if
@@ -82,4 +89,69 @@ public class MypageService {
 		return flag;
 	}//chgPass
 	
+	
+	/**
+	 * form의 pass 암호화
+	 * @param pass
+	 * @return
+	 */
+	public String DataEncryptPass ( String pass) {
+		String dPass = "";
+		try {
+			dPass = DataEncrypt.messageDigest("SHA-512", pass);
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}//end catch
+		return dPass;
+	}//DataEncryptPass
+	
+	/**
+	 * form의 change_pass 암호화
+	 * @param change_pass
+	 * @return
+	 */
+	public String DataEncryptCPass ( String change_pass) {
+		String dCPass = "";
+		try {
+			dCPass = DataEncrypt.messageDigest("SHA-512", change_pass);
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}//end catch
+		return dCPass;
+	}//DataEncryptPass
+	
+	
+	/**
+	 * 회원의 개인정보 수정
+	 * @param ciVO
+	 * @return
+	 */
+	public boolean modifyMemInfo( MemberChgInfoVO ciVO ) {
+		boolean iFlag = false;
+		int cnt = myDAO.updateMemInfo(ciVO);
+		if( cnt == 1) {
+			iFlag = true;
+		}//end if
+		return iFlag;
+	}//modifyMemInfo
+	
+	
+	/**
+	 * 회원탈퇴하기
+	 * @param id
+	 * @return
+	 */
+	public boolean deleteMem( String id ) {
+		boolean dFlag = false;
+		try {
+			int cnt = myDAO.delmember(id);
+			if( cnt ==1 ){
+				dFlag = true;
+			}//end if
+			System.out.println("탈퇴cnt : " + cnt);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}//end catch
+		return dFlag;
+	}//deleteMem
 }//class

@@ -297,6 +297,22 @@ public class UserReservationService {
 		return rVO;
 	}//searchResRoomInfo
 	
+	
+	
+	/**
+	 * 예약취소하기
+	 * @param res_no
+	 * @return
+	 */
+	public boolean searchCancelFlag ( String res_no ) {
+		boolean cFlag = false;
+		int flagCnt = resDAO.reservationFlag(res_no);
+		if( flagCnt == 1) {
+			cFlag = true;
+		}//end if
+		
+		return cFlag;
+	}//searchCancelFlag
 
 	
 }//class

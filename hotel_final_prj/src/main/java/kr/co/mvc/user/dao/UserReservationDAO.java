@@ -536,6 +536,24 @@ public class UserReservationDAO {
 			return price.intValue();		
 	}//pay
 	
+	
+	/**
+	 * 예약취소하기 
+	 * @param rVO
+	 * @return
+	 * @throws DataAccessException
+	 */
+	public int reservationFlag( String res_no ) throws DataAccessException{
+		int cnt =0;
+		
+		String deleteRes =  "update reservation set res_status='N' where res_no=?";
+		cnt=jt.update(deleteRes, res_no);
+		
+		return cnt;
+	}//reservationFlag
+	
+	
+	
 
 	
 }//class

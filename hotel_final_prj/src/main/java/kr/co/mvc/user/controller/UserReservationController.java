@@ -346,9 +346,20 @@ public class UserReservationController {
 		model.addAttribute("daysPrice", daysPrice);
 		model.addAttribute("daysTax", daysTax);
 		model.addAttribute("daysTotal", daysTotal);
+		model.addAttribute("diffDays", diffDays);
 
 		
 		return "user/user_chk/reservation_confirm";
 	}//reservationConfirm
+	
+	@RequestMapping(value = "user/user_chk/res_cancel.do", method = {GET, POST})
+	public String resCancelProcess( String res_no, String res_status, Model model) {
+		boolean cFlag = resService.searchCancelFlag(res_no);
+		String url = "";
+		if( cFlag ) {
+			url = "forward:reservation_inq.do";
+		}
+		return url;
+	}//resCancelProcess
 	
 }//class

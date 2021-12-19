@@ -14,6 +14,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
 import kr.co.mvc.user.vo.LoginVO;
+import kr.co.mvc.user.vo.MemberChgInfoVO;
 import kr.co.mvc.user.vo.MemberChgPassVO;
 import kr.co.mvc.user.vo.UserMemberVO;
 import kr.co.sist.util.cipher.DataDecrypt;
@@ -102,10 +103,35 @@ public class MypageDAO {
 	 */
 	public int updatePass( MemberChgPassVO cpVO)throws DataAccessException{
 		String updatePass="update member set pass=? where id=? and pass=?";
-		int cnt=jt.update(updatePass,cpVO.getChange_pass(), cpVO.getId(), cpVO.getPass() );
+		int cnt = jt.update(updatePass, cpVO.getChange_pass(), cpVO.getId(), cpVO.getPass() );
 		System.out.println("mDAO cnt : " + cnt);
 		return cnt;
 	}//updatePass
 	
+	/**
+	 * 전화번호,이메일,이름 변경
+	 * @param mVO
+	 * @return
+	 * @throws 
+	 */
+	public int updateMemInfo( MemberChgInfoVO ciVO )throws DataAccessException{
+		String updateMem="update member set kname=?,tel=?,email=? where id=?";
+		int cnt = jt.update(updateMem, ciVO.getKname(), ciVO.getTel(), ciVO.getEmail(), ciVO.getId() );
+		return cnt;
+	}//updateMem
+	
+	
+	/**
+	 * 회원탈퇴
+	 * @param id
+	 * @return
+	 * @throws SQLException
+	 */
+	public int delmember( String id )throws SQLException {
+		String deleteRes = "update member set m_status='N', out_date = sysdate where id=? ";
+		int cnt = jt.update(deleteRes, id);
+
+		return cnt;
+	}// delmember
 	
 }//class
