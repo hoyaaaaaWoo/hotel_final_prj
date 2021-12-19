@@ -87,7 +87,7 @@ window.onload = function() { //HTML이 로딩되면 printSecond()함수를 호�
 		<div id="container">
 			<span id="info">정상적으로 로그아웃 되었습니다.</span> <br/>
 			 <span style="font-size:17px;font-weight:bold">
-			 	<span id="second" style="color:#FF0000"></span>초 후 로그인 화면으로 이동됩니다.</span><br/><br/>
+			 	<span id="second" style="text-decoration: underline;"></span>초 후 로그인 화면으로 이동됩니다.</span><br/><br/>
 			<span class="cursor" id="move" onclick="location.href='admin_login_form.do'">지금 로그인하러 가기</span>
 		</div>
 		
