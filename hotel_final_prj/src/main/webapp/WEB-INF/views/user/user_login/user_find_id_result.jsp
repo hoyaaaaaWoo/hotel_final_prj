@@ -72,7 +72,7 @@
 
 $(function(){
 	$("#loginBtn").click(function(){
-		location.href="user_login.do";
+		location.href="login.do";
 	})
 	$("#backBtn").click(function(){
 		location.href="user_find_form.do";
