@@ -49,7 +49,7 @@ public class LoginContoller {
 		}//endelse
 		
 		return returnPage;
-	}//adminLogin
+	}//adminLoginProcess
 
 	/**
 	 * 관리자 로그아웃 수행
@@ -60,6 +60,6 @@ public class LoginContoller {
 	public String adminLogOutProcess(SessionStatus ss) {
 		loginSev.adminLogout(ss);
 		return "admin/common/admin_logout_view";
-	}//adminLogOut
+	}//adminLogOutProcess
 
 }// class

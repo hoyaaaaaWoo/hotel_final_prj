@@ -15,6 +15,11 @@ public class ImgUploadController {
 	@Autowired
 	private ImgUploadService imgSev;
 	
+	/**
+	 * 이미지 파일 업로드 -AJAX
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping(value = "add_img_file.do", method=POST, produces = "applicaton/json;charset=UTF-8")
 	@ResponseBody
 	public String addImgFileProcess(HttpServletRequest request) {
@@ -23,11 +28,15 @@ public class ImgUploadController {
 	}//addImgFileProcess
 	
 	
+	/**
+	 * 이미지 파일 삭제 - AJAX
+	 * @param imgName
+	 * @return
+	 */
 	@RequestMapping(value = "remove_img_file.do",method=POST, produces = "applicaton/json;charset=UTF-8")
 	@ResponseBody
 	public String removeImgFileProcess(String imgName) {
 		String imgJson = imgSev.removeImgFileProcess(imgName);
-		
 		return imgJson;
 	}//removeImgFileProcess
 

@@ -239,6 +239,7 @@ public class ImgUploadService {
 	/**
 	 * 객실 정보 수정 시,
 	 * param과 일치하는 이미지들을 roomImages에서 찾아서 temp에 복사
+	 * @param imgList
 	 */
 	public void moveImgtoTemp(List<String> imgList) {
 		// 원 폴더
@@ -294,6 +295,7 @@ public class ImgUploadService {
 	
 	/**
 	 * temp 폴더 이미지 삭제
+	 * @param fileName
 	 */
 	public void removeTempImg(String fileName) {
 		File temp = new File("C:/Users/user/git/hotel_final_prj/hotel_final_prj/src/main/webapp/temp");

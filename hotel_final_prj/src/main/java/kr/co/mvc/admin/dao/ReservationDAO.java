@@ -30,6 +30,8 @@ public class ReservationDAO {
 	 * 객실 예약 조회<br>
 	 * 최근 예약일자부터 내림차순
 	 * @param date
+	 * @param startNum
+	 * @param endNum
 	 * @return
 	 * @throws DataAccessException
 	 */

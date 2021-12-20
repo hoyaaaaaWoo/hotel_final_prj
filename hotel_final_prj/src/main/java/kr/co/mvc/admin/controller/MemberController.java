@@ -26,12 +26,12 @@ public class MemberController {
 	/**
 	 * 회원관리 메인 <br>
 	 * (정상/탈퇴/특정회원 조회)
-	 * @param id
+	 * @param mpVO
 	 * @param model
 	 * @return
 	 */
 	@RequestMapping(value = "search_member.do", method = { GET, POST })
-	public String searchActiveMember(MemberPagingVO mpVO, Model model) {
+	public String searchMember(MemberPagingVO mpVO, Model model) {
 		String id = mpVO.getId();
 		String page = mpVO.getPage();
 		String mStatus = mpVO.getM_status();
@@ -89,12 +89,12 @@ public class MemberController {
 		} // end if
 
 		return "/admin/admin_member/admin_member_main";
-	}// searchActiveMember
+	}// searchMember
 
 
 	/**
 	 * 회원삭제
-	 * @param id
+	 * @param delId
 	 * @param model
 	 * @return
 	 */
@@ -106,7 +106,7 @@ public class MemberController {
 		} else {
 			model.addAttribute("delResult", false);
 		} // else
-		return "forward:search_active_member.do";
+		return "forward:search_member.do";
 	}// deleteMember
 
 }// class

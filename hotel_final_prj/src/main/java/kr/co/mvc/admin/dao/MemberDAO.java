@@ -26,10 +26,7 @@ public class MemberDAO {
 
 	/**
 	 * 정상회원 조회
-	 * 
-	 * @param id
-	 * @param startNum
-	 * @param endNum
+	 * @param mpVO
 	 * @return
 	 * @throws DataAccessException
 	 */
@@ -81,9 +78,7 @@ public class MemberDAO {
 
 	/**
 	 * 탈퇴회원 조회
-	 * @param id
-	 * @param startNum
-	 * @param endNum
+	 * @param mpVO
 	 * @return
 	 * @throws DataAccessException
 	 */
@@ -132,8 +127,8 @@ public class MemberDAO {
 
 	/**
 	 * 페이지네이션에 사용할 전체 레코드 조회
-	 * 
 	 * @param id
+	 * @param status
 	 * @return
 	 * @throws DataAccessException
 	 */

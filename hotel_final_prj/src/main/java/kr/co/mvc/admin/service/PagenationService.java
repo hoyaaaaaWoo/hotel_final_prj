@@ -30,11 +30,12 @@ public class PagenationService {
 		
 		totalPage=(int) Math.ceil((double)totalCnt/pageScale);
 		return totalPage;
-	}//findTotalPage
+	}//getTotalPage
 
 	
 	/**
 	 * 현재페이지 형식 체크
+	 * @param currentPage
 	 * @return
 	 */
 	public int setCurrentpage(String currentPage) {
@@ -51,7 +52,6 @@ public class PagenationService {
 	/**
 	 * 현재페이지에 따라 시작번호 구하기
 	 * @param currentPage
-	 * @param pageScale
 	 * @return
 	 */
 	public int getStartNum(int currentPage) {
@@ -64,7 +64,6 @@ public class PagenationService {
 	/**
 	 * 끝번호 구하기
 	 * @param startNum
-	 * @param pageScale
 	 * @return
 	 */
 	public int getEndNum(int startNum) {
@@ -72,5 +71,4 @@ public class PagenationService {
 		return endNum;
 	}//getEndNum
 	
-
 }//class

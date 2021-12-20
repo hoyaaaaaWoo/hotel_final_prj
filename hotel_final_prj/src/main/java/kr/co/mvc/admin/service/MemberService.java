@@ -18,7 +18,7 @@ public class MemberService {
 	
 /**
  * 정상회원 조회
- * @param id
+ * @param mpVO
  * @return
  */
 public List<MemberVO> searchActiveMember(MemberPagingVO mpVO) {
@@ -49,7 +49,7 @@ public int searchAllMemberCnt(String id, String status) {
 
 /**
  * 탈퇴회원 조회
- * @param id
+ * @param mpVO
  * @return
  */
 public List<MemberVO> searchInactiveMember(MemberPagingVO mpVO) {

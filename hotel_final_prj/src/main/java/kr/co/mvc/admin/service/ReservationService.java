@@ -20,8 +20,10 @@ public class ReservationService {
 	
 	/**
 	 * 예약 조회
-	 * @param date 체크인일자 또는 현재일자
-	 * @return 예약리스트
+	 * @param date
+	 * @param startNum
+	 * @param endNum
+	 * @return
 	 */
 	public List<ReservationSelectVO> searchRes(ChkInDateVO date, int startNum, int endNum){
 		List<ReservationSelectVO> resList = null;
@@ -157,5 +159,6 @@ public class ReservationService {
 		}//end catch
 		
 		return result;
-	}//searchMaxGuest
+	}//changeRes
+	
 }//class

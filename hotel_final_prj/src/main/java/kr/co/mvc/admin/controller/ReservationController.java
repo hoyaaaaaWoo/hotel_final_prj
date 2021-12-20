@@ -29,6 +29,7 @@ public class ReservationController {
 	
 	/**
 	 * 오늘의 예약
+	 * @param page
 	 * @param model
 	 * @return
 	 */
@@ -71,6 +72,7 @@ public class ReservationController {
 	/**
 	 * 예약관리 메인
 	 * @param date
+	 * @param page
 	 * @param model
 	 * @return
 	 */
@@ -139,12 +141,12 @@ public class ReservationController {
 
 	/**
 	 * 예약수정
-	 * @param resNum
+	 * @param ruVO
 	 * @param model
 	 * @return
 	 */
 	@RequestMapping(value = "change_res_process.do", method = POST)
-	public String chagneResProcess(ReservationUpdateVO ruVO, HttpServletRequest request,Model model) {
+	public String chagneResProcess(ReservationUpdateVO ruVO, Model model) {
 		boolean chkResult = true; 
 		
 		//검증 실패 시 예약 변경 화면으로 이동

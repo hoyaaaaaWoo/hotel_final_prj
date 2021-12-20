@@ -20,6 +20,7 @@ public class RoomService {
 	/**
 	 * 등록된 모든 룸 상세정보 조회
 	 * @param rName
+	 * @param roomNum
 	 * @return
 	 */
 	public List<RoomVO> searchRoomInfo(String rName, String roomNum) {
@@ -37,6 +38,7 @@ public class RoomService {
 	/**
 	 * 특정객실의 기타이미지 조회
 	 * @param rName
+	 * @param roomNum
 	 * @return
 	 */
 	public List<OtherImgVO> searchOtherImg(String rName, String roomNum) {

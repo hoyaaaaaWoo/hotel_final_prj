@@ -26,6 +26,10 @@ public class RoomDAO {
 	
 	/**
 	 * 등록된 모든 room 상세정보 조회
+	 * @param rName
+	 * @param roonNum
+	 * @return
+	 * @throws DataAccessException
 	 */
 	public List<RoomVO> selectRoomInfo(String rName, String roonNum) throws DataAccessException {
 		List<RoomVO> roomList = null;
@@ -94,6 +98,7 @@ public class RoomDAO {
 	/**
 	 * images 테이블에서 룸별 이미지 조회
 	 * @param rName
+	 * @param roomNum
 	 * @return
 	 * @throws DataAccessException
 	 */
@@ -178,6 +183,8 @@ public class RoomDAO {
 	/**
 	 * 객실 정보를 insert
 	 * @param rmVO
+	 * @param lastRoomNo
+	 * @param imgFrmVO
 	 * @return
 	 * @throws DataAccessException
 	 */
@@ -208,7 +215,8 @@ public class RoomDAO {
 
 	/**
 	 * 기타 이미지 존재 시, 이미지 테이블에 추가 insert
-	 * @param roomVO
+	 * @param rmVO
+	 * @param imgFrmVO
 	 * @return
 	 * @throws DataAccessException
 	 */
@@ -243,9 +251,9 @@ public class RoomDAO {
 	
 	/**
 	 * 객실 상태 변경
-	 * @param statusRNo 룸넘버
-	 * @param rStatus Y | N
+	 * @param rmVO
 	 * @return
+	 * @throws DataAccessException
 	 */
 	public int UpdateRoomStatus(RoomVO rmVO) throws DataAccessException {
 		int cnt = 0;
