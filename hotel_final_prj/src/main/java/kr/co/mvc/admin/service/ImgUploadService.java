@@ -34,7 +34,7 @@ public class ImgUploadService {
 	public String addImgFileProcess(HttpServletRequest request) {
 
 		//temp폴더에 파일 업로드
-		File uploadPath = new File("e:/hotel_final_prj/temp");
+		File uploadPath = new File("e:/dev/hotel_final_prj/temp");
 
 		if(!uploadPath.exists()){ // 경로에 업로드 폴더가 없으면 생성
 			uploadPath.mkdirs();
@@ -109,11 +109,11 @@ public class ImgUploadService {
 	 * @param fileName
 	 */
 	public void markMainImg(String fileName) {
-		File selectedImgPath = new File("e:/hotel_final_prj/temp/" + fileName);
-		File mainImgPath = new File("e:/hotel_final_prj/temp/"
+		File selectedImgPath = new File("e:/dev/hotel_final_prj/temp/" + fileName);
+		File mainImgPath = new File("e:/dev/hotel_final_prj/temp/"
 				+ fileName.substring(0, fileName.indexOf(".")) + "_main" + fileName.substring(fileName.indexOf(".")));
 
-		File temp = new File("e:/hotel_final_prj/temp");
+		File temp = new File("e:/dev/hotel_final_prj/temp");
 
 		// 전체 파일 리스트 조회 후 main 포함되어있거나 같은 이름으로 저장되어있는 파일이 있다면 삭제 후 rename 처리
 		File[] listFiles = temp.listFiles();
@@ -137,7 +137,7 @@ public class ImgUploadService {
 		List<ImgUploadVO> list = new ArrayList<ImgUploadVO>();
 
 		// 1. 파일 리스트를 가져올 파일 생성
-		File temp = new File("e:/hotel_final_prj/temp");
+		File temp = new File("e:/dev/hotel_final_prj/temp");
 
 		if(!temp.exists()) {
 			temp.mkdirs();
@@ -186,9 +186,9 @@ public class ImgUploadService {
 	 */
 	public void moveImgtoRoomImg() {
 		// 원 폴더
-		File tempFolder = new File("e:/hotel_final_prj/temp");
+		File tempFolder = new File("e:/dev/hotel_final_prj/temp");
 		// 복사할 폴더
-		File imgFolder = new File("e:/hotel_final_prj/roomImages");
+		File imgFolder = new File("e:/dev/hotel_final_prj/roomImages");
 		
 		if(!tempFolder.exists()) {
 			tempFolder.mkdirs();
@@ -243,9 +243,9 @@ public class ImgUploadService {
 	 */
 	public void moveImgtoTemp(List<String> imgList) {
 		// 원 폴더
-		File imgFolder = new File("e:/hotel_final_prj/roomImages");
+		File imgFolder = new File("e:/dev/hotel_final_prj/roomImages");
 		// 복사할 폴더
-		File tempFolder = new File("e:/hotel_final_prj/temp");
+		File tempFolder = new File("e:/dev/hotel_final_prj/temp");
 
 		if(!tempFolder.exists()) {
 			tempFolder.mkdirs();
@@ -298,7 +298,7 @@ public class ImgUploadService {
 	 * @param fileName
 	 */
 	public void removeTempImg(String fileName) {
-		File temp = new File("e:/hotel_final_prj/temp");
+		File temp = new File("e:/dev/hotel_final_prj/temp");
 		//폴더가 없거나 비어있으면 return
 		if (!temp.exists() || temp.listFiles().length ==0) {
 			return;
@@ -331,7 +331,7 @@ public class ImgUploadService {
 	public void removeRoomImg(List<String> dbImgList, ImgFormVO imgFrmVO) {
 		//roomImages에서 지울 이미지 리스트
 			List<String> delImgList = new ArrayList<String>();
-			File roomImg = new File("e:/hotel_final_prj/roomImages");
+			File roomImg = new File("e:/dev/hotel_final_prj/roomImages");
 				
 			//수정 완료 후 새로운 이미지 리스트 세팅
 			List<String> newImgList = new ArrayList<String>();
