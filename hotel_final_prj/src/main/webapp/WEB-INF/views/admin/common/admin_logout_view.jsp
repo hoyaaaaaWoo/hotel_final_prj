@@ -5,12 +5,12 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="refresh" content="5;http://localhost/hotel_final_prj/admin_login_form.do">
+<meta http-equiv="refresh" content="5;http://211.63.89.141/admin_login_form.do">
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Hotel Ritz - 관리자 로그아웃</title>
 <link rel="stylesheet" type="text/css"
-	href="http://localhost/hotel_final_prj/common/css/main_v20211012.css">
+	href="http://211.63.89.141/common/css/main_v20211012.css">
 	
 <!-- jQuery CDN -->
 <script
@@ -25,7 +25,7 @@
 
 <!-- 관리자 메인 CSS -->
 <link rel="stylesheet" type="text/css"
-	href="http://localhost/hotel_final_prj/admin/css/admin_main.css">
+	href="http://211.63.89.141/admin/css/admin_main.css">
 
 <style type="text/css">
 #container {

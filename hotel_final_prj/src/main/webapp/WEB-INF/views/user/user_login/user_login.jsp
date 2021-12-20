@@ -13,7 +13,7 @@
 
     <!-- 메인 CSS -->
 	<link rel="stylesheet" type="text/css"
-	href="http://localhost/hotel_final_prj/user/css/main.css">
+	href="http://211.63.89.141/user/css/main.css">
      <title>Hotel_Ritz_Seoul</title>
 	<style type = "text/css">
 	
@@ -66,11 +66,11 @@ p { border: 1px solid #FF00FF}
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 	
-    <script src="http://localhost/hotel_final_prj/common/bootstrap/holder.js"></script>
+    <script src="http://211.63.89.141/common/bootstrap/holder.js"></script>
 
-    <script src="http://localhost/hotel_final_prj/common/bootstrap/ie-emulation-modes-warning.js"></script>
+    <script src="http://211.63.89.141/common/bootstrap/ie-emulation-modes-warning.js"></script>
 
-    <link href="http://localhost/hotel_final_prj/common/bootstrap/carousel.css" rel="stylesheet">
+    <link href="http://211.63.89.141/common/bootstrap/carousel.css" rel="stylesheet">
     <script type="text/javascript">
   $(function() {
 		$("#btn").click(function() {
@@ -108,7 +108,7 @@ p { border: 1px solid #FF00FF}
 			</div>
 
     <br/><br/>
-     <form method="post" id="frm" name="frm" action="http://localhost/hotel_final_prj/user/user_login/loginProcess.do">
+     <form method="post" id="frm" name="frm" action="http://211.63.89.141/user/user_login/loginProcess.do">
     <table style="margin: 0px auto; width: 230px">
     	<tr>
     		<tr>
@@ -123,9 +123,9 @@ p { border: 1px solid #FF00FF}
     		<tr>
     			<td style = "padding: 5px">
     			&nbsp;&nbsp;
-    			<a href="http://localhost/hotel_final_prj/user/user_login/user_signup.do" style="color: #C0C0C0" ><span id = "join">회원가입&nbsp;&nbsp;</span></a>
+    			<a href="http://211.63.89.141/user/user_login/user_signup.do" style="color: #C0C0C0" ><span id = "join">회원가입&nbsp;&nbsp;</span></a>
 				&nbsp;&nbsp;&nbsp;&nbsp;
-    			<a href="http://localhost/hotel_final_prj/user/user_login/user_find_form.do" style="color: #C0C0C0"><span id = "find">아이디/비밀번호 찾기</span></a></td>
+    			<a href="http://211.63.89.141/user/user_login/user_find_form.do" style="color: #C0C0C0"><span id = "find">아이디/비밀번호 찾기</span></a></td>
     		</tr>
     </table>
     </form>
@@ -139,7 +139,7 @@ p { border: 1px solid #FF00FF}
     ================================================== -->
     
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="http://localhost/hotel_final_prj/common/bootstrap/ie10-viewport-bug-workaround.js"></script>
+    <script src="http://211.63.89.141/common/bootstrap/ie10-viewport-bug-workaround.js"></script>
     <script>
 
    		

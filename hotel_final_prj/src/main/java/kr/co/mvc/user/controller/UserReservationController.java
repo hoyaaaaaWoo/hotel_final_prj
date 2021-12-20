@@ -389,7 +389,7 @@ public class UserReservationController {
 		String url = "user/user_chk/reservation_inq";
 		
 		if( id == null ){//세션이 존재하지 않으면 
-			url = "redirect:http://localhost/hotel_final_prj/user/user_login/login.do";
+			url = "redirect:http://211.63.89.141/user/user_login/login.do";
 		}else{//end if
 		
 			List<UserReservationVO> rList = null;

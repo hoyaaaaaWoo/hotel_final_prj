@@ -19,7 +19,7 @@
 
 <!-- 메인 CSS -->
 <link rel="stylesheet" type="text/css"
-	href="http://localhost/hotel_final_prj/user/css/main.css">
+	href="http://211.63.89.141/user/css/main.css">
 
 <style type="text/css">
 .hr1 {border-bottom: 1px solid #d3d3d3; }
@@ -104,11 +104,11 @@ tr { border: 1px solid #FFFF00}
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 
-<link href="http://localhost/hotel_final_prj/common/bootstrap/carousel.css"
+<link href="http://211.63.89.141/common/bootstrap/carousel.css"
 	rel="stylesheet">
 <!--  zebra_datepicker -->
-<script src="http://localhost/hotel_final_prj/common/zebra_datepicker/zebra_datepicker.min.js"></script>
-<link rel="stylesheet" href="http://localhost/hotel_final_prj/common/zebra_datepicker/css/default/zebra_datepicker.min.css">
+<script src="http://211.63.89.141/common/zebra_datepicker/zebra_datepicker.min.js"></script>
+<link rel="stylesheet" href="http://211.63.89.141/common/zebra_datepicker/css/default/zebra_datepicker.min.css">
 
 <script type="text/javascript">
 
@@ -116,7 +116,7 @@ function loginChk(){
 	var userId = '<%=(String)session.getAttribute("id") %>';
 	if(userId == "null"){
 		alert("예약은 로그인 후 가능합니다. ")
-		location.href = "http://localhost/hotel_final_prj/user/user_login/login.do";
+		location.href = "http://211.63.89.141/user/user_login/login.do";
 		return;
 	}//endif
 }//loginChk 
@@ -148,7 +148,7 @@ $(function(){
 		 var userId = '<%=(String)session.getAttribute("id") %>';
 			 if(userId == "null"){
 				alert("예약은 로그인 후 가능합니다. ")
-				location.href = "http://localhost/hotel_final_prj/user/user_login/login.do";
+				location.href = "http://211.63.89.141/user/user_login/login.do";
 				return;
 			}//endif 
 
@@ -203,7 +203,7 @@ $(function(){
 				
 				//alert( $("#hidDiv") )
 				$("#hidDiv").html(roomHidden );
-				//location.href="http://localhost/hotel_final_prj/user/user_room/room_reserve.do?"+param;
+				//location.href="http://211.63.89.141/user/user_room/room_reserve.do?"+param;
 				$("#dateFrm").submit();
 			 }//success
 			 
@@ -213,11 +213,11 @@ $(function(){
 	});//click
 	
 	$("#roomIntroBtn").click(function(){
-		location.href="http://localhost/hotel_final_prj/user/user_room/room_intro.do";
+		location.href="http://211.63.89.141/user/user_room/room_intro.do";
 	})//table click
 	
 	$("#roomReserBtn").click(function(){
-		location.href="http://localhost/hotel_final_prj/user/user_room/room_date.do";
+		location.href="http://211.63.89.141/user/user_room/room_date.do";
 	})//table click
 	
 	
@@ -344,7 +344,7 @@ pageContext.setAttribute("userId", userId);
 	<!-- ================================================== -->
 
 	<script
-		src="http://localhost/hotel_final_prj/common/bootstrap/ie10-viewport-bug-workaround.js"></script>
+		src="http://211.63.89.141/common/bootstrap/ie10-viewport-bug-workaround.js"></script>
 
 </body>
 </html>

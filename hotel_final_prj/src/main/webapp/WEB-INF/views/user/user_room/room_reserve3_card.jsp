@@ -20,7 +20,7 @@
 
 <!-- 메인 CSS -->
 <link rel="stylesheet" type="text/css"
-	href="http://localhost/hotel_final_prj/user/css/main.css">
+	href="http://211.63.89.141/user/css/main.css">
 
 <style type="text/css">
 .hr1 {
@@ -267,7 +267,7 @@ p { border: 1px solid #FF00FF}
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 
-<link href="http://localhost/hotel_final_prj/common/bootstrap/carousel.css"
+<link href="http://211.63.89.141/common/bootstrap/carousel.css"
 	rel="stylesheet">
 
 <script type="text/javascript">
@@ -366,69 +366,6 @@ $(function() {
 ================================================== -->
 <body>
 
-<%-- <%
-	request.setCharacterEncoding("UTF-8");
-	
-	String paramSd = request.getParameter("sd");
-
-	String paramEd = request.getParameter("ed");
-	String paramAdult = request.getParameter("adult");
-	String paramChild = request.getParameter("child");	
-	String addReq = request.getParameter("addReq");
-	String paramRoomNo = request.getParameter("room_no");
-	String DiffDays = request.getParameter("diffDays");
-	int room_no = Integer.parseInt( paramRoomNo );
-	int diffDays = Integer.parseInt( DiffDays );
-
-	
-	// 체크인월일 구하기 (res_no에 사용됨)
-	String year = paramSd.substring(0, 4);
-	String month = paramSd.substring(5,7);
-	String day = paramSd.substring(8,10);
-	
-	
-	// 룸넘버 0으로 두자리 만들기
-	String zeroRoomNo = String.format("%02d", room_no);
-	String zeroDiffDays = String.format("%03d", diffDays);
-	
-	//예약번호 생성 (년월일 - 박수(3자리) -R룸넘버)
-	String strResNo = year + month + day + "-" + zeroDiffDays + "R" + zeroRoomNo;
-	//String strResNo = month + day + "R" + zeroRoomNo;
-	
-	RoomSelect rs = new RoomSelect();
-	RoomVO rv = rs.selectRoomInfo(room_no); 
-	
-	String id = (String)session.getAttribute("id"); 
-	
-	//사용자정보 복호화
-	User_Decryption ud = new User_Decryption();
-	MemberVO mv = ud.DecryptSelectMemInfo(id);
-	
-		
-	// 사용자의 기본 카드 정보 확인하기
-	SelectCard sc = new SelectCard();
-	
-	// 저장된 사용자의 카드 로우가 있는지 확인 -> 없으면 card_no을 0으로 반환
-	CardVO cdVO = sc.checkSavedCard(id);
-	String savedFlag = cdVO.getCard_no();
-	
-	pageContext.setAttribute("saveFlag", savedFlag);
-	
-	
- 	 if( !savedFlag.equals("0")){
-	 	// 사용자의 카드 정보 가져오기
-		CardVO cVO = sc.selectCardInfo(id);
-		String savedCard_no = cVO.getCard_no(); 
-		String savedMM = cVO.getVal_mm();
-		String savedYY = cVO.getVal_yy();
-		String savedCompany = cVO.getCompany();
-		pageContext.setAttribute("savedCard_no", savedCard_no); 
-		pageContext.setAttribute("savedMM", savedMM); 
-		pageContext.setAttribute("savedYY", savedYY); 
-		pageContext.setAttribute("savedCompany", savedCompany); 
-	} 
-
-%>  --%>
 	<div class="wrapper" style="width: 1130px">
 		<!-- header/navibar import -->
 		<jsp:include page="/user/common/main_header_nav.jsp"/>
@@ -446,7 +383,7 @@ $(function() {
 				<table class="chkTab">
 					<tr>
 						<td style="width: 500px"><img
-							src="http://localhost/hotel_final_prj/roomImages/${  rv.getMain_img() }"
+							src="http://211.63.89.141/roomImages/${  rv.getMain_img() }"
 							width="480" height="330" /><br /> <br /></td>
 
 						<td>
@@ -688,6 +625,6 @@ $(function() {
 	<!-- ================================================== -->
 
 	<script
-		src="http://localhost/hotel_final_prj/common/bootstrap/ie10-viewport-bug-workaround.js"></script>
+		src="http://211.63.89.141/common/bootstrap/ie10-viewport-bug-workaround.js"></script>
 </body>
 </html>

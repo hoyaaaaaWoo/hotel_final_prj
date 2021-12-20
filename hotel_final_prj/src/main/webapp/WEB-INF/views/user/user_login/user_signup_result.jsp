@@ -17,9 +17,36 @@
     <title>Hotel_Ritz_Seoul</title>
     <!-- 메인 CSS -->
 	<link rel="stylesheet" type="text/css"
-	href="http://localhost/hotel_final_prj/user/css/main.css">
+	href="http://211.63.89.141/user/css/main.css">
     
 	<style type = "text/css">
+	
+	.hr1 {border-bottom: 1px solid #d3d3d3;}
+
+	.MyTitle {
+	color: #333;
+	font-weight: bold;
+	font-size: 30px
+}	
+
+	.gohome {
+	border: 1px solid #E9E9E9;
+	font-size : 14px;
+	font-weight: bold;
+	background-color: #000;
+	color: #F5DF3C;
+	width: 130px;
+	height: 40px;
+	cursor: pointer;
+	text-align: center;
+	border-radius: 7px;
+}
+
+.gohome:hover {
+	background-color: #F5dF4D;
+	color: #000000;
+	cursor: pointer;
+}
 			/* div {margin: 0px auto; width: 1130px;} */
 	</style>
 
@@ -33,11 +60,11 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 	
-    <script src="http://localhost/hotel_final_prj/common/bootstrap/holder.js"></script>
+    <script src="http://211.63.89.141/common/bootstrap/holder.js"></script>
 
-    <script src="http://localhost/hotel_final_prj/common/bootstrap/ie-emulation-modes-warning.js"></script>
+    <script src="http://211.63.89.141/common/bootstrap/ie-emulation-modes-warning.js"></script>
 
-    <link href="http://localhost/hotel_final_prj/common/bootstrap/carousel.css" rel="stylesheet">
+    <link href="http://211.63.89.141/common/bootstrap/carousel.css" rel="stylesheet">
   </head>
   
 <!-- NAVBAR
@@ -51,57 +78,19 @@
 	<br/><br/><br/>
 	<div class="container marketing">
   <br/><br/>
-  <div style="width: 300px;text-align: center;margin: 0px auto;">
-  <br>
-  <h2>가입완료</h2>
-  </div>
-  <hr style="width: 500px"/>
-  <div style="width: 300px;text-align: center; margin: 0px auto;">
+<div style="text-align: center">
+		<p class="MyTitle">가입 완료</p><br/>
+ <hr class="hr1">
+	</div>
 
-<%-- <%
-request.setCharacterEncoding("UTF-8");
-String id = request.getParameter("id");
-String pass = request.getParameter("pass");
-String email = request.getParameter("email");
-String ename_fst = request.getParameter("ename_fst");
-String ename_lst = request.getParameter("ename_lst");
-String kname = request.getParameter("kname");
-String birth_year = request.getParameter("birth_year");
-String tel = request.getParameter("tel");
-String req_agree = request.getParameter("req_agree");
-String opt_agree = request.getParameter("opt_agree");
-String m_status = request.getParameter("m_status");
-%>
- <jsp:useBean id="mVO" class="kr.co.sist.user.login.memberVO" scope="page"/>
-<jsp:setProperty property="*" name="mVO"/><!--  입력정보--> --%>
+  <div style="width: 300px;text-align: center; margin: 0px auto; font-size: 15px">
+
+
 <c:catch var="e">
-  
-<%-- <%
-//비밀번호 암호화 
-mVO.setPass(DataEncrypt.messageDigest("SHA-512", mVO.getPass()));
 
-//이름 암호화
-DataEncrypt de=new DataEncrypt("AbcdEfgHiJkLmnOpQ");
-mVO.setKname(de.encryption(mVO.getKname()) );//이름
-mVO.setEname_fst(de.encryption(mVO.getEname_fst()));  //영문이름
-mVO.setEname_lst(de.encryption(mVO.getEname_lst()));//영문이름
-mVO.setEmail(de.encryption(mVO.getEmail()));//이메일
-mVO.setBirth_year(de.encryption(mVO.getBirth_year()));//생년월일
-mVO.setTel(de.encryption(mVO.getTel()));//번호
- mVO.setId(mVO.getId());
-mVO.setReq_agree(mVO.getReq_agree());
-mVO.setOpt_agree(mVO.getOpt_agree());
-mVO.setJoin_date(mVO.getJoin_date());
-mVO.setOut_date(mVO.getOut_date());
-mVO.setM_status(mVO.getM_status()); 
+<c:out value="${ param.kname }"/>님 <strong><c:out value="${ param.id }"/></strong>로
+회원 가입되셨습니다.<br/>회원가입을 축하드립니다.<br/>
 
-//DB작업
-MemberDAO mDAO=new MemberDAO();
-mDAO.insertMember(mVO);//추가성공 예외
-%> --%>
-
-<c:out value="${ param.kname }"/>님 <c:out value="${ param.id }"/>로
-회원 가입 되셨습니다.<br/>회원가입을 축하드립니다.<br/>
 </c:catch>
 <c:if test="${ not empty e }">
 죄송합니다. 회원정보가 입력되지 않았습니다.
@@ -112,7 +101,7 @@ mDAO.insertMember(mVO);//추가성공 예외
 
   <br/><br/>
  <div style="width:150px; text-align: center; margin: 0px auto;">
-  <input type="button" class="btn btn-default" style="width: 100px;" value="홈으로" onclick="location.href='http://localhost/hotel_final_prj/user/user_main/Hotel_Ritz_Seoul.do'">
+  <input type="button" class="gohome" style="width: 100px;" value="홈으로" onclick="location.href='http://211.63.89.141/user/user_main/Hotel_Ritz_Seoul.do'">
   </div>
 </div>
     <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
@@ -123,6 +112,6 @@ mDAO.insertMember(mVO);//추가성공 예외
     ================================================== -->
     
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="http://localhost/hotel_final_prj/common/bootstrap/ie10-viewport-bug-workaround.js"></script>
+    <script src="http://211.63.89.141/common/bootstrap/ie10-viewport-bug-workaround.js"></script>
   </body>
 </html>

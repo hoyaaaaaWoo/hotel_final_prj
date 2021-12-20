@@ -14,7 +14,7 @@
     <title>Hotel_Ritz_Seoul</title>
     <!-- 메인 CSS -->
 	<link rel="stylesheet" type="text/css"
-	href="http://localhost/hotel_final_prj/user/css/main.css">
+	href="http://211.63.89.141/user/css/main.css">
 	<style type = "text/css">
 	
 .hr1 {border-bottom: 1px solid #d3d3d3;}
@@ -103,7 +103,7 @@ $(function() {
 });
 
 function home(){
-	location.href="http://localhost/hotel_final_prj/user/user_main/Hotel_Ritz_Seoul.do"
+	location.href="http://211.63.89.141/user/user_main/Hotel_Ritz_Seoul.do"
 }
 
 </script>
@@ -113,7 +113,7 @@ function home(){
  <%
 	String id=(String)session.getAttribute("id");
 if(id==null){//세션이 존재하지 않으면 
-	response.sendRedirect("http://localhost/hotel_final_prj/user/user_login/login.do");
+	response.sendRedirect("http://211.63.89.141/user/user_login/login.do");
 }//end if
 %> 
 
@@ -161,6 +161,6 @@ if(id==null){//세션이 존재하지 않으면
     ================================================== -->
     
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="http://localhost/hotel_final_prj/common/bootstrap/ie10-viewport-bug-workaround.js"></script>
+    <script src="http://211.63.89.141/common/bootstrap/ie10-viewport-bug-workaround.js"></script>
   </body>
 </html>

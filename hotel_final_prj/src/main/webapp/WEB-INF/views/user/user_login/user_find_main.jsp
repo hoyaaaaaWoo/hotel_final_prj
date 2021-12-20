@@ -22,11 +22,11 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 	
-    <script src="http://localhost/hotel_final_prj/common/bootstrap/holder.js"></script>
-    <script src="http://localhost/hotel_final_prj/common/bootstrap/ie-emulation-modes-warning.js"></script>
+    <script src="http://211.63.89.141/common/bootstrap/holder.js"></script>
+    <script src="http://211.63.89.141/common/bootstrap/ie-emulation-modes-warning.js"></script>
      <!-- 메인 CSS -->
 	<link rel="stylesheet" type="text/css"
-	href="http://localhost/hotel_final_prj/user/css/main.css">
+	href="http://211.63.89.141/user/css/main.css">
 	
 	<style type = "text/css">
 	.container{
@@ -243,7 +243,7 @@
   </form>
   </div>
 	<button type="button" id="btn" style="width: 100px; height: 40px"
-		 onclick="location.href='http://localhost/hotel_final_prj/user/user_main/Hotel_Ritz_Seoul.do'">홈으로</button>
+		 onclick="location.href='http://211.63.89.141/user/user_main/Hotel_Ritz_Seoul.do'">홈으로</button>
 	  
     <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
  </div>
@@ -254,6 +254,6 @@
     ================================================== -->
     
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="http://localhost/hotel_final_prj/common/bootstrap/ie10-viewport-bug-workaround.js"></script>
+    <script src="http://211.63.89.141/common/bootstrap/ie10-viewport-bug-workaround.js"></script>
   </body>
 </html>

@@ -10,7 +10,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Hotel Ritz - 객실관리</title>
 <link rel="stylesheet" type="text/css"
-	href="http://localhost/hotel_final_prj/common/css/main_v20211012.css">
+	href="http://211.63.89.141/common/css/main_v20211012.css">
 
 <!-- jQuery CDN -->
 <script
@@ -25,11 +25,11 @@
 
 <!-- 관리자 메인 CSS -->
 <link rel="stylesheet" type="text/css"
-	href="http://localhost/hotel_final_prj/admin/css/admin_main.css">
+	href="http://211.63.89.141/admin/css/admin_main.css">
 	
 <!-- viewroom CSS -->
 <link rel="stylesheet" type="text/css"
-	href="http://localhost/hotel_final_prj/admin/css/admin_room_roomview.css">
+	href="http://211.63.89.141/admin/css/admin_room_roomview.css">
 	
 <style type="text/css">
 #addBtn{
@@ -192,7 +192,7 @@ function showRoomDetail(roomName){
 		      <c:set var="height" value=""/>
   			</c:if>
 			<td class="mainTd">
-  			<img src="http://localhost/hotel_final_prj/admin/room_status_img/${rStatus}.png" ${height} class="rStatus img-rounded"
+  			<img src="http://211.63.89.141/admin/room_status_img/${rStatus}.png" ${height} class="rStatus img-rounded"
   			onclick="showRoomDetail( '${roomList.getRoomName()}' )"/>
 			<br/>
 			<c:out value="${roomList.getRoomName()}"/></td>
@@ -315,14 +315,14 @@ function showRoomDetail(roomName){
 		
 		<table  id="imgTable" style="table-layout: fixed" >
 		<tr><td class="imgTd">
-		<img src="http://localhost/hotel_final_prj/roomImages/${mainImg}" title="${mainImg}" name="img" id="mainImg" class="viewImg" 
+		<img src="http://211.63.89.141/roomImages/${mainImg}" title="${mainImg}" name="img" id="mainImg" class="viewImg" 
 			style="padding:0px;margin:10px;border:7px solid #ffffff"/><br/>
 		<span style="font-weight: bold;font-size: 14px"><c:out value="${mainImg}"/></span>
  		</td>
  		<c:if test="${not empty imgList}">
 		 <c:forEach var="img" items="${imgList}">
 		 <td class="imgTd">
-		   <img src="http://localhost/hotel_final_prj/roomImages/${img.imgSrc}" title="${img.imgSrc}" name="img" id="otherImg" class="viewImg"
+		   <img src="http://211.63.89.141/roomImages/${img.imgSrc}" title="${img.imgSrc}" name="img" id="otherImg" class="viewImg"
 		   		style="padding:0px;margin:10px;border:7px solid #ffffff"/><br/>
 			<span style="font-weight: bold;font-size: 14px"><c:out value="${img.imgSrc}"/></span>
 		 </td>

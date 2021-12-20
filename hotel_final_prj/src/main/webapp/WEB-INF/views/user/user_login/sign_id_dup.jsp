@@ -23,7 +23,7 @@
  <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>아이디 중복확인</title>
 <link rel="stylesheet" type="text/css" 
-href="http://localhost/hotel_final_prj/common/css/main_v20211012.css" />   
+href="http://211.63.89.141/common/css/main_v20211012.css" />   
 <style type="text/css">
 
 #btn {

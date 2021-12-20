@@ -16,7 +16,7 @@
 
 <!-- 메인 CSS -->
 <link rel="stylesheet" type="text/css"
-	href="http://localhost/hotel_final_prj/user/css/main.css">
+	href="http://211.63.89.141/user/css/main.css">
 
 <style type="text/css">
 #diningTitle {
@@ -119,7 +119,7 @@ p { border: 1px solid #FF00FF}
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 
-<link href="http://localhost/hotel_final_prj/common/bootstrap/carousel.css"
+<link href="http://211.63.89.141/common/bootstrap/carousel.css"
 	rel="stylesheet">
 </head>
 
@@ -151,7 +151,7 @@ p { border: 1px solid #FF00FF}
 						<td>
 							<div class="diningImg">
 								<a href="#void"><img
-									src="http://localhost/hotel_final_prj/user/main_images/dining01.jpg"
+									src="http://211.63.89.141/user/main_images/dining01.jpg"
 									width="480" height="300"></a><br />
 							</div>
 							<div class="diningBox">
@@ -165,7 +165,7 @@ p { border: 1px solid #FF00FF}
 						<td>
 							<div class="diningImg">
 								<a href="#void"><img
-									src="http://localhost/hotel_final_prj/user/main_images/dining02.jpg"
+									src="http://211.63.89.141/user/main_images/dining02.jpg"
 									width="480" height="300"></a><br />
 							</div>
 							<div class="diningBox">
@@ -181,7 +181,7 @@ p { border: 1px solid #FF00FF}
 						<td>
 							<div class="diningImg">
 								<a href="#void"><img
-									src="http://localhost/hotel_final_prj/user/main_images/dining03.jpg"
+									src="http://211.63.89.141/user/main_images/dining03.jpg"
 									width="480" height="300"></a><br />
 							</div>
 							<div class="diningBox">
@@ -195,7 +195,7 @@ p { border: 1px solid #FF00FF}
 						<td>
 							<div class="diningImg">
 								<a href="#void"><img
-									src="http://localhost/hotel_final_prj/user/main_images/dining04.jpg"
+									src="http://211.63.89.141/user/main_images/dining04.jpg"
 									width="480" height="300"></a><br />
 							</div>
 							<div class="diningBox">
@@ -211,7 +211,7 @@ p { border: 1px solid #FF00FF}
 						<td>
 							<div class="diningImg">
 								<a href="#void"><img
-									src="http://localhost/hotel_final_prj/user/main_images/dining05.jpg"
+									src="http://211.63.89.141/user/main_images/dining05.jpg"
 									width="480" height="300"></a><br />
 							</div>
 							<div class="diningBox">
@@ -225,7 +225,7 @@ p { border: 1px solid #FF00FF}
 						<td>
 							<div class="diningImg">
 								<a href="#void"><img
-									src="http://localhost/hotel_final_prj/user/main_images/dining06.jpg"
+									src="http://211.63.89.141/user/main_images/dining06.jpg"
 									width="480" height="300"></a><br />
 							</div>
 							<div class="diningBox">
@@ -250,6 +250,6 @@ p { border: 1px solid #FF00FF}
 
 		<!--  ================================================== -->
 		<script
-			src="http://localhost/hotel_final_prj/common/bootstrap/ie10-viewport-bug-workaround.js"></script>
+			src="http://211.63.89.141/common/bootstrap/ie10-viewport-bug-workaround.js"></script>
 </body>
 </html>

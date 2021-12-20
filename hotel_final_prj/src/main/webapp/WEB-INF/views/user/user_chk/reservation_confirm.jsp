@@ -21,7 +21,7 @@
 
 <!-- 메인 CSS -->
 <link rel="stylesheet" type="text/css"
-	href="http://localhost/hotel_final_prj/user/css/main.css">
+	href="http://211.63.89.141/user/css/main.css">
 
 <style type="text/css">
 .hr1 {
@@ -205,7 +205,7 @@
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 
-<link href="http://localhost/hotel_final_prj/common/bootstrap/carousel.css"
+<link href="http://211.63.89.141/common/bootstrap/carousel.css"
 	rel="stylesheet">
 
 
@@ -215,7 +215,7 @@
 <script type="text/javascript">
 
 	function main() {
-		location.href = "http://localhost/hotel_final_prj/user/user_main/Hotel_Ritz_Seoul.do"
+		location.href = "http://211.63.89.141/user/user_main/Hotel_Ritz_Seoul.do"
 	}
 	function print() {
 		alert("인쇄를 시작하겠습니다.");
@@ -273,82 +273,6 @@
 <body>
 <input type="hidden" value="${ res_no }"/>
 
-<%--  <!-- 이전 페이지에서 날아온 웹파라미터 이 페이지에서 받아서 설정하기 -->
-  <jsp:useBean id="resVO" class="kr.co.sist.user.reservation.ReservationVO"/>  
-  <!-- *써서 setter method 다 실행해서 세팅됨 -->
-  <jsp:setProperty property="*" name="resVO"/> --%>
-  
-<%-- <%
-	//id 세션 받아오기
-	String id = (String)session.getAttribute("id"); 
-
-	//res_no파라미터로 받아오기
-	String res_no = request.getParameter("res_no"); 
-	pageContext.setAttribute("res_no",res_no);   
-	
-	ReservationSelect rsD = new ReservationSelect();
-	ReservationVO rVO = rsD.reservation(res_no);
-	ReservationVO rv = rsD.datePrice(res_no);
-	List<ReservationVO> list = rsD.reserInq(id);
-	int rVO2 = rsD.pay(res_no);   
-	
-	//마스킹
-	String card_no = rsD.card(res_no);
-	String card = card_no.substring(0, 5)+"****-****-****";
-	
-	pageContext.setAttribute("card_no", card);
-	
-	
-	//scope객체에 조회 결과 값을 넣고 아래 에서 뿌린다.
-	pageContext.setAttribute("rVO",rVO); 
-	pageContext.setAttribute("price", rVO2); 
-	pageContext.setAttribute("rv", rv); 
-	pageContext.setAttribute("list", list); 
-	
-	
-	
-	// 박 수 구하기
-	Date sdFormat = new SimpleDateFormat("yyyy.MM.dd").parse(rv.getChkin_date());
-	Date edFormat = new SimpleDateFormat("yyyy.MM.dd").parse(rv.getChkout_date());
-	long diffDays = (edFormat.getTime() - sdFormat.getTime() )/1000/(24*60*60);
-	
-	
-	int price = rv.getPrice();
-	pageContext.setAttribute("price", price);
-									
-	int tax = (int)(rv.getPrice()*0.21);
-	pageContext.setAttribute("tax", tax);
-									
-	int totalP = (int)(rv.getPrice()+tax);
-	pageContext.setAttribute("totalP", totalP);
-									
-	//박수가 곱해진 객실 가격
-	int daysPrice = price*(int)diffDays;
-	pageContext.setAttribute("daysP", daysPrice);
-					
-	//박수가 곱해진 텍스 
-	int daysTax = tax*(int)diffDays;
-	pageContext.setAttribute("daysTax", daysTax);
-									
-	//박수가 곱해진 총 가격
-	int daysTotal = (daysPrice + daysTax);
-	pageContext.setAttribute("daysTotal", daysTotal);
-	
-	
-	
-	//복호화
-	DataDecrypt dd=new DataDecrypt("AbcdEfgHiJkLmnOpQ");
- 	rVO.setTel(dd.decryption(rVO.getTel()));
-	rVO.setEname_fst(dd.decryption(rVO.getEname_fst()));
-	rVO.setEname_lst(dd.decryption(rVO.getEname_lst()));
-	rVO.setEmail(dd.decryption(rVO.getEmail())); 
-	
-	pageContext.setAttribute("de", rVO);
-	
-%> --%>
-
-
-
 	<div class="wrap">
 	
 
@@ -363,7 +287,7 @@
 					<table class="chkTab">
 						<tr>
 							<td style="width: 500px">
-							<img src="http://localhost/hotel_final_prj/roomImages/${ rVO.main_img }"
+							<img src="http://211.63.89.141/roomImages/${ rVO.main_img }"
 								width="480" height="330" /><br /> <br /></td>
 
 							<td>
@@ -522,7 +446,7 @@
 	<!-- ================================================== -->
 
 	<script
-		src="http://localhost/hotel_final_prj/common/bootstrap/ie10-viewport-bug-workaround.js"></script>
+		src="http://211.63.89.141/common/bootstrap/ie10-viewport-bug-workaround.js"></script>
 	</div>
 </body>
 </html>

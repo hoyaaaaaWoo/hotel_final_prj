@@ -10,7 +10,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Hotel Ritz - 예약관리</title>
 <link rel="stylesheet" type="text/css"
-	href="http://localhost/hotel_final_prj/common/css/main_v20211012.css">
+	href="http://211.63.89.141/common/css/main_v20211012.css">
 
 <!-- jQuery CDN -->
 <script
@@ -25,7 +25,7 @@
 
 <!-- 관리자 메인 CSS -->
 <link rel="stylesheet" type="text/css"
-	href="http://localhost/hotel_final_prj/admin/css/admin_main.css">
+	href="http://211.63.89.141/admin/css/admin_main.css">
 
 <style type="text/css">
 #date{

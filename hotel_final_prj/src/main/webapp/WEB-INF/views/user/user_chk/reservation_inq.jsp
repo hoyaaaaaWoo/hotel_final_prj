@@ -24,7 +24,7 @@
 
 <!-- 메인 CSS -->
 <link rel="stylesheet" type="text/css"
-	href="http://localhost/hotel_final_prj/user/css/main.css">
+	href="http://211.63.89.141/user/css/main.css">
 
 	<style type = "text/css">
 
@@ -72,7 +72,7 @@
 
 <script type="text/javascript">
 function main(){
-	location.href="http://localhost/hotel_final_prj/user/user_main/Hotel_Ritz_Seoul.do";
+	location.href="http://211.63.89.141/user/user_main/Hotel_Ritz_Seoul.do";
 }
 
 
@@ -89,22 +89,10 @@ function searchReservation( res_no ){
 <%
 	String id=(String)session.getAttribute("id");
 if(id==null){//세션이 존재하지 않으면 
-	response.sendRedirect("http://localhost/hotel_final_prj/user/user_login/login.do");
+	response.sendRedirect("http://211.63.89.141/user/user_login/login.do");
 }//end if
 %> 
 
-  
-<%--   <!-- 이전 페이지에서 날아온 웹파라미터 이 페이지에서 받아서 설정하기 -->
-  <jsp:useBean id="rVO" class="kr.co.sist.user.reservation.ReservationVO"/>  
-  <!-- *써서 setter method 다 실행해서 세팅됨 -->
-  <jsp:setProperty property="*" name="rVO"/> --%>
-  
-<%-- <%
-	ReservationSelect rsD = new ReservationSelect();
-	List<ReservationVO> rv = rsD.reserInq(id);
-	pageContext.setAttribute("reserInq", rv);
-
-%> --%>
 <form action="reservation_confirm.do" id="res_noFrm" name="res_noFrm" method="post">
 <input type="hidden" name="res_no" id="res_no" />
 </form>
@@ -171,6 +159,6 @@ if(id==null){//세션이 존재하지 않으면
     ================================================== -->
     
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="http://localhost/hotel_final_prj/common/bootstrap/ie10-viewport-bug-workaround.js"></script>
+    <script src="http://211.63.89.141/common/bootstrap/ie10-viewport-bug-workaround.js"></script>
   </body>
 </html>

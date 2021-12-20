@@ -17,7 +17,7 @@
     <title>Hotel_Ritz_Seoul</title>
     <!-- 메인 CSS -->
 	<link rel="stylesheet" type="text/css"
-	href="http://localhost/hotel_final_prj/user/css/main.css">
+	href="http://211.63.89.141/user/css/main.css">
     
 	<style type = "text/css">
 	/* 		div {margin: 0px auto; width: 1130px;} */
@@ -87,78 +87,16 @@ p { border: 1px solid #FF00FF}
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 	
-    <script src="http://localhost/hotel_final_prj/common/bootstrap/holder.js"></script>
+    <script src="http://211.63.89.141/common/bootstrap/holder.js"></script>
 
-    <script src="http://localhost/hotel_final_prj/common/bootstrap/ie-emulation-modes-warning.js"></script>
+    <script src="http://211.63.89.141/common/bootstrap/ie-emulation-modes-warning.js"></script>
 
   </head>
 
 <!-- NAVBAR
 ================================================== -->
   <body>
- <%--  
- <jsp:useBean id="loginVO" class="kr.co.sist.user.login.memberVO" scope="page"/>
-<jsp:setProperty property="*" name="loginVO"/><!--  입력정보-->
 
-<%
-request.setCharacterEncoding("UTF-8");
-String id = request.getParameter("id");
-String pass = request.getParameter("pass");
-
-//DBMS비밀번호 컬럼은 SHA 암호화된 값이므로 입력된 Plain Text를 
-//cipher Text로 변환하여 비교하는 코드를 수행해야한다.
-loginVO.setPass(DataEncrypt.messageDigest("SHA-512", loginVO.getPass()));
-
-//로그인 수행
-MemberDAO mDAO=new MemberDAO();
-boolean flag=false;
-try{
-String kname=mDAO.selectLogin(loginVO);
-
-//이름을 복호화한다.
-DataDecrypt dd=new DataDecrypt("AbcdEfgHiJkLmnOpQ");
-kname=dd.decryption(kname);
-
-//로그인 정보를 세션에 할당 
-//=>비연결성인 웹에서 로그인 정보를 모든 페이지에서 사용하기 위해
-session.setAttribute("kname", kname);
-session.setAttribute("pass", pass);
-session.setAttribute("id", id);
-flag=true;
-}catch(DataAccessException dae){
-}
-pageContext.setAttribute("loginFlag", flag);
-%> 
-		<jsp:include page="/user/common/main_header_nav.jsp"/>
- <div class="wrapper" >
- 
-	<br/><br/><br/><br/><br/>
-	<div class="container marketing">
-   <div style="text-align: center">
-		<p class="loginTitle">로그인</p>
-    <hr class="hr1">
-			</div>
- 
-  
-<div style="width: 800px;text-align: center;margin:0px auto;">
-  
-
-<script type="text/javascript">
-
-</script>
-<br/><br/>
-<c:choose>
-<c:when  test="${ loginFlag }"><p style = "font-size: 18px; font-weight: bold; ">안녕하세요.</p><br/>
-<p style = "font-size: 18px; font-weight: bold; "><c:out value="${ param.id }"/>(으)로 로그인 하셨습니다.</p><br/>
-</c:when>
-<c:otherwise>
-<p style = "font-size: 18px; font-weight: bold; ">아이디/비밀번호를 다시 확인해 주세요.</p>
-<br/><br/><br/>
-<input type="button" value="로그인" id = "goLogin" onclick="location.href='login.jsp'">
-</c:otherwise>
-</c:choose>
-</div>
- --%>
 
 </div>
 
@@ -176,6 +114,6 @@ pageContext.setAttribute("loginFlag", flag);
     ================================================== -->
     
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="http://localhost/hotel_final_prj/common/bootstrap/ie10-viewport-bug-workaround.js"></script>
+    <script src="http://211.63.89.141/common/bootstrap/ie10-viewport-bug-workaround.js"></script>
   </body>
 </html>

@@ -17,7 +17,7 @@
 
 <!-- 메인 CSS -->
 <link rel="stylesheet" type="text/css"
-	href="http://localhost/hotel_final_prj/user/css/main.css">
+	href="http://211.63.89.141/user/css/main.css">
 
 <style type="text/css">
 #offerTitle {
@@ -105,7 +105,7 @@ p { border: 1px solid #FF00FF}
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-<link href="http://localhost/hotel_final_prj/common/bootstrap/carousel.css"
+<link href="http://211.63.89.141/common/bootstrap/carousel.css"
 	rel="stylesheet">
 </head>
 
@@ -137,7 +137,7 @@ p { border: 1px solid #FF00FF}
 						<td>
 							<div class="offerImg">
 								<a href="#void"><img
-									src="http://localhost/hotel_final_prj/user/main_images/SO05.jpg"
+									src="http://211.63.89.141/user/main_images/SO05.jpg"
 									width="480" height="300"></a><br />
 							</div>
 							<div class="offerBox">
@@ -152,7 +152,7 @@ p { border: 1px solid #FF00FF}
 						<td>
 							<div class="offerImg">
 								<a href="#void"><img
-									src="http://localhost/hotel_final_prj/user/main_images/SO01.jpg"
+									src="http://211.63.89.141/user/main_images/SO01.jpg"
 									width="480" height="300"></a><br />
 							</div>
 							<div class="offerBox">
@@ -169,7 +169,7 @@ p { border: 1px solid #FF00FF}
 						<td>
 							<div class="offerImg">
 								<a href="#void"><img
-									src="http://localhost/hotel_final_prj/user/main_images/SO03.jpg"
+									src="http://211.63.89.141/user/main_images/SO03.jpg"
 									width="480" height="300"></a><br />
 							</div>
 							<div class="offerBox">
@@ -184,7 +184,7 @@ p { border: 1px solid #FF00FF}
 						<td>
 							<div class="offerImg">
 								<a href="#void"><img
-									src="http://localhost/hotel_final_prj/user/main_images/SO02.jpg"
+									src="http://211.63.89.141/user/main_images/SO02.jpg"
 									width="480" height="300"></a><br />
 							</div>
 							<div class="offerBox">
@@ -201,7 +201,7 @@ p { border: 1px solid #FF00FF}
 						<td>
 							<div class="offerImg">
 								<a href="#void"><img
-									src="http://localhost/hotel_final_prj/user/main_images/SO04.jpg"
+									src="http://211.63.89.141/user/main_images/SO04.jpg"
 									width="480" height="300"></a><br />
 							</div>
 							<div class="offerBox">
@@ -216,7 +216,7 @@ p { border: 1px solid #FF00FF}
 						<td>
 							<div class="offerImg">
 								<a href="#void"><img
-									src="http://localhost/hotel_final_prj/user/main_images/SO06.jpg"
+									src="http://211.63.89.141/user/main_images/SO06.jpg"
 									width="480" height="300"></a><br />
 							</div>
 							<div class="offerBox">
@@ -242,6 +242,6 @@ p { border: 1px solid #FF00FF}
 		<!-- ================================================== -->
 
 		<script
-			src="http://localhost/hotel_final_prj/common/bootstrap/ie10-viewport-bug-workaround.js"></script>
+			src="http://211.63.89.141/common/bootstrap/ie10-viewport-bug-workaround.js"></script>
 </body>
 </html>

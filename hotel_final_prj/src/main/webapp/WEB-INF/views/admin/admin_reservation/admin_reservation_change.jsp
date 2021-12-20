@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Hotel Ritz - 예약변경</title>
 <link rel="stylesheet" type="text/css"
-	href="http://localhost/hotel_final_prj/common/css/main_v20211012.css">
+	href="http://211.63.89.141/common/css/main_v20211012.css">
 
 <!-- jQuery CDN -->
 <script
@@ -24,7 +24,7 @@
 
 <!-- 관리자 메인 CSS -->
 <link rel="stylesheet" type="text/css"
-	href="http://localhost/hotel_final_prj/admin/css/admin_main.css">
+	href="http://211.63.89.141/admin/css/admin_main.css">
 
 <style type="text/css">
 #container {
@@ -190,7 +190,7 @@ $(function(){
 <body>
 	<!-- 예약관리 메인 페이지에서 넘어오지 않았을 경우 redirect 해주기 (예약번호 선택 필요) -->
 	<c:if test="${empty param.resNum || param.resNum eq ''}">
-  	  <c:redirect url="http://localhost/hotel_final_prj/search_res_list.do"/>
+  	  <c:redirect url="http://211.63.89.141/search_res_list.do"/>
 	</c:if>
 		 
 	<div id="wrap">

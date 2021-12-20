@@ -20,7 +20,7 @@
 
 <!-- 메인 CSS -->
 <link rel="stylesheet" type="text/css"
-	href="http://localhost/hotel_final_prj/user/css/main.css">
+	href="http://211.63.89.141/user/css/main.css">
 
 <style type="text/css">
 
@@ -93,7 +93,7 @@ p { border: 1px solid #FF00FF}
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 
-<link href="http://localhost/hotel_final_prj/common/bootstrap/carousel.css"
+<link href="http://211.63.89.141/common/bootstrap/carousel.css"
 	rel="stylesheet">
 	
 
@@ -141,7 +141,7 @@ infowindow.open(map, marker);
 <script type="text/javascript">
 $(function(){
 	$("#goHomeBtn").click(function(){
-		location.href="http://localhost/hotel_final_prj/user/user_main/Hotel_Ritz_Seoul.do";
+		location.href="http://211.63.89.141/user/user_main/Hotel_Ritz_Seoul.do";
 	})//table click
 	
 }); //ready
@@ -154,110 +154,6 @@ $(function(){
 ================================================== -->
 <body>
 
-<%-- <%
-request.setCharacterEncoding("UTF-8");
-//예약정보 파라메터 받기
-String paramSd = request.getParameter("sd");
-String paramEd = request.getParameter("ed");
-String paramAdult = request.getParameter("adult");
-String paramChild = request.getParameter("child");	
-String addReq = request.getParameter("addReq"); 
-String strResNo = request.getParameter("resNo"); 
-String DiffDays = request.getParameter("diffDays");
-String paramRoomNo = request.getParameter("room_no");
-int room_no = Integer.parseInt( paramRoomNo );
-int diffDays = Integer.parseInt( DiffDays );
-int adult = Integer.parseInt( paramAdult );
-
-int child = 0;
-if (paramChild == ""){
-	child = 0;
-}else {
-	child = Integer.parseInt( paramChild );
-}
-
-//카드정보 파라메터 받아오기
-String card_no = request.getParameter("card_no");
-String cardCompany = request.getParameter("cardCompany");
-String val_MM = request.getParameter("val_MM");
-String val_YY = request.getParameter("val_YY");
-String paramCardSave = request.getParameter("saveYN");
-String paramCcAgree = request.getParameter("ccYN");
-String paramPiAgree = request.getParameter("piYN");
-String saveFlag = request.getParameter("saveFlag"); //기존 카드저장정보가 있는 사용자의 flag=0
-
-// 룸넘버로 룸정보 조회
-RoomSelect rs = new RoomSelect();
-RoomVO rv = rs.selectRoomInfo(room_no);  
-
-//id로 회원정보 조회
-String id = (String)session.getAttribute("id");
-
-
-//사용자정보 복호화
-User_Decryption ud = new User_Decryption();
-MemberVO mv = ud.DecryptSelectMemInfo(id);
-
-
-
-//  예약 insert
-ReservationVO rsVO = new ReservationVO();
-rsVO.setRes_no(strResNo);
-rsVO.setId(id);
-rsVO.setRoom_no(room_no);
-rsVO.setAdult(adult);
-rsVO.setChild(child);
-rsVO.setChkin_date(paramSd);
-rsVO.setChkout_date(paramEd);
-rsVO.setAdd_req(addReq);
-rsVO.setCc_agree(paramCcAgree);
-rsVO.setPi_agree(paramPiAgree);
-rsVO.setCard_no(card_no);
-rsVO.setCompany(cardCompany);
-
-// 예약 insert
-ReservationInsert resInsert = new ReservationInsert();
-int cnt = resInsert.insertRes(rsVO);
-pageContext.setAttribute("cnt", cnt);
-
-
-
-// 카드저장을 체크한, 기존 카드정보가 없는 사용자
-if ( paramCardSave.equals("Y") && saveFlag.equals("0")){
- // 카드정보 insert
- 
-CardVO cardVO = new CardVO();
-cardVO.setCard_no(card_no);
-cardVO.setCompany(cardCompany);
-cardVO.setId(id);
-cardVO.setRes_no(strResNo);
-cardVO.setVal_mm(val_MM);
-cardVO.setVal_yy(val_YY);
- 
-InsertCard icard = new InsertCard();
-icard.insertCard(cardVO);
-
- System.out.println("------카드추가-------------"+saveFlag);
-}//end if
-
-
-// 카드저장을 체크한, 기존 카드정보가 있는 사용자
-if ( paramCardSave.equals("Y") && !saveFlag.equals("0")){
- // 카드정보 변경
- CardVO cVO = new CardVO();
- cVO.setCard_no(card_no);
- cVO.setId(id);
- System.out.println("------카드변경-------------"+cVO);
-  
- ModifyCard mc = new ModifyCard();
- pageContext.setAttribute("cardCnt", mc.updateCard(cVO));
-  
-}
-
-
-
-
-%> --%>
 	<div class="wrapper">
 		<!-- header/navibar import -->
 		<jsp:include page="/user/common/main_header_nav.jsp"/>
@@ -274,7 +170,7 @@ if ( paramCardSave.equals("Y") && !saveFlag.equals("0")){
 			<table class = "chkTab">
 			<tr >
 				<td style = "width: 500px">
-				<img src = "http://localhost/hotel_final_prj/roomImages/${ rv.getMain_img() }" width="480" height="330"/><br/><br/>
+				<img src = "http://211.63.89.141/roomImages/${ rv.getMain_img() }" width="480" height="330"/><br/><br/>
 				</td>
 				
 				<td >
@@ -294,28 +190,6 @@ if ( paramCardSave.equals("Y") && !saveFlag.equals("0")){
 				</table> <br/>
 				
 				<table id = "chkSubTab">
-				<%-- <%
-				int price = rv.getPrice();
-				pageContext.setAttribute("price", price);
-				
-				int tax = (int)(rv.getPrice()*0.21);
-				pageContext.setAttribute("tax", tax);
-				
-				int totalP = (int)(rv.getPrice()+tax);
-				pageContext.setAttribute("totalP", totalP);
-				
-				//박수가 곱해진 객실 가격
-				int daysPrice = price*(int)diffDays;
-				pageContext.setAttribute("daysP", daysPrice);
-
-				//박수가 곱해진 텍스 
-				int daysTax = tax*(int)diffDays;
-				pageContext.setAttribute("daysTax", daysTax);
-				
-				//박수가 곱해진 총 가격
-				int daysTotal = (daysPrice + daysTax);
-				pageContext.setAttribute("daysTotal", daysTotal);
-				%> --%>
 				
 				<tr>
 					<td class = "guide">객실요금</td>
@@ -385,7 +259,7 @@ if ( paramCardSave.equals("Y") && !saveFlag.equals("0")){
     <!-- ================================================== -->
 
 		<script
-			src="http://localhost/hotel_final_prj/common/bootstrap/ie10-viewport-bug-workaround.js"></script>
+			src="http://211.63.89.141/common/bootstrap/ie10-viewport-bug-workaround.js"></script>
 	</div>
 </body>
 </html>

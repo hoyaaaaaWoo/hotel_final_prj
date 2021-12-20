@@ -19,7 +19,7 @@
     <title>Hotel_Ritz_Seoul</title>
      <!-- 메인 CSS -->
 	<link rel="stylesheet" type="text/css"
-	href="http://localhost/hotel_final_prj/user/css/main.css">
+	href="http://211.63.89.141/user/css/main.css">
 	<style type = "text/css">
 	
 .hr1 {border-bottom: 1px solid #d3d3d3;}
@@ -27,7 +27,13 @@
 .MyTitle {
 	color: #333;
 	font-weight: bold;
-	font-size: 30px
+	font-size: 30px;
+}	
+
+.MyCTitle {
+	color: #333;
+	font-weight: bold;
+	font-size: 22px;
 }	
 	
 #btn:hover {
@@ -86,6 +92,50 @@
 	text-align: center;
 	border-radius: 7px;
 }
+
+.myDiv{
+		width: 700px; 
+		text-align: center;
+		margin: 0px auto;
+		font-size:14px;
+	}
+	
+#passDiv{
+		border: 1px solid #d3d3d3;
+		width:500px;
+		height:500px;
+		padding:30px;
+		border-radius: 30px;
+		padding-top:40px;
+	}
+	
+	.myCTitle {
+		color: #333;
+		font-weight: bold;
+		font-size: 21px
+	}
+	
+	.myCsTitle {
+		color: #333;
+		font-weight: bold;
+		font-size: 16px;
+	}
+	
+	#infoDiv{
+		border: 1px solid #d3d3d3;
+		width:500px;
+		height:500px;
+		padding:30px;
+		border-radius: 30px;
+		padding-top:40px;
+	}
+/*
+div { border: 1px solid #0000FF}
+td { border: 1px solid #FF0000}
+tr { border: 1px solid #FF0000}
+span { border: 1px solid #FF00FF}
+p { border: 1px solid #FF00FF}
+*/
 	</style>
 	
 <!-- jQuery CDN -->
@@ -203,18 +253,6 @@ $(function(){
 </script>
 </head>
 
-
-<%--  <jsp:useBean id="mVO" class="kr.co.sist.user.login.memberVO" scope="page"/>
-<jsp:setProperty property="*" name="mVO"/><!--  입력정보-->
-<%
-String id=(String)session.getAttribute("id");
-pageContext.setAttribute("mVO", mVO.getPass());
-
-Info_Decription info = new Info_Decription();
-List<memberVO> infoVO = info.DecryptDeleteMemberData(id);
-pageContext.setAttribute("info", infoVO);
-
-%> --%>
 <!-- NAVBAR
 ================================================== -->
   <body>
@@ -224,19 +262,23 @@ pageContext.setAttribute("info", infoVO);
 <div>
 <br/>
 </div>
-<br/><br/><br/>
-<div class = "container">	
+<br/><br/><br/><br/><br/><br/>
+<div class = "container" style = "width: 1100px">	
 <div style="text-align: center">
 	<p class="MyTitle">마이페이지</p><br/>
  	<hr class="hr1">
 </div>
 
-<div style = "width:450px; border-bottom:2px solid #d3d3d3; text-align: center; margin: 0px auto;">
+<!-- <div style = "width:450px; border-bottom:2px solid #d3d3d3; text-align: center; margin: 0px auto;"> -->
 <br/><br/><br/>
-	<p style = "font-size: 18px; font-weight: bold; ">비밀번호 변경하기<p>
+<div style="text-align: center; height: 550px" >
+
+
+	<div class="myDiv" id="passDiv" style = "float: left;">
+	<p class = "myCTitle" ">비밀번호 변경하기<p>
 
 	<form  id="passFrm" action="member_pass_process.do" method="post">
-	
+	<br/><br/>
 	<input type="password" style="width:250px;height:40px" placeholder="현재 비밀번호를 입력하세요"id="pass"  name ="pass">
 	<br/><br/>
 	<input type="password" style="width:250px;height:40px" placeholder="변경할 비밀번호를 입력하세요" id="change_pass" name="change_pass">
@@ -246,29 +288,29 @@ pageContext.setAttribute("info", infoVO);
 	<button type="button" id="btn">수정</button>
 </form>
 
-<br/><br/><br/><br/><br/><br/>
+
 </div>
 
 
 <c:if test="${empty info }">
-<% response.sendRedirect("http://localhost/hotel_final_prj/user/user_main/Hotel_Ritz_Seoul.do"); %>
+<% response.sendRedirect("http://211.63.89.141/user/user_main/Hotel_Ritz_Seoul.do"); %>
 </c:if>
 
-<div style = "width:450px; border-bottom:2px solid #d3d3d3; text-align: center; margin: 0px auto;">
-<br/><br/><br/>
-
+<!-- <div style = "width:450px; border-bottom:2px solid #d3d3d3; text-align: center; margin: 0px auto;">
+ -->
+<div class="myDiv" id="infoDiv" style = "float: right;">
 <c:forEach var="info" items="${info}">
 	<form id="frm" action="member_update_process.do" method="post">
 
-	<p style = "font-size: 18px; font-weight: bold; ">이름 변경하기</p>
+	<p class="myCTitle">이름 변경하기</p>
 	<input type="text" style="width:250px;height:40px" value="${ info.kname }" id="kname" name="kname" >
 	<br/><br/>
 
-	<p style = "font-size: 18px; font-weight: bold; ">전화번호 변경하기<br/>("-"를 포함해주세요)</p>
+	<p class="myCTitle">전화번호 변경하기<br/><p class="myCsTitle" >("-"를 포함해주세요)</p></p>
 	<input type="text" style="width:250px;height:40px" value="${info.tel }"name="tel" id="tel">
 	<br/><br/>
 
-	<p style = "font-size: 18px; font-weight: bold; ">이메일 변경하기</p>
+	<p class="myCTitle">이메일 변경하기</p>
 	<input type="text" style="width:250px;height:40px" value="${info.email }" name="email" id="email">
 	<br/><br/><br/>
 	<button type="button" value="수정"  id="btn1">수정</button>
@@ -276,15 +318,16 @@ pageContext.setAttribute("info", infoVO);
 </c:forEach>
 <br/><br/><br/><br/><br/><br/>
 </div >
+</div>
 
 <div style = "width:450px; text-align: center; margin: 0px auto;">
-<br/><br/><br/>
-
 	<form action="deleteMem.do" id="delfrm" name="delfrm">
-	<button type="button" id="delBtn">회원탈퇴</button>
+	<button style = "text-align: center; margin: 0px auto;" type="button" id="delBtn">회원탈퇴</button>
 	</form>
 <br/><br/><br/>
 </div>
+
+
 
 </div>
   <br/><br/><br/><br/><br/><br/> 
@@ -298,6 +341,6 @@ pageContext.setAttribute("info", infoVO);
     ================================================== -->
     
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="http://localhost/hotel_final_prj/common/bootstrap/ie10-viewport-bug-workaround.js"></script>
+    <script src="http://211.63.89.141/common/bootstrap/ie10-viewport-bug-workaround.js"></script>
   </body>
 </html>

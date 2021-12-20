@@ -134,7 +134,7 @@ public class MypageController {
 		 boolean dFlag = mySer.deleteMem(id);
 
 		 model.addAttribute("delFlag", dFlag);
-		 
+		 session.invalidate();
 		 return "user/user_main/Hotel_Ritz_Seoul";
 	 }//deleteMem
 	 

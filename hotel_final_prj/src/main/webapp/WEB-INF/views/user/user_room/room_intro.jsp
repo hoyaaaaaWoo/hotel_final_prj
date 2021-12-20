@@ -19,7 +19,7 @@
 
 <!-- 메인 CSS -->
 <link rel="stylesheet" type="text/css"
-	href="http://localhost/hotel_final_prj/user/css/main.css">
+	href="http://211.63.89.141/user/css/main.css">
 
 <!-- Bootstrap core CSS -->
 <!-- jQuery CDN -->
@@ -34,7 +34,7 @@
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 
-<link href="http://localhost/hotel_final_prj/common/bootstrap/carousel.css"
+<link href="http://211.63.89.141/common/bootstrap/carousel.css"
 	rel="stylesheet">
 	
 
@@ -174,11 +174,11 @@ tr { border: 1px solid #FFFF00}
 <script type="text/javascript">
 $(function(){
 	$("#roomIntroBtn").click(function(){
-		location.href="http://localhost/hotel_final_prj/user/user_room/room_intro.do";
+		location.href="http://211.63.89.141/user/user_room/room_intro.do";
 	})//table click
 	
 	$("#roomReserBtn").click(function(){
-		location.href="http://localhost/hotel_final_prj/user/user_room/room_date.do";
+		location.href="http://211.63.89.141/user/user_room/room_date.do";
 	})//table click
 
 	//리모콘 이벤트
@@ -212,27 +212,7 @@ $(function(){
   		<hr class = "hr1">
   		</div>
   		<br/><br/><br/><br/>
-		
-		
-		 <%-- <%
-		//전 객실 조회
-		RoomSelect rs = new RoomSelect();
-		List<RoomVO> roomList = rs.selectRoomInfo(null, "Y"); // 활성화된 방만 조회
-		pageContext.setAttribute("roomList", roomList);
-		pageContext.setAttribute("newLineChar", "\n");
-		
-		//기타 이미지 조회
-		List<List<OtherImgVO>> imgVOList = new ArrayList<List<OtherImgVO>>();
-		List<OtherImgVO> list = null; //객실별 조회할 거 
-		List<Integer> cnt = new ArrayList<Integer>(); //객실당 이미지 개수
-		for(RoomVO rVO : roomList){
-			list = new ArrayList<OtherImgVO>();
-			list = (rs.selectOtherImg(rVO.getRoomName()));
-			cnt.add(Integer.valueOf(list.size()));
-			imgVOList.add(list);
-		}//end for
-		pageContext.setAttribute("imgVOList", imgVOList);
-		%>  --%>
+
 		
 		<% int i =0; %>
 		<c:forEach var="room" items="${roomList}"> 
@@ -256,7 +236,7 @@ $(function(){
 							<!-- 메인이미지 -->
 				<div class="item active" style = "width: 1000px">
 					<img class="first-slide" 
-						src="http://localhost/hotel_final_prj/roomImages/${room.img}"
+						src="http://211.63.89.141/roomImages/${room.img}"
 						alt="mainImg">
 				</div>
 				
@@ -267,7 +247,7 @@ $(function(){
 				<c:forEach var="imgVO" items="${eachList}">
 				<div class="item" style = "width: 1000px">
 					<img 
-						src="http://localhost/hotel_final_prj/roomImages/${imgVO.imgSrc}"
+						src="http://211.63.89.141/roomImages/${imgVO.imgSrc}"
 						alt="otherImgs">
 				</div>
 				</c:forEach>
@@ -378,7 +358,7 @@ $(function(){
 		<c:forEach var="room" items="${roomList}">
 		<c:set var="num" value="${num+1}"/> 
 		<tr>
-		<td id="remoConTd"><a href="http://localhost/hotel_final_prj/user/user_room/room_intro.do?#target${num}" id="targetA">
+		<td id="remoConTd"><a href="http://211.63.89.141/user/user_room/room_intro.do?#target${num}" id="targetA">
 		<span id="eachRoom">${room.roomName}</span></a></td>
 		</tr>
 		</c:forEach>
@@ -393,6 +373,6 @@ $(function(){
     <!-- ================================================== -->
 
 		<script
-			src="http://localhost/hotel_final_prj/common/bootstrap/ie10-viewport-bug-workaround.js"></script>
+			src="http://211.63.89.141/common/bootstrap/ie10-viewport-bug-workaround.js"></script>
 </body>
 </html>

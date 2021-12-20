@@ -19,7 +19,7 @@
     <title>Hotel_Ritz_Seoul</title>
     <!-- 메인 CSS -->
 	<link rel="stylesheet" type="text/css"
-	href="http://localhost/hotel_final_prj/user/css/main.css">
+	href="http://211.63.89.141/user/css/main.css">
     
 	<style type = "text/css">
 	/* 		div {margin: 0px auto; width: 1130px;} */
@@ -89,11 +89,11 @@ p { border: 1px solid #FF00FF}
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 	
-    <script src="http://localhost/hotel_final_prj/common/bootstrap/holder.js"></script>
+    <script src="http://211.63.89.141/common/bootstrap/holder.js"></script>
 
-    <script src="http://localhost/hotel_final_prj/common/bootstrap/ie-emulation-modes-warning.js"></script>
+    <script src="http://211.63.89.141/common/bootstrap/ie-emulation-modes-warning.js"></script>
 
-    <link href="http://localhost/hotel_final_prj/common/bootstrap/carousel.css" rel="stylesheet">
+    <link href="http://211.63.89.141/common/bootstrap/carousel.css" rel="stylesheet">
   </head>
 
 <!-- NAVBAR
@@ -116,7 +116,7 @@ p { border: 1px solid #FF00FF}
 <br/><br/>
 <p style = "font-size: 18px; font-weight: bold; ">아이디/비밀번호를 다시 확인해 주세요.</p>
 <br/><br/><br/>
-<input type="button" value="로그인" id = "goLogin" onclick="location.href='http://localhost/hotel_final_prj/user/user_login/login.do'">
+<input type="button" value="로그인" id = "goLogin" onclick="location.href='http://211.63.89.141/user/user_login/login.do'">
 </div>
 																																					
 
@@ -124,7 +124,7 @@ p { border: 1px solid #FF00FF}
 
   <br/><br/>
  <div style="width:150px; text-align: center;margin:0px auto;">
-  <input type="button" style="width: 100px;" id = "gohome" value="홈으로" onclick="location.href = 'http://localhost/hotel_final_prj/user/user_main/Hotel_Ritz_Seoul.do'">
+  <input type="button" style="width: 100px;" id = "gohome" value="홈으로" onclick="location.href = 'http://211.63.89.141/user/user_main/Hotel_Ritz_Seoul.do'">
 
   </div>
 </div>
@@ -136,6 +136,6 @@ p { border: 1px solid #FF00FF}
     ================================================== -->
     
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="http://localhost/hotel_final_prj/common/bootstrap/ie10-viewport-bug-workaround.js"></script>
+    <script src="http://211.63.89.141/common/bootstrap/ie10-viewport-bug-workaround.js"></script>
   </body>
 </html>
