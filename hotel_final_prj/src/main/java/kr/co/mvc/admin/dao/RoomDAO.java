@@ -255,7 +255,7 @@ public class RoomDAO {
 	 * @return
 	 * @throws DataAccessException
 	 */
-	public int UpdateRoomStatus(RoomVO rmVO) throws DataAccessException {
+	public int updateRoomStatus(RoomVO rmVO) throws DataAccessException {
 		int cnt = 0;
 
 		StringBuilder updateStatus = new StringBuilder();

@@ -112,7 +112,7 @@ public class RoomService {
 	public int changeRoomStatus(RoomVO rmVO){
 		int cnt = 0;
 		try {
-			cnt = roomDAO.UpdateRoomStatus(rmVO);
+			cnt = roomDAO.updateRoomStatus(rmVO);
 		}catch(DataAccessException dae) {
 			dae.printStackTrace();
 		}//end catch
