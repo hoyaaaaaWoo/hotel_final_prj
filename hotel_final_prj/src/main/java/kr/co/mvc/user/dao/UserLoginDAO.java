@@ -30,7 +30,7 @@ public class UserLoginDAO {
 		 * @return
 		 */
 		public String loginProc(LoginVO lVO)  {
-		String selectpass="select kname from member where id=? and pass=?";
+		String selectpass="select kname from member where id=? and pass=? and m_status='Y'";
 		//아이디와 비밀번호를 넣어서 이름을조회한다.
 		String kname="";
 		try {

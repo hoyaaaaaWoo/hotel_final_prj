@@ -141,6 +141,9 @@ p { border: 1px solid #FF00FF}
 			 });//focusout    
 			 
 			 
+			
+			
+			 
 			$("#btn").click(function(){
 				if($("#id").val()==""){
 					alert("아이디 필수 입력");
@@ -178,6 +181,12 @@ p { border: 1px solid #FF00FF}
 					alert("생년월일 필수 입력");
 					return;
 			}//end if
+			
+				//개인정보동의 체크 여부 (필수)
+				if(!$("input:checkbox[name='req_agree']").is(":checked") ){
+					alert("위 개인정보수집 약관에 동의해 주세요.");
+					return;
+				}//end id
 				
 			let opt_agree="N";
 		  	if( $("#sms").is(":checked")){

@@ -96,6 +96,34 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 
 <script type="text/javascript">
+<c:if test="${ not empty chgPassFlag }">
+let msg="비밀번호를 다시 확인해주세요";
+if(${ chgPassFlag } ){
+	msg="비밀번호 변경이 완료되었습니다.";
+}//end if
+alert( msg );
+</c:if>
+
+
+<c:if test="${ not empty infoChgFlag }">
+let msg="개인정보를 다시 확인해주세요.";
+if(${ infoChgFlag } ){
+	msg="개인정보 변경이 완료되었습니다.";
+}//end if
+alert( msg );
+</c:if>
+
+
+<c:if test="${ not empty delFlag }">
+let msg="죄송합니다. 잠시 후 다시 시도해 주세요.";
+if(${ delFlag } ){
+	msg="회원 탈퇴가 완료되었습니다. 그동안 이용해 주셔서 감사합니다.";
+}//end if
+alert( msg );
+</c:if>
+
+
+
 $(function(){
 	$("#tel").focusout(function(){
 		   telCheck($(this).val()); 
@@ -132,7 +160,7 @@ $(function(){
 			
 			$("#frm").submit();	
 		}//end if
-	})//click
+	});//click
 			function telCheck(args) {
 			    	   var flag=false;
 			    	    
@@ -170,7 +198,7 @@ $(function(){
 		return;
 	})//click
 	
-})//ready
+});//ready
 
 </script>
 </head>

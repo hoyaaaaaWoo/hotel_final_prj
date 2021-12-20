@@ -104,7 +104,6 @@ public class MypageDAO {
 	public int updatePass( MemberChgPassVO cpVO)throws DataAccessException{
 		String updatePass="update member set pass=? where id=? and pass=?";
 		int cnt = jt.update(updatePass, cpVO.getChange_pass(), cpVO.getId(), cpVO.getPass() );
-		System.out.println("mDAO cnt : " + cnt);
 		return cnt;
 	}//updatePass
 	

@@ -84,7 +84,6 @@ public class UserReservationService {
 			cnt.add(Integer.valueOf(list.size()));
 			
 		}//end for
-		System.out.println(cnt);
 		return cnt;
 	}//roomCnt
 	
@@ -243,7 +242,6 @@ public class UserReservationService {
 	 * @param rsVO
 	 */
 	public void addReservation ( UserReservationVO rsVO ) {
-		System.out.println("예약service----------" + rsVO);
 		resDAO.insertRes(rsVO);
 	}//addReservation
 	
@@ -253,7 +251,6 @@ public class UserReservationService {
 	 * @param cardVO
 	 */
 	public void addCardInfo ( UserCardVO cardVO ) {
-		System.out.println("카드추가service----------" + cardVO);
 		resDAO.insertCardInfo(cardVO);
 	}//addCardInfo
 	
@@ -263,7 +260,6 @@ public class UserReservationService {
 	 * @param cardVO
 	 */
 	public void modifyCardInfo ( UserCardVO cardVO ) {
-		System.out.println("카드변경service----------" + cardVO);
 		resDAO.updateCard(cardVO);
 	}//modifyCardInfo
 	

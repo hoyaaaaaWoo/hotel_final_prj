@@ -46,6 +46,13 @@ public class UserMemberService {
 	}//searcEmail
 	
 	
+	
+	/**
+	 * 회원가입
+	 * @param mVO
+	 * @throws UnsupportedEncodingException
+	 * @throws GeneralSecurityException
+	 */
 	public void addMember( UserMemberVO mVO ) throws UnsupportedEncodingException, GeneralSecurityException {
 		try {
 			mVO.setPass(DataEncrypt.messageDigest("SHA-512", mVO.getPass()));

@@ -39,6 +39,13 @@ public class UserReservationController {
 	@Autowired
 	private UserReservationService resService;
 	
+	/**
+	 * 객실소개
+	 * @param model
+	 * @param rName
+	 * @param rStatus
+	 * @return
+	 */
 	@RequestMapping(value="user/user_room/room_intro.do", method=GET)
 	public String reserve_intro(Model model, String rName, String rStatus) {
 		int i = 0;
@@ -50,6 +57,14 @@ public class UserReservationController {
 		return "user/user_room/room_intro";
 	}//reserve_intro
 	
+	/**
+	 * 날짜와 인원수를 받아 예약 가능한 방 조회하기
+	 * @param start_date
+	 * @param end_date
+	 * @param adult
+	 * @param child
+	 * @return
+	 */
 	@RequestMapping(value="user/user_room/ajax_room_date.do",  method = POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String ajaxReq(String start_date, String end_date, String adult,String child) {
@@ -67,13 +82,19 @@ public class UserReservationController {
 	}//ajaxReq
 	
 	
+	/**
+	 * 예약 가능한 방의 목록
+	 * @param start_date
+	 * @param end_date
+	 * @param adult
+	 * @param child
+	 * @param rev_room_num
+	 * @param model
+	 * @return
+	 * @throws ParseException
+	 */
 	@RequestMapping(value="user/user_room/room_reserve.do", method = POST)
 	public String reserve_01Reserve(String start_date, String end_date,String adult, String child, String[] rev_room_num, Model model) throws ParseException {
-		/*if( rev_room_num != null) {
-			for(String i :rev_room_num ) {
-				System.out.println("roo0------:" + i);
-			}
-		}*/
 		
 		if("".equals( adult)) {
 			adult="0";
@@ -86,7 +107,6 @@ public class UserReservationController {
 		Date edFormat = new SimpleDateFormat("yyyy.MM.dd").parse(end_date);
 		long diffDays = (edFormat.getTime() - sdFormat.getTime() )/1000/(24*60*60);
 		
-
 		model.addAttribute("paramSd", start_date);
 		model.addAttribute("paramEd", end_date);
 		model.addAttribute("paramAdult", adult);
@@ -113,6 +133,19 @@ public class UserReservationController {
 	
 	
 	
+	/**
+	 * 방의 상세페이지 - 요청사항 받음
+	 * @param sd
+	 * @param ed
+	 * @param adult
+	 * @param child
+	 * @param room_no
+	 * @param model
+	 * @return
+	 * @throws ParseException
+	 * @throws NumberFormatException
+	 * @throws SQLException
+	 */
 	@RequestMapping(value="user/user_room/room_reserve2.do", method = POST)
 	public String reserve_02check(String sd, String ed, String adult, String child, int room_no, Model model) throws ParseException, NumberFormatException, SQLException {
 		Date sdFormat = new SimpleDateFormat("yyyy.MM.dd").parse(sd);//
@@ -154,15 +187,31 @@ public class UserReservationController {
 	}//reserve_02check
 	
 	
+	/**
+	 * 카드정보 입력 단계
+	 * @param sd
+	 * @param ed
+	 * @param adult
+	 * @param child
+	 * @param room_no
+	 * @param diffDays
+	 * @param addReq
+	 * @param session
+	 * @param model
+	 * @return
+	 * @throws UnsupportedEncodingException
+	 * @throws GeneralSecurityException
+	 * @throws SQLException
+	 */
 	@RequestMapping(value="user/user_room/room_reserve3_card.do", method=POST)
-	public String reserve_03card(String sd, String ed, String adult, String child, int room_no, long diffDays, String addReq, String id, Model model) throws UnsupportedEncodingException, GeneralSecurityException, SQLException {
+	public String reserve_03card(String sd, String ed, String adult, String child, int room_no, long diffDays, String addReq, HttpSession session, Model model) throws UnsupportedEncodingException, GeneralSecurityException, SQLException {
 
+		String id = (String) session.getAttribute("id");
 		
 		// 체크인월일 구하기 (res_no에 사용됨)
 		String year = sd.substring(0, 4);
 		String month = sd.substring(5,7);
 		String day = sd.substring(8,10);
-		
 		
 		// 룸넘버 0으로 두자리 만들기
 		String zeroRoomNo = String.format("%02d", room_no);
@@ -170,7 +219,6 @@ public class UserReservationController {
 		
 		//예약번호 생성 (년월일 - 박수(3자리) -R룸넘버)
 		String strResNo = year + month + day + "-" + zeroDiffDays + "R" + zeroRoomNo;
-		
 		
 		UserRoomVO rVO = resService.searchRoomInfo(room_no);
 		UserMemberVO mVO = resService.DecryptSelectMemInfo(id);
@@ -216,12 +264,37 @@ public class UserReservationController {
 	
 	
 	
+	/**
+	 * 예약완료
+	 * @param sd
+	 * @param ed
+	 * @param adult
+	 * @param child
+	 * @param room_no
+	 * @param diffDays
+	 * @param addReq
+	 * @param resNo
+	 * @param card_no
+	 * @param cardCompany
+	 * @param val_MM
+	 * @param val_YY
+	 * @param saveYN
+	 * @param ccYN
+	 * @param piYN
+	 * @param saveFlag
+	 * @param session
+	 * @param model
+	 * @return
+	 * @throws UnsupportedEncodingException
+	 * @throws GeneralSecurityException
+	 * @throws SQLException
+	 */
 	@RequestMapping(value="user/user_room/room_reserve4_final.do", method=POST)
 	public String reserve_04final(String sd, String ed, String adult, String child, int room_no, long diffDays, String addReq,
 					String resNo, String card_no, String cardCompany, String val_MM, String val_YY,
-					String saveYN, String ccYN, String piYN, String saveFlag, String id, Model model) throws UnsupportedEncodingException, GeneralSecurityException, SQLException {
+					String saveYN, String ccYN, String piYN, String saveFlag, HttpSession session, Model model) throws UnsupportedEncodingException, GeneralSecurityException, SQLException {
 	
-		
+		String id = (String) session.getAttribute("id");
 		
 		UserRoomVO rVO = resService.searchRoomInfo(room_no);
 		model.addAttribute("rv", rVO);
@@ -235,7 +308,6 @@ public class UserReservationController {
 		
 		UserMemberVO mVO = resService.DecryptSelectMemInfo(id);
 		model.addAttribute("mv", mVO);
-		
 		
 		model.addAttribute("paramSd", sd);
 		model.addAttribute("paramEd", ed);
@@ -272,7 +344,6 @@ public class UserReservationController {
 		rsVO.setPi_agree(piYN);
 		rsVO.setCard_no(card_no);
 		rsVO.setCompany(cardCompany);
-		System.out.println("예약 controller : " + rsVO + " / id : " + id);
 		resService.addReservation(rsVO);
 		//--------------------------------------예약 insert 끝
 				
@@ -287,7 +358,6 @@ public class UserReservationController {
 			cardVO.setVal_mm(val_MM);
 			cardVO.setVal_yy(val_YY);
 			//카드정보 추가
-			System.out.println("카드정보추가 : " + cardVO+ " / id : " + id);
 			resService.addCardInfo(cardVO);
 		}//end if
 		
@@ -298,7 +368,6 @@ public class UserReservationController {
 			cardVO.setCard_no(card_no);
 			cardVO.setId(id);
 			//카드정보 변경
-			System.out.println("카드정보변경 : " + cardVO);
 			resService.modifyCardInfo(cardVO);
 		}//end if
 
@@ -306,17 +375,42 @@ public class UserReservationController {
 	}//reserve_04final
 	
 	
+	
+	/**
+	 * 예약조회
+	 * @param session
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping( value = "user/user_chk/reservation_inq.do", method = {GET, POST} )
 	public String reservationChkList( HttpSession session, Model model ) {
 		
 		String id = (String) session.getAttribute("id");
-		List<UserReservationVO> rList = null;
-		rList = resService.searchResList(id);
-		model.addAttribute("reserInq", rList);
-		return "user/user_chk/reservation_inq";
+		String url = "user/user_chk/reservation_inq";
+		
+		if( id == null ){//세션이 존재하지 않으면 
+			url = "redirect:http://localhost/hotel_final_prj/user/user_login/login.do";
+		}else{//end if
+		
+			List<UserReservationVO> rList = null;
+			rList = resService.searchResList(id);
+			model.addAttribute("reserInq", rList);
+		}
+		return url;
 	}//reservationChkList
 	
 	
+	/**
+	 * 예약조회 - 상세페이지
+	 * @param session
+	 * @param model
+	 * @param res_no
+	 * @return
+	 * @throws ParseException
+	 * @throws NoSuchAlgorithmException
+	 * @throws UnsupportedEncodingException
+	 * @throws GeneralSecurityException
+	 */
 	@RequestMapping( value = "user/user_chk/reservation_confirm.do", method = {GET, POST} )
 	public String reservationConfirm ( HttpSession session, Model model, String res_no ) throws ParseException, NoSuchAlgorithmException, UnsupportedEncodingException, GeneralSecurityException {
 		String id = (String) session.getAttribute("id");
@@ -352,6 +446,13 @@ public class UserReservationController {
 		return "user/user_chk/reservation_confirm";
 	}//reservationConfirm
 	
+	/**
+	 * 예약취소
+	 * @param res_no
+	 * @param res_status
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(value = "user/user_chk/res_cancel.do", method = {GET, POST})
 	public String resCancelProcess( String res_no, String res_status, Model model) {
 		boolean cFlag = resService.searchCancelFlag(res_no);

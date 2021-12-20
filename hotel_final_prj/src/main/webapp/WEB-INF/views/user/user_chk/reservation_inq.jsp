@@ -85,13 +85,14 @@ function searchReservation( res_no ){
 <!-- NAVBAR
 ================================================== -->
   <body>
+
 <%
-String id=(String)session.getAttribute("id");
-if(id == null){//세션이 존재하지 않으면 
+	String id=(String)session.getAttribute("id");
+if(id==null){//세션이 존재하지 않으면 
 	response.sendRedirect("http://localhost/hotel_final_prj/user/user_login/login.do");
 }//end if
- 
-%>
+%> 
+
   
 <%--   <!-- 이전 페이지에서 날아온 웹파라미터 이 페이지에서 받아서 설정하기 -->
   <jsp:useBean id="rVO" class="kr.co.sist.user.reservation.ReservationVO"/>  

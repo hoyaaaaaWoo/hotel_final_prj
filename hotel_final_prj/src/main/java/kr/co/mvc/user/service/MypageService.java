@@ -85,7 +85,6 @@ public class MypageService {
 		if( cnt == 1) {
 			flag = true;
 		}//end if
-		System.out.println("mSer flag : " + flag);
 		return flag;
 	}//chgPass
 	
@@ -148,7 +147,6 @@ public class MypageService {
 			if( cnt ==1 ){
 				dFlag = true;
 			}//end if
-			System.out.println("Å»Åðcnt : " + cnt);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}//end catch

@@ -39,11 +39,14 @@ public class MypageController {
 		
 		String id = (String) session.getAttribute("id");
 		String url = "";
-			
-			String realPass = mySer.searchLogin(id,pass);
-			boolean flag = mySer.passFlag(realPass, pass);
 
-			if( flag  ) {
+			boolean flag = false;
+			if(pass !=null) {
+				String realPass = mySer.searchLogin(id,pass);
+				flag = mySer.passFlag(realPass, pass);
+			}
+
+			if( id != null || flag  ) {
 				url = "user/mypage/mypage_form";
 			}else {
 				url = "user/mypage/mypageNP";
@@ -65,15 +68,11 @@ public class MypageController {
 	 * @return
 	 * @throws NoSuchAlgorithmException
 	 */
-	@ResponseBody
 	@RequestMapping(value = "user/mypage/member_pass_process.do", method = POST)
-	public String changePass( HttpSession session, String pass, String change_pass, String change_pass2 ) throws NoSuchAlgorithmException {
-		String msg = "";
+	public String changePass( HttpSession session, String pass, String change_pass, String change_pass2 ,Model m) throws NoSuchAlgorithmException {
 		
 		String id = (String) session.getAttribute("id");
 		
-		System.out.println("Param - id : " + id + " pass : " + pass + " change_pass : " + change_pass + " change_pass2 : " + change_pass2);
-
 		String dPass = mySer.DataEncryptPass(pass);
 		String dCPass = mySer.DataEncryptCPass(change_pass);
 		
@@ -83,18 +82,11 @@ public class MypageController {
 		cpVO.setChange_pass(dCPass);
 		cpVO.setChange_pass2(change_pass2);
 
-		System.out.println( "Controller - cpVO : " + cpVO);
-
 		boolean flag = mySer.modifyPass(cpVO);
-				
-		System.out.println("flag --------------------- " + flag );
-		if( flag ) {
-			msg = "<script type='text/javascript'> location.href='http://localhost/hotel_final_prj/user/mypage/mypage_form.do'; alert('변경 되었습니다'); </script>";
-		}else {
-			msg = "<script type='text/javascript'> alert('비밀번호를 확인하여주세요'); history.back(); </script>";
-		}
 		
-		return msg;
+		m.addAttribute("chgPassFlag", flag);
+		
+		return "forward:mypage_form.do";
 	}//changePass
 	
 	
@@ -110,10 +102,8 @@ public class MypageController {
 	 * @throws NoSuchAlgorithmException
 	 * @throws GeneralSecurityException
 	 */
-	@ResponseBody
 	@RequestMapping(value = "user/mypage/member_update_process.do", method = POST)
-	public String changeMemInfo( HttpSession session, String kname, String tel, String email ) throws UnsupportedEncodingException, NoSuchAlgorithmException, GeneralSecurityException {
-		String msg = "";
+	public String changeMemInfo( HttpSession session, String kname, String tel, String email, Model model ) throws UnsupportedEncodingException, NoSuchAlgorithmException, GeneralSecurityException {
 		
 		String id=(String)session.getAttribute("id");
 		
@@ -125,12 +115,10 @@ public class MypageController {
 		ciVO.setTel(de.encryption(tel) );//번호
 		
 		boolean cFlag = mySer.modifyMemInfo(ciVO);
-		if( cFlag ) {
-			msg = "<script type='text/javascript'> location.href='http://localhost/hotel_final_prj/user/mypage/mypage_form.do'; alert('변경 되었습니다'); </script>";
-		}else {
-			msg = "<script type='text/javascript'> alert('다시 확인하여주세요'); history.back();  </script>";
-		}
-		return msg;
+		
+		model.addAttribute("infoChgFlag", cFlag);
+
+		return "forward:mypage_form.do";
 	}//changeMemInfo
 	
 	
@@ -139,22 +127,15 @@ public class MypageController {
 	 * @param session
 	 * @return
 	 */
-	@ResponseBody
 	@RequestMapping(value = "user/mypage/deleteMem.do", method = GET)
-	 public String deleteMem( HttpSession session ){
-		 String msg = "";
+	 public String deleteMem( HttpSession session, Model model ){
 		 String id = (String)session.getAttribute("id");
 		 
 		 boolean dFlag = mySer.deleteMem(id);
-		 System.out.println("Controller -------- dFlag : " + dFlag);
-		 if ( dFlag ) {
-			 session.invalidate();
-			 msg = "<script type='text/javascript'> alert('회원 탈퇴가 완료되었습니다. 그동안 이용해 주셔서 감사합니다'); location.href='http://localhost/hotel_final_prj/user/user_main/Hotel_Ritz_Seoul.do'; </script>";
-		 }else {
-			 msg = "<script type='text/javascript'> alert('죄송합니다. 잠시 후 다시 시도해주십시오.'); location.href='http://localhost/hotel_final_prj/user/mypage/mypage_form.do'; </script>";
-		 }//end else
+
+		 model.addAttribute("delFlag", dFlag);
 		 
-		 return msg;
+		 return "user/user_main/Hotel_Ritz_Seoul";
 	 }//deleteMem
 	 
 	
