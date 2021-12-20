@@ -111,7 +111,7 @@ public class RoomController {
 	 * @return
 	 */
 	@RequestMapping(value = "change_room_form.do", method = {GET,POST})
-	public String changeRoomForm(String selectedRName, ImgFormVO imgFrmVO, Model model) {
+	public String changeRoomForm(String selectedRName, Model model) {
 		// 페이지 요청 시 temp 폴더 정리
 		if(imgSev.searchImgList() != null && imgSev.searchImgList().size() != 0) {
 			imgSev.removeTempImg(null);
