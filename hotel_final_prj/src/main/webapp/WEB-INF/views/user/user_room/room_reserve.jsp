@@ -261,7 +261,7 @@ $(function(){
 					style="width: 270px; height: 187px;">
 				</td>
 				<td style="height: 120px;"><br><br><br>
-				<div id = "roomName">${ searchRoom.room_no }  / ${ searchRoom.r_name }</div>
+				<div id = "roomName"> ${ searchRoom.r_name }</div>
 				<input type="button" onclick = "divPlaying( '${ viewId }','${ btnId }' )" id="${ btnId }" value="detail" class="btn" style="margin-left: 20px;"/>
 				<hr/> 
 				</td>
